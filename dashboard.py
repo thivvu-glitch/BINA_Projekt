@@ -20,7 +20,7 @@ Basiert auf der **CPA Management Accounting Guideline** für datengesteuerte Ent
 def load_data():
     script_dir = os.path.dirname(os.path.abspath(__file__))
     path = os.path.join(script_dir, "full_dataset_thesis - 1.csv")
-    df = pd.read_csv(path)
+    df = pd.read_csv(path, encoding='utf8')
     # Cleaning 'Days'
     df['Days'] = df['Days'].str.replace(' days', '').str.replace('-', '0').fillna('0')
     df['Days'] = pd.to_numeric(df['Days'], errors='coerce').fillna(0).astype(int)

@@ -17,6 +17,12 @@ Es gibt zwei moegliche Wege fuer die Installation:
 uv sync
 ```
 
+Bei OneDrive-Pfaden kann `uv sync` mit Hardlink-Fehlern scheitern. Dann stattdessen:
+
+```bash
+uv sync --link-mode=copy
+```
+
 2. Setup-Skript:
 
 ```bash

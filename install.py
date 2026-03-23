@@ -8,6 +8,7 @@ from pathlib import Path
 
 
 PYTHON_VERSION = "3.11"
+UV_LINK_MODE = "copy"
 
 
 def run_command(command: list[str], cwd: Path) -> None:
@@ -51,6 +52,8 @@ def main() -> int:
                 "uv",
                 "pip",
                 "install",
+                "--link-mode",
+                UV_LINK_MODE,
                 "--python",
                 str(venv_python),
                 "-r",
