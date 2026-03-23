@@ -3,20 +3,23 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
+import os
+
 # Page Config
-st.set_page_config(page_title="Europäische Fußballverletzungen Dashboard", layout="wide")
+st.set_page_config(page_title="Europäische Fussballverletzungen Dashboard", layout="wide")
 
 # Title and Description
-st.title("⚽ Europäische Fußballverletzungen (2020-2025)")
+st.title("⚽ Europäische Fussballverletzungen (2020-2025)")
 st.markdown("""
-Dieses Dashboard ermöglicht die Analyse von Verletzungsmustern im europäischen Profifußball.
+Dieses Dashboard ermöglicht die Analyse von Verletzungsmustern im europäischen Profifussball.
 Basiert auf der **CPA Management Accounting Guideline** für datengesteuerte Entscheidungen.
 """)
 
 # Load Data
 @st.cache_data
 def load_data():
-    path = "/Users/thivvirthan/.cache/kagglehub/datasets/sananmuzaffarov/european-football-injuries-2020-2025/versions/2/full_dataset_thesis - 1.csv"
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    path = os.path.join(script_dir, "full_dataset_thesis - 1.csv")
     df = pd.read_csv(path)
     # Cleaning 'Days'
     df['Days'] = df['Days'].str.replace(' days', '').str.replace('-', '0').fillna('0')

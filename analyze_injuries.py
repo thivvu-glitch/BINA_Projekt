@@ -7,9 +7,14 @@ import os
 sns.set_theme(style="whitegrid", palette="muted")
 plt.rcParams['figure.figsize'] = (12, 6)
 
-# Path to dataset
-dataset_path = "/Users/thivvirthan/.cache/kagglehub/datasets/sananmuzaffarov/european-football-injuries-2020-2025/versions/2/full_dataset_thesis - 1.csv"
-output_dir = "/Users/thivvirthan/.gemini/antigravity/brain/909000be-27a1-4920-a514-d1c779859a22/"
+# Paths (Using relative paths for portability)
+script_dir = os.path.dirname(os.path.abspath(__file__))
+dataset_path = os.path.join(script_dir, "full_dataset_thesis - 1.csv")
+output_dir = os.path.join(script_dir, "output")
+
+# Create output directory if it doesn't exist
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
 
 # Step 2: Identify and Prepare Data
 print("Loading data...")
