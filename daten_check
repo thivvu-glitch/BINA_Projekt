@@ -1,0 +1,66 @@
+import pandas as pd
+import re
+from ftfy import fix_text
+from thefuzz import process
+
+# 1. PFAD DEFINIEREN
+file_path = "/Users/thivvirthan/Desktop/Verletzunganalyse/full_dataset_thesis - 1.csv"
+output_path = "/Users/thivvirthan/Desktop/Verletzunganalyse/full_dataset_cleaned.csv"
+
+# 2. DATEN LADEN
+try:
+    # Wir versuchen es erst mit Standard UTF-8, falls das scheitert, mit Latin-1
+    df = pd.read_csv(file_path)
+except UnicodeDecodeError:
+    df = pd.read_csv(file_path, encoding='latin-1')
+
+print(f"--- Datensatz geladen: {len(df)} Zeilen ---")
+
+# 3. SCHRITT A: ENCODING AUTOMATISCH REPARIEREN (MÃ¶ -> Mö)
+# Wir wenden 'ftfy' auf alle Text-Spalten an
+text_cols = df.select_dtypes(include=['object']).columns
+
+for col in text_cols:
+    df[col] = df[col].astype(str).apply(fix_text)
+
+print("✅ Encoding-Fehler (MÃ¶ etc.) wurden repariert.")
+
+# 4. SCHRITT B: VEREINSNAMEN GLÄTTEN (Fuzzy Matching)
+# Hier definieren wir die "Gold-Standard" Namen. 
+# Du kannst diese Liste beliebig erweitern!
+master_liste = [
+    "Borussia Mönchengladbach", "FC Bayern München", "Borussia Dortmund", 
+    "Bayer 04 Leverkusen", "RB Leipzig", "Eintracht Frankfurt", "VfB Stuttgart",
+    "SV Werder Bremen", "VfL Wolfsburg", "TSG Hoffenheim", "SC Freiburg", 
+    "1. FC Union Berlin", "1. FSV Mainz 05", "FC Augsburg"
+]
+
+def fuzzy_repair(name, choices):
+    if len(name) < 3: return name
+    # Finde den besten Treffer. Score > 80 bedeutet hohe Ähnlichkeit.
+    match, score = process.extractOne(name, choices)
+    return match if score >= 85 else name
+
+# Wir wenden das auf die Spalte an, die vermutlich die Teamnamen enthält.
+# Falls deine Spalte anders heißt (z.B. 'Team' oder 'Club'), ändere 'team' hier:
+column_name_team = 'team' # <--- BITTE PRÜFEN, OB DIE SPALTE SO HEISST
+
+if column_name_team in df.columns:
+    df[column_name_team] = df[column_name_team].apply(lambda x: fuzzy_repair(x, master_liste))
+    print(f"✅ Teamnamen in Spalte '{column_name_team}' wurden geglättet.")
+else:
+    print(f"⚠️ Spalte '{column_name_team}' nicht gefunden. Überspringe Fuzzy-Matching.")
+
+# 5. SCHRITT C: ÜBRIGE SONDERZEICHEN FINDEN (ZUM CHECKEN)
+def get_weird_chars(text):
+    # Findet alles, was kein Buchstabe, Zahl, Leerzeichen oder Bindestrich ist
+    found = re.findall(r'[^a-zA-Z0-9äöüÄÖÜß\s\-]', str(text))
+    return "".join(set(found))
+
+df['warnung_sonderzeichen'] = df[text_cols[0]].apply(get_weird_chars) # Prüft erste Textspalte
+
+# 6. SPEICHERN
+df.to_csv(output_path, index=False)
+print(f"\n--- FERTIG! ---")
+print(f"Die saubere Datei liegt hier: {output_path}")
+print(f"Schau dir die Spalte 'warnung_sonderzeichen' an, um Reste zu finden.")
