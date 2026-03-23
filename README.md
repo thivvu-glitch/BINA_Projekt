@@ -1,32 +1,63 @@
 # Verletzunganalyse App
 
-Dieses Projekt analysiert europäische Fußball-Verletzungen von 2020 bis 2025.
+Dieses Projekt analysiert europaeische Fussball-Verletzungen von 2020 bis 2025.
 
 ## Voraussetzungen
 
-Stellen Sie sicher, dass Python installiert ist. Es wird empfohlen, die virtuelle Umgebung zu verwenden.
+- uv installiert: https://docs.astral.sh/uv/getting-started/installation/
+- Python 3.11 (wird automatisch durch uv bereitgestellt)
 
-## Starten der Applikation
+## Setup mit uv
 
-Folgen Sie diesen Schritten, um die Applikation zu starten:
+Es gibt zwei moegliche Wege fuer die Installation:
 
-1. **Virtuelle Umgebung aktivieren:**
-   ```bash
-   source venv/bin/activate
-   ```
+1. Direkter uv-Workflow (empfohlen):
 
-2. **Interaktives Dashboard starten:**
-   ```bash
-   streamlit run dashboard.py
-   ```
+```bash
+uv sync
+```
 
-3. **Analyse-Skript ausführen (optional):**
-   ```bash
-   python analyze_injuries.py
-   ```
+2. Setup-Skript:
+
+```bash
+uv run install.py
+```
+
+Beide Varianten erstellen/verwenden `.venv` und installieren alle benoetigten Pakete.
+
+## Virtuelle Umgebung aktivieren
+
+PowerShell (Windows):
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+macOS/Linux:
+
+```bash
+source .venv/bin/activate
+```
+
+## Applikation starten
+
+Interaktives Dashboard:
+
+```bash
+uv run streamlit run dashboard.py
+```
+
+Analyse-Skript (optional):
+
+```bash
+uv run python analyze_injuries.py
+```
 
 ## Projektstruktur
 
-- `dashboard.py`: Das interaktive Streamlit-Dashboard für Visualisierungen.
-- `analyze_injuries.py`: Ein Python-Skript für die statistische Analyse und Erstellung von Grafiken.
-- `venv/`: Die virtuelle Umgebung mit allen benötigten Bibliotheken (pandas, streamlit, plotly, etc.).
+- `dashboard.py`: Interaktives Streamlit-Dashboard fuer Visualisierungen.
+- `analyze_injuries.py`: Statistische Analyse und Erstellung von Grafiken.
+- `requirements.txt`: Abhaengigkeiten fuer pip/uv pip.
+- `install.py`: Setup-Skript fuer uv + Python 3.11 + Installation.
+- `pyproject.toml`: uv-Projektkonfiguration und Python-Version.
+- `output/`: Ausgabeordner fuer generierte Grafiken.

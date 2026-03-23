@@ -1,0 +1,16 @@
+[project]
+name = "verletzunganalyse-app"
+version = "0.1.0"
+description = "Dashboard and analysis for European football injuries"
+readme = "README.md"
+requires-python = "==3.11.*"
+dependencies = [
+    "matplotlib",
+    "pandas",
+    "plotly",
+    "seaborn",
+    "streamlit",
+]
+
+[tool.uv]
+package = false
