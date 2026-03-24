@@ -26,7 +26,7 @@ def load_data():
     df['Games missed'] = pd.to_numeric(df['Games missed'], errors='coerce').fillna(0).astype(int)
     # Dates
     df['injury_from_parsed'] = pd.to_datetime(df['injury_from_parsed'], errors='coerce')
-    df['Month'] = df['injury_from_parsed'].dt.month_name()
+    df['Month'] = df['injury_from_parsed'].dt.month_name(locale="de_DE.utf8")
     df['Month_Num'] = df['injury_from_parsed'].dt.month
     return df
 
@@ -44,7 +44,7 @@ seasons = sorted(df['Season'].unique().tolist())
 selected_seasons = st.sidebar.multiselect("Saisons auswählen", seasons, default=seasons)
 
 # Player Search
-player_search = st.sidebar.text_input("Spieler suchen (z.B. Sasa Kalajdzic)")
+player_search = st.sidebar.text_input("Spieler suchen (z. B. Sasa Kalajdzic)")
 
 st.sidebar.markdown("---")
 st.sidebar.caption("Navigation erfolgt über Tabs im Hauptbereich.")
