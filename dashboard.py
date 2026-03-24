@@ -26,7 +26,7 @@ def load_data():
     df['Games missed'] = pd.to_numeric(df['Games missed'], errors='coerce').fillna(0).astype(int)
     # Dates
     df['injury_from_parsed'] = pd.to_datetime(df['injury_from_parsed'], errors='coerce')
-    df['Month'] = df['injury_from_parsed'].dt.month_name(locale="de_DE.utf8")
+    df['Month'] = df['injury_from_parsed'].dt.month_name(locale="de_DE.UTF-8")
     df['Month_Num'] = df['injury_from_parsed'].dt.month
     return df
 
