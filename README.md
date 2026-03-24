@@ -76,3 +76,4 @@ uv run python analyze_injuries.py
 - `install.py`: Setup-Skript für uv + Python 3.11 + Installation.
 - `pyproject.toml`: uv-Projektkonfiguration und Python-Version.
 - `output/`: Ausgabeordner für generierte Grafiken.
+- `Data/`: Input-Daten als csv.
