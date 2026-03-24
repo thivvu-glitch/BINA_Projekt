@@ -1,6 +1,6 @@
 # Verletzunganalyse App
 
-Dieses Projekt analysiert europaeische Fussball-Verletzungen von 2020 bis 2025.
+Dieses Projekt analysiert europäische Fussball-Verletzungen von 2020 bis 2025.
 
 ## Voraussetzungen
 
@@ -9,7 +9,7 @@ Dieses Projekt analysiert europaeische Fussball-Verletzungen von 2020 bis 2025.
 
 ## Setup mit uv
 
-Es gibt zwei moegliche Wege fuer die Installation:
+Es gibt zwei mögliche Wege für die Installation:
 
 1. Direkter uv-Workflow (empfohlen):
 
@@ -29,7 +29,9 @@ uv sync --link-mode=copy
 uv run install.py
 ```
 
-Beide Varianten erstellen/verwenden `.venv` und installieren alle benoetigten Pakete.
+Beide Varianten erstellen/verwenden `.venv` und installieren alle benötigten Pakete.
+
+Abhängigkeiten werden ausschliesslich aus `pyproject.toml` gelesen.
 
 ## Virtuelle Umgebung aktivieren
 
@@ -47,6 +49,14 @@ source .venv/bin/activate
 
 ## Applikation starten
 
+Datensatz zuerst bereinigen:
+
+```bash
+uv run python data_clean.py
+```
+
+Dieser Schritt erstellt/aktualisiert `cleaned_dataset_final.csv`, das vom Dashboard geladen wird.
+
 Interaktives Dashboard:
 
 ```bash
@@ -61,9 +71,8 @@ uv run python analyze_injuries.py
 
 ## Projektstruktur
 
-- `dashboard.py`: Interaktives Streamlit-Dashboard fuer Visualisierungen.
+- `dashboard.py`: Interaktives Streamlit-Dashboard für Visualisierungen.
 - `analyze_injuries.py`: Statistische Analyse und Erstellung von Grafiken.
-- `requirements.txt`: Abhaengigkeiten fuer pip/uv pip.
-- `install.py`: Setup-Skript fuer uv + Python 3.11 + Installation.
+- `install.py`: Setup-Skript für uv + Python 3.11 + Installation.
 - `pyproject.toml`: uv-Projektkonfiguration und Python-Version.
-- `output/`: Ausgabeordner fuer generierte Grafiken.
+- `output/`: Ausgabeordner für generierte Grafiken.
