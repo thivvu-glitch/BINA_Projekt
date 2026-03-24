@@ -1,10 +1,9 @@
 import pandas as pd
 
 # 1. Daten laden
-# Ersetzen Sie 'ihre_datei.csv' durch den tatsächlichen Dateinamen
-df = pd.read_csv('full_dataset_thesis - 1.csv')
+df = pd.read_csv('./Data/full_dataset_thesis - 1.csv')
 
-# Cleaning 'Days'
+# 2. Bereinigung der 'Days'-Spalte (z.B. "10 days" -> 10, "-" -> 0)
 df['Days'] = df['Days'].str.replace(' days', '').str.replace('-', '0').fillna('0')
 df['Days'] = pd.to_numeric(df['Days'], errors='coerce').fillna(0).astype(int)
 
@@ -31,7 +30,6 @@ for col in text_cols:
     df[col] = df[col].apply(fix_encoding)
 
 # 5. Konsistenz der Vereinsnamen (z. B. Köln -> FC Köln)
-# Hier können Sie alle bekannten Abweichungen eintragen
 club_mapping = {
     'Köln': 'FC Köln',
     'Mainz': 'Mainz 05',
@@ -60,7 +58,10 @@ df['Injury'] = df['Injury'].str.lower()
 
 
 # 7. Bereinigte Daten speichern
-#df.to_csv('cleaned_dataset_final.csv', index=False)
+df.to_csv('./Data/cleaned_dataset_final.csv', index=False)
 
 print("Bereinigung abgeschlossen. Datei gespeichert unter: cleaned_dataset_final.csv")
-print(sorted(df['club'].unique()))
+
+# Optional: Checks durchführen
+#print(sorted(df['club'].unique()))
+#print(sorted(df['player_name'].unique()))

@@ -19,7 +19,7 @@ Basiert auf der **CPA Management Accounting Guideline** für datengesteuerte Ent
 @st.cache_data
 def load_data():
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    path = os.path.join(script_dir, "cleaned_dataset_final.csv")
+    path = os.path.join(script_dir, "Data/cleaned_dataset_final.csv")
     df = pd.read_csv(path, encoding='utf8', delimiter=',')
     
     # Cleaning 'Games missed'
