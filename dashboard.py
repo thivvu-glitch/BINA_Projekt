@@ -68,8 +68,9 @@ col4.metric("Ø Verpasste Spiele", f"{filtered_df['Games missed'].mean():.1f}".r
 if filtered_df.empty:
     st.warning("Keine Daten für die gewählten Filter. Bitte passe Liga, Saison oder Spieler an.")
 
-tab_overview, tab_trends, tab_tables, tab_dddm = st.tabs([
+tab_overview, tab_injuries, tab_trends, tab_tables, tab_dddm = st.tabs([
     "Übersicht",
+    "Verletzungsvergleich",
     "Zeit & Liga",
     "Tabellen",
     "DDDM Entscheidungen"
@@ -117,6 +118,91 @@ with tab_overview:
         labels={'Days': 'Ausfalltage', 'player_name': 'Spieler'}
     )
     st.plotly_chart(fig_top, use_container_width=True)
+
+with tab_injuries:
+    st.subheader("Verletzungsvergleich zwischen den Ligen")
+    st.markdown("Analysiere eine spezifische Verletzungsart über alle Ligen hinweg.")
+
+    # Injury Selection
+    all_injuries = sorted(df['Injury'].dropna().unique().tolist())
+    selected_injury = st.selectbox("Verletzung auswählen", all_injuries, help="Wähle eine Verletzung aus, um den Vergleich zu starten.")
+
+    if selected_injury:
+        inj_df = df[df['Injury'] == selected_injury]
+        
+        # KPIs for this injury
+        i_col1, i_col2, i_col3 = st.columns(3)
+        i_col1.metric("Fälle Insgesamt", f"{len(inj_df)}")
+        i_col2.metric("Ausfalltage Insgesamt", f"{int(inj_df['Days'].sum()):,}".replace(",", "."))
+        i_col3.metric("Verpasste Spiele (Summe)", f"{int(inj_df['Games missed'].sum()):,}".replace(",", "."))
+
+        # League comparison charts
+        st.divider()
+        lc1, lc2 = st.columns(2)
+
+        with lc1:
+            st.write(f"**Häufigkeit von '{selected_injury}' nach Liga**")
+            inj_league_counts = inj_df['league'].value_counts().reset_index()
+            inj_league_counts.columns = ['Liga', 'Anzahl']
+            
+            fig_inj_l = px.bar(
+                inj_league_counts,
+                x='Anzahl',
+                y='Liga',
+                orientation='h',
+                color='Anzahl',
+                color_continuous_scale='Oranges'
+            )
+            st.plotly_chart(fig_inj_l, use_container_width=True)
+
+        with lc2:
+            st.write(f"**Schweregrad (Ø Tage/Spiele) nach Liga**")
+            inj_severity = inj_df.groupby('league')[['Days', 'Games missed']].mean().reset_index()
+            
+            fig_inj_s = go.Figure()
+            fig_inj_s.add_trace(go.Bar(
+                y=inj_severity['league'],
+                x=inj_severity['Days'],
+                name='Ø Ausfalltage',
+                orientation='h',
+                marker_color='royalblue'
+            ))
+            fig_inj_s.add_trace(go.Bar(
+                y=inj_severity['league'],
+                x=inj_severity['Games missed'],
+                name='Ø Verpasste Spiele',
+                orientation='h',
+                marker_color='lightskyblue'
+            ))
+            fig_inj_s.update_layout(barmode='group', height=400, margin=dict(l=0, r=0, t=30, b=0))
+            st.plotly_chart(fig_inj_s, use_container_width=True)
+
+        st.divider()
+        st.subheader("Grafische Verteilung der Fälle")
+        st.write("Jeder Punkt repräsentiert eine Verletzung eines Spielers. Die Farbe zeigt die Liga an.")
+        
+        if not inj_df.empty:
+            fig_scatter = px.scatter(
+                inj_df,
+                x='injury_from_parsed',
+                y='Days',
+                color='league',
+                size='Games missed',
+                hover_data=['player_name', 'club', 'Season'],
+                labels={'injury_from_parsed': 'Datum', 'Days': 'Ausfalltage', 'league': 'Liga'},
+                title=f"Zeitplan der '{selected_injury}' Fälle"
+            )
+            fig_scatter.update_layout(xaxis_title="Datum der Verletzung", yaxis_title="Ausfalltage")
+            st.plotly_chart(fig_scatter, use_container_width=True)
+            
+            st.info(f"Die **{inj_league_counts.iloc[0]['Liga']}** dominiert bei dieser Verletzungsart mit {inj_league_counts.iloc[0]['Anzahl']} Fällen.")
+        
+        with st.expander("Detaillierte Liste der Spieler"):
+            st.dataframe(
+                inj_df[['player_name', 'club', 'league', 'Season', 'Days', 'Games missed']].sort_values('Days', ascending=False),
+                use_container_width=True,
+                hide_index=True
+            )
 
 with tab_trends:
     st.subheader("Saisonale Muster im Ligenvergleich")
