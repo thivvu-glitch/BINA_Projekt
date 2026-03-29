@@ -11802,61 +11802,61 @@ Season,Injury,Days,Games missed,injury_from_parsed,injury_until_parsed,player_na
 20/21,heel problems,19,3,4/23/2021,5/11/2021,Felipe Caicedo,32,Forward,Lazio,Serie A
 20/21,heel problems,12,1,3/19/2021,3/30/2021,Felipe Caicedo,32,Forward,Lazio,Serie A
 20/21,heel problems,12,2,1/26/2021,2/6/2021,Felipe Caicedo,32,Forward,Lazio,Serie A
-20/21,shoulder injury,121,9,4/29/2021,8/27/2021,Pau López,26,Goalkeeper,Roma,Serie A
-20/21,hamstring muscle injury,34,7,12/23/2020,1/25/2021,Antonio Mirante,37,Goalkeeper,Roma,Serie A
-20/21,muscular problems,15,4,11/30/2020,12/14/2020,Gianluca Mancini,25,Centre-Back,Roma,Serie A
-20/21,muscular problems,4,1,11/23/2020,11/26/2020,Gianluca Mancini,25,Centre-Back,Roma,Serie A
-20/21,muscular problems,21,6,2/18/2021,3/10/2021,Roger Ibañez,22,Centre-Back,Roma,Serie A
-20/21,muscular problems,7,2,11/22/2020,11/28/2020,Roger Ibañez,22,Centre-Back,Roma,Serie A
-20/21,meniscus tear,29,8,3/26/2021,4/23/2021,Marash Kumbulla,21,Centre-Back,Roma,Serie A
-20/21,muscle fatigue,16,5,2/13/2021,2/28/2021,Marash Kumbulla,21,Centre-Back,Roma,Serie A
-20/21,corona virus,21,6,11/10/2020,11/30/2020,Marash Kumbulla,21,Centre-Back,Roma,Serie A
-20/21,muscular problems,26,5,5/6/2021,5/31/2021,Chris Smalling,31,Centre-Back,Roma,Serie A
-20/21,knee problems,43,9,3/12/2021,4/23/2021,Chris Smalling,31,Centre-Back,Roma,Serie A
-20/21,hamstring muscle injury,32,8,1/31/2021,3/3/2021,Chris Smalling,31,Centre-Back,Roma,Serie A
-20/21,inflammation in the knee,15,4,11/24/2020,12/8/2020,Chris Smalling,31,Centre-Back,Roma,Serie A
-20/21,food poisoning,6,1,11/18/2020,11/23/2020,Chris Smalling,31,Centre-Back,Roma,Serie A
-20/21,sprain,21,3,10/7/2020,10/27/2020,Chris Smalling,31,Centre-Back,Roma,Serie A
-20/21,corona virus,33,7,3/10/2021,4/11/2021,Juan Jesus,30,Centre-Back,Roma,Serie A
-20/21,knee problems,11,3,1/2/2021,1/12/2021,Federico Fazio,34,Centre-Back,Roma,Serie A
-20/21,corona virus,22,3,11/9/2020,11/30/2020,Federico Fazio,34,Centre-Back,Roma,Serie A
-20/21,ankle sprain,15,1,9/9/2020,9/23/2020,Federico Fazio,34,Centre-Back,Roma,Serie A
-20/21,hamstring muscle injury,30,8,4/29/2021,5/28/2021,Leonardo Spinazzola,28,Left-Back,Roma,Serie A
-20/21,thigh problems,16,5,4/8/2021,4/23/2021,Leonardo Spinazzola,28,Left-Back,Roma,Serie A
-20/21,muscle injury,10,3,2/17/2021,2/26/2021,Davide Santon,30,Left-Back,Roma,Serie A
-20/21,muscular problems,16,4,1/3/2021,1/18/2021,Davide Santon,30,Left-Back,Roma,Serie A
-20/21,corona virus,22,3,11/9/2020,11/30/2020,Davide Santon,30,Left-Back,Roma,Serie A
-20/21,hamstring muscle injury,51,12,10/28/2020,12/17/2020,Davide Santon,30,Left-Back,Roma,Serie A
-20/21,muscular problems,33,4,9/17/2020,10/19/2020,Rick Karsdorp,26,Right-Back,Roma,Serie A
-20/21,fitness,29,6,2/1/2021,3/1/2021,Bryan Reynolds,20,Right-Back,Roma,Serie A
-20/21,quarantine,24,1,8/28/2020,9/20/2020,Bruno Peres,31,Right-Back,Roma,Serie A
-20/21,pubalgia,12,3,3/22/2021,4/2/2021,Bryan Cristante,26,Defensive Midfield,Roma,Serie A
-20/21,lumbago,7,2,2/18/2021,2/24/2021,Bryan Cristante,26,Defensive Midfield,Roma,Serie A
-20/21,pubalgia,24,6,4/30/2021,5/23/2021,Amadou Diawara,23,Defensive Midfield,Roma,Serie A
-20/21,tendon irritation,4,1,1/19/2021,1/22/2021,Amadou Diawara,23,Defensive Midfield,Roma,Serie A
-20/21,corona virus,30,7,10/12/2020,11/10/2020,Amadou Diawara,23,Defensive Midfield,Roma,Serie A
-20/21,hamstring muscle injury,33,7,4/29/2021,5/31/2021,Jordan Veretout,28,Central Midfield,Roma,Serie A
-20/21,muscle strain,31,9,3/3/2021,4/2/2021,Jordan Veretout,28,Central Midfield,Roma,Serie A
-20/21,muscular problems,13,4,11/29/2020,12/11/2020,Jordan Veretout,28,Central Midfield,Roma,Serie A
-20/21,adductor pain,9,3,5/2/2021,5/10/2021,Gonzalo Villar,23,Central Midfield,Roma,Serie A
-20/21,calf muscle tear,30,9,3/11/2021,4/9/2021,Henrikh Mkhitaryan,32,Central Midfield,Roma,Serie A
-20/21,muscular problems,9,1,1/21/2021,1/29/2021,Henrikh Mkhitaryan,32,Central Midfield,Roma,Serie A
-20/21,ankle injury,10,2,1/31/2021,2/9/2021,Justin Kluivert,22,Attacking Midfield,Roma,Serie A
-20/21,calf injury,26,4,12/17/2020,1/11/2021,Justin Kluivert,22,Attacking Midfield,Roma,Serie A
-20/21,surgery,173,26,8/11/2020,1/30/2021,Javier Pastore,32,Attacking Midfield,Roma,Serie A
-20/21,hamstring muscle injury,19,5,4/5/2021,4/23/2021,Stephan El Shaarawy,28,Left Winger,Roma,Serie A
-20/21,fitness,8,1,2/1/2021,2/8/2021,Stephan El Shaarawy,28,Left Winger,Roma,Serie A
-20/21,ankle injury,62,16,4/16/2021,6/16/2021,Ruben Providence,19,Left Winger,Roma,Serie A
-20/21,lumbago,18,2,5/14/2021,5/31/2021,Carles Pérez,23,Right Winger,Roma,Serie A
-20/21,muscular problems,12,3,4/30/2021,5/11/2021,Carles Pérez,23,Right Winger,Roma,Serie A
-20/21,muscular problems,16,2,11/3/2020,11/18/2020,Carles Pérez,23,Right Winger,Roma,Serie A
-20/21,tonsillitis,4,1,10/25/2020,10/28/2020,Carles Pérez,23,Right Winger,Roma,Serie A
-20/21,hamstring muscle injury,16,5,4/18/2021,5/3/2021,Pedro,33,Right Winger,Roma,Serie A
-20/21,muscular problems,20,3,1/21/2021,2/9/2021,Pedro,33,Right Winger,Roma,Serie A
-20/21,hamstring muscle injury,14,3,12/31/2020,1/13/2021,Pedro,33,Right Winger,Roma,Serie A
-20/21,adductor pain,14,4,2/25/2021,3/10/2021,Edin Džeko,35,Forward,Roma,Serie A
-20/21,bruise,8,1,1/21/2021,1/28/2021,Edin Džeko,35,Forward,Roma,Serie A
-20/21,corona virus,18,5,11/6/2020,11/23/2020,Edin Džeko,35,Forward,Roma,Serie A
+20/21,shoulder injury,121,9,4/29/2021,8/27/2021,Pau López,26,Goalkeeper,AS Roma,Serie A
+20/21,hamstring muscle injury,34,7,12/23/2020,1/25/2021,Antonio Mirante,37,Goalkeeper,AS Roma,Serie A
+20/21,muscular problems,15,4,11/30/2020,12/14/2020,Gianluca Mancini,25,Centre-Back,AS Roma,Serie A
+20/21,muscular problems,4,1,11/23/2020,11/26/2020,Gianluca Mancini,25,Centre-Back,AS Roma,Serie A
+20/21,muscular problems,21,6,2/18/2021,3/10/2021,Roger Ibañez,22,Centre-Back,AS Roma,Serie A
+20/21,muscular problems,7,2,11/22/2020,11/28/2020,Roger Ibañez,22,Centre-Back,AS Roma,Serie A
+20/21,meniscus tear,29,8,3/26/2021,4/23/2021,Marash Kumbulla,21,Centre-Back,AS Roma,Serie A
+20/21,muscle fatigue,16,5,2/13/2021,2/28/2021,Marash Kumbulla,21,Centre-Back,AS Roma,Serie A
+20/21,corona virus,21,6,11/10/2020,11/30/2020,Marash Kumbulla,21,Centre-Back,AS Roma,Serie A
+20/21,muscular problems,26,5,5/6/2021,5/31/2021,Chris Smalling,31,Centre-Back,AS Roma,Serie A
+20/21,knee problems,43,9,3/12/2021,4/23/2021,Chris Smalling,31,Centre-Back,AS Roma,Serie A
+20/21,hamstring muscle injury,32,8,1/31/2021,3/3/2021,Chris Smalling,31,Centre-Back,AS Roma,Serie A
+20/21,inflammation in the knee,15,4,11/24/2020,12/8/2020,Chris Smalling,31,Centre-Back,AS Roma,Serie A
+20/21,food poisoning,6,1,11/18/2020,11/23/2020,Chris Smalling,31,Centre-Back,AS Roma,Serie A
+20/21,sprain,21,3,10/7/2020,10/27/2020,Chris Smalling,31,Centre-Back,AS Roma,Serie A
+20/21,corona virus,33,7,3/10/2021,4/11/2021,Juan Jesus,30,Centre-Back,AS Roma,Serie A
+20/21,knee problems,11,3,1/2/2021,1/12/2021,Federico Fazio,34,Centre-Back,AS Roma,Serie A
+20/21,corona virus,22,3,11/9/2020,11/30/2020,Federico Fazio,34,Centre-Back,AS Roma,Serie A
+20/21,ankle sprain,15,1,9/9/2020,9/23/2020,Federico Fazio,34,Centre-Back,AS Roma,Serie A
+20/21,hamstring muscle injury,30,8,4/29/2021,5/28/2021,Leonardo Spinazzola,28,Left-Back,AS Roma,Serie A
+20/21,thigh problems,16,5,4/8/2021,4/23/2021,Leonardo Spinazzola,28,Left-Back,AS Roma,Serie A
+20/21,muscle injury,10,3,2/17/2021,2/26/2021,Davide Santon,30,Left-Back,AS Roma,Serie A
+20/21,muscular problems,16,4,1/3/2021,1/18/2021,Davide Santon,30,Left-Back,AS Roma,Serie A
+20/21,corona virus,22,3,11/9/2020,11/30/2020,Davide Santon,30,Left-Back,AS Roma,Serie A
+20/21,hamstring muscle injury,51,12,10/28/2020,12/17/2020,Davide Santon,30,Left-Back,AS Roma,Serie A
+20/21,muscular problems,33,4,9/17/2020,10/19/2020,Rick Karsdorp,26,Right-Back,AS Roma,Serie A
+20/21,fitness,29,6,2/1/2021,3/1/2021,Bryan Reynolds,20,Right-Back,AS Roma,Serie A
+20/21,quarantine,24,1,8/28/2020,9/20/2020,Bruno Peres,31,Right-Back,AS Roma,Serie A
+20/21,pubalgia,12,3,3/22/2021,4/2/2021,Bryan Cristante,26,Defensive Midfield,AS Roma,Serie A
+20/21,lumbago,7,2,2/18/2021,2/24/2021,Bryan Cristante,26,Defensive Midfield,AS Roma,Serie A
+20/21,pubalgia,24,6,4/30/2021,5/23/2021,Amadou Diawara,23,Defensive Midfield,AS Roma,Serie A
+20/21,tendon irritation,4,1,1/19/2021,1/22/2021,Amadou Diawara,23,Defensive Midfield,AS Roma,Serie A
+20/21,corona virus,30,7,10/12/2020,11/10/2020,Amadou Diawara,23,Defensive Midfield,AS Roma,Serie A
+20/21,hamstring muscle injury,33,7,4/29/2021,5/31/2021,Jordan Veretout,28,Central Midfield,AS Roma,Serie A
+20/21,muscle strain,31,9,3/3/2021,4/2/2021,Jordan Veretout,28,Central Midfield,AS Roma,Serie A
+20/21,muscular problems,13,4,11/29/2020,12/11/2020,Jordan Veretout,28,Central Midfield,AS Roma,Serie A
+20/21,adductor pain,9,3,5/2/2021,5/10/2021,Gonzalo Villar,23,Central Midfield,AS Roma,Serie A
+20/21,calf muscle tear,30,9,3/11/2021,4/9/2021,Henrikh Mkhitaryan,32,Central Midfield,AS Roma,Serie A
+20/21,muscular problems,9,1,1/21/2021,1/29/2021,Henrikh Mkhitaryan,32,Central Midfield,AS Roma,Serie A
+20/21,ankle injury,10,2,1/31/2021,2/9/2021,Justin Kluivert,22,Attacking Midfield,AS Roma,Serie A
+20/21,calf injury,26,4,12/17/2020,1/11/2021,Justin Kluivert,22,Attacking Midfield,AS Roma,Serie A
+20/21,surgery,173,26,8/11/2020,1/30/2021,Javier Pastore,32,Attacking Midfield,AS Roma,Serie A
+20/21,hamstring muscle injury,19,5,4/5/2021,4/23/2021,Stephan El Shaarawy,28,Left Winger,AS Roma,Serie A
+20/21,fitness,8,1,2/1/2021,2/8/2021,Stephan El Shaarawy,28,Left Winger,AS Roma,Serie A
+20/21,ankle injury,62,16,4/16/2021,6/16/2021,Ruben Providence,19,Left Winger,AS Roma,Serie A
+20/21,lumbago,18,2,5/14/2021,5/31/2021,Carles Pérez,23,Right Winger,AS Roma,Serie A
+20/21,muscular problems,12,3,4/30/2021,5/11/2021,Carles Pérez,23,Right Winger,AS Roma,Serie A
+20/21,muscular problems,16,2,11/3/2020,11/18/2020,Carles Pérez,23,Right Winger,AS Roma,Serie A
+20/21,tonsillitis,4,1,10/25/2020,10/28/2020,Carles Pérez,23,Right Winger,AS Roma,Serie A
+20/21,hamstring muscle injury,16,5,4/18/2021,5/3/2021,Pedro,33,Right Winger,AS Roma,Serie A
+20/21,muscular problems,20,3,1/21/2021,2/9/2021,Pedro,33,Right Winger,AS Roma,Serie A
+20/21,hamstring muscle injury,14,3,12/31/2020,1/13/2021,Pedro,33,Right Winger,AS Roma,Serie A
+20/21,adductor pain,14,4,2/25/2021,3/10/2021,Edin Džeko,35,Forward,AS Roma,Serie A
+20/21,bruise,8,1,1/21/2021,1/28/2021,Edin Džeko,35,Forward,AS Roma,Serie A
+20/21,corona virus,18,5,11/6/2020,11/23/2020,Edin Džeko,35,Forward,AS Roma,Serie A
 20/21,intestinal virus,6,2,12/6/2020,12/11/2020,Andrea Consigli,34,Goalkeeper,Sassuolo,Serie A
 20/21,finger injury,17,2,5/2/2021,5/18/2021,Samuele Vitale,18,Goalkeeper,Sassuolo,Serie A
 20/21,hand injury,23,3,11/6/2020,11/28/2020,Gianluca Pegolo,40,Goalkeeper,Sassuolo,Serie A
@@ -12634,46 +12634,46 @@ Season,Injury,Days,Games missed,injury_from_parsed,injury_until_parsed,player_na
 21/22,muscle fatigue,8,3,2/5/2022,2/12/2022,Felipe Caicedo,33,Forward,Lazio,Serie A
 21/22,muscular problems,60,8,11/6/2021,1/4/2022,Felipe Caicedo,33,Forward,Lazio,Serie A
 21/22,muscle fatigue,36,5,9/10/2021,10/15/2021,Felipe Caicedo,33,Forward,Lazio,Serie A
-21/22,corona virus,10,2,1/3/2022,1/12/2022,Daniel Fuzato,24,Goalkeeper,Roma,Serie A
-21/22,corona virus,8,1,2/17/2022,2/24/2022,Pietro Boer,20,Goalkeeper,Roma,Serie A
-21/22,collateral ligament injury,19,3,2/8/2022,2/26/2022,Roger Ibañez,23,Centre-Back,Roma,Serie A
-21/22,bruised knee,3,1,4/7/2022,4/9/2022,Gianluca Mancini,26,Centre-Back,Roma,Serie A
-21/22,foot injury,12,3,9/2/2021,9/13/2021,Gianluca Mancini,26,Centre-Back,Roma,Serie A
-21/22,muscle injury,6,1,11/13/2021,11/18/2021,Marash Kumbulla,22,Centre-Back,Roma,Serie A
-21/22,hamstring injury,47,7,10/5/2021,11/20/2021,Chris Smalling,32,Centre-Back,Roma,Serie A
-21/22,hamstring injury,23,4,8/17/2021,9/8/2021,Chris Smalling,32,Centre-Back,Roma,Serie A
-21/22,achilles tendon rupture,279,55,7/5/2021,4/9/2022,Leonardo Spinazzola,29,Left-Back,Roma,Serie A
-21/22,adductor injury,24,6,11/3/2021,11/26/2021,Matías Viña,24,Left-Back,Roma,Serie A
-21/22,knee injury,11,3,9/15/2021,9/25/2021,Matías Viña,24,Left-Back,Roma,Serie A
-21/22,muscular problems,7,2,9/4/2021,9/10/2021,Matías Viña,24,Left-Back,Roma,Serie A
-21/22,muscular problems,26,11,11/6/2021,12/1/2021,Riccardo Calafiori,20,Left-Back,Roma,Serie A
-21/22,minor knock,8,1,1/10/2022,1/17/2022,Rick Karsdorp,27,Right-Back,Roma,Serie A
-21/22,lumbago,6,1,4/22/2022,4/27/2022,Bryan Cristante,27,Defensive Midfield,Roma,Serie A
-21/22,corona virus,12,4,11/20/2021,12/1/2021,Bryan Cristante,27,Defensive Midfield,Roma,Serie A
-21/22,corona virus,8,4,1/13/2022,1/20/2022,Ebrima Darboe,21,Defensive Midfield,Roma,Serie A
-21/22,corona virus,14,3,3/27/2022,4/9/2022,Jordan Veretout,29,Central Midfield,Roma,Serie A
-21/22,heel problems,9,2,2/25/2022,3/5/2022,Sérgio Oliveira,30,Central Midfield,Roma,Serie A
-21/22,hamstring injury,25,6,4/28/2022,5/22/2022,Henrikh Mkhitaryan,33,Central Midfield,Roma,Serie A
-21/22,corona virus,8,1,2/17/2022,2/24/2022,Henrikh Mkhitaryan,33,Central Midfield,Roma,Serie A
-21/22,corona virus,14,4,11/20/2021,12/3/2021,Gonzalo Villar,24,Central Midfield,Roma,Serie A
-21/22,knee injury,22,1,7/30/2021,8/20/2021,Gonzalo Villar,24,Central Midfield,Roma,Serie A
-21/22,hamstring injury,37,7,11/28/2021,1/3/2022,Lorenzo Pellegrini,26,Attacking Midfield,Roma,Serie A
-21/22,inflammation in the knee,11,2,11/8/2021,11/18/2021,Lorenzo Pellegrini,26,Attacking Midfield,Roma,Serie A
-21/22,muscle fatigue,5,1,5/14/2022,5/18/2022,Nicolò Zaniolo,22,Attacking Midfield,Roma,Serie A
-21/22,hip flexor problems,11,2,3/30/2022,4/9/2022,Nicolò Zaniolo,22,Attacking Midfield,Roma,Serie A
-21/22,muscular problems,6,1,2/17/2022,2/22/2022,Nicolò Zaniolo,22,Attacking Midfield,Roma,Serie A
-21/22,knee problems,7,1,5/13/2022,5/19/2022,Felix Afena-Gyan,19,Left Winger,Roma,Serie A
-21/22,hip bruise,6,1,2/26/2022,3/3/2022,Felix Afena-Gyan,19,Left Winger,Roma,Serie A
-21/22,corona virus,10,3,11/30/2021,12/9/2021,Felix Afena-Gyan,19,Left Winger,Roma,Serie A
-21/22,calf problems,11,2,2/12/2022,2/22/2022,Stephan El Shaarawy,29,Left Winger,Roma,Serie A
-21/22,muscle fatigue,14,3,1/8/2022,1/21/2022,Stephan El Shaarawy,29,Left Winger,Roma,Serie A
-21/22,calf muscle tear,22,6,12/1/2021,12/22/2021,Stephan El Shaarawy,29,Left Winger,Roma,Serie A
-21/22,corona virus,10,1,2/17/2022,2/26/2022,Carles Pérez,24,Right Winger,Roma,Serie A
-21/22,muscle fatigue,15,4,12/4/2021,12/18/2021,Carles Pérez,24,Right Winger,Roma,Serie A
-21/22,ankle injury,15,1,12/22/2021,1/5/2022,Tammy Abraham,24,Forward,Roma,Serie A
-21/22,bruise on ankle,6,1,10/12/2021,10/17/2021,Tammy Abraham,24,Forward,Roma,Serie A
-21/22,corona virus,7,1,1/2/2022,1/8/2022,Borja Mayoral,25,Forward,Roma,Serie A
-21/22,corona virus,7,1,2/17/2022,2/23/2022,Eldor Shomurodov,27,Forward,Roma,Serie A
+21/22,corona virus,10,2,1/3/2022,1/12/2022,Daniel Fuzato,24,Goalkeeper,AS Roma,Serie A
+21/22,corona virus,8,1,2/17/2022,2/24/2022,Pietro Boer,20,Goalkeeper,AS Roma,Serie A
+21/22,collateral ligament injury,19,3,2/8/2022,2/26/2022,Roger Ibañez,23,Centre-Back,AS Roma,Serie A
+21/22,bruised knee,3,1,4/7/2022,4/9/2022,Gianluca Mancini,26,Centre-Back,AS Roma,Serie A
+21/22,foot injury,12,3,9/2/2021,9/13/2021,Gianluca Mancini,26,Centre-Back,AS Roma,Serie A
+21/22,muscle injury,6,1,11/13/2021,11/18/2021,Marash Kumbulla,22,Centre-Back,AS Roma,Serie A
+21/22,hamstring injury,47,7,10/5/2021,11/20/2021,Chris Smalling,32,Centre-Back,AS Roma,Serie A
+21/22,hamstring injury,23,4,8/17/2021,9/8/2021,Chris Smalling,32,Centre-Back,AS Roma,Serie A
+21/22,achilles tendon rupture,279,55,7/5/2021,4/9/2022,Leonardo Spinazzola,29,Left-Back,AS Roma,Serie A
+21/22,adductor injury,24,6,11/3/2021,11/26/2021,Matías Viña,24,Left-Back,AS Roma,Serie A
+21/22,knee injury,11,3,9/15/2021,9/25/2021,Matías Viña,24,Left-Back,AS Roma,Serie A
+21/22,muscular problems,7,2,9/4/2021,9/10/2021,Matías Viña,24,Left-Back,AS Roma,Serie A
+21/22,muscular problems,26,11,11/6/2021,12/1/2021,Riccardo Calafiori,20,Left-Back,AS Roma,Serie A
+21/22,minor knock,8,1,1/10/2022,1/17/2022,Rick Karsdorp,27,Right-Back,AS Roma,Serie A
+21/22,lumbago,6,1,4/22/2022,4/27/2022,Bryan Cristante,27,Defensive Midfield,AS Roma,Serie A
+21/22,corona virus,12,4,11/20/2021,12/1/2021,Bryan Cristante,27,Defensive Midfield,AS Roma,Serie A
+21/22,corona virus,8,4,1/13/2022,1/20/2022,Ebrima Darboe,21,Defensive Midfield,AS Roma,Serie A
+21/22,corona virus,14,3,3/27/2022,4/9/2022,Jordan Veretout,29,Central Midfield,AS Roma,Serie A
+21/22,heel problems,9,2,2/25/2022,3/5/2022,Sérgio Oliveira,30,Central Midfield,AS Roma,Serie A
+21/22,hamstring injury,25,6,4/28/2022,5/22/2022,Henrikh Mkhitaryan,33,Central Midfield,AS Roma,Serie A
+21/22,corona virus,8,1,2/17/2022,2/24/2022,Henrikh Mkhitaryan,33,Central Midfield,AS Roma,Serie A
+21/22,corona virus,14,4,11/20/2021,12/3/2021,Gonzalo Villar,24,Central Midfield,AS Roma,Serie A
+21/22,knee injury,22,1,7/30/2021,8/20/2021,Gonzalo Villar,24,Central Midfield,AS Roma,Serie A
+21/22,hamstring injury,37,7,11/28/2021,1/3/2022,Lorenzo Pellegrini,26,Attacking Midfield,AS Roma,Serie A
+21/22,inflammation in the knee,11,2,11/8/2021,11/18/2021,Lorenzo Pellegrini,26,Attacking Midfield,AS Roma,Serie A
+21/22,muscle fatigue,5,1,5/14/2022,5/18/2022,Nicolò Zaniolo,22,Attacking Midfield,AS Roma,Serie A
+21/22,hip flexor problems,11,2,3/30/2022,4/9/2022,Nicolò Zaniolo,22,Attacking Midfield,AS Roma,Serie A
+21/22,muscular problems,6,1,2/17/2022,2/22/2022,Nicolò Zaniolo,22,Attacking Midfield,AS Roma,Serie A
+21/22,knee problems,7,1,5/13/2022,5/19/2022,Felix Afena-Gyan,19,Left Winger,AS Roma,Serie A
+21/22,hip bruise,6,1,2/26/2022,3/3/2022,Felix Afena-Gyan,19,Left Winger,AS Roma,Serie A
+21/22,corona virus,10,3,11/30/2021,12/9/2021,Felix Afena-Gyan,19,Left Winger,AS Roma,Serie A
+21/22,calf problems,11,2,2/12/2022,2/22/2022,Stephan El Shaarawy,29,Left Winger,AS Roma,Serie A
+21/22,muscle fatigue,14,3,1/8/2022,1/21/2022,Stephan El Shaarawy,29,Left Winger,AS Roma,Serie A
+21/22,calf muscle tear,22,6,12/1/2021,12/22/2021,Stephan El Shaarawy,29,Left Winger,AS Roma,Serie A
+21/22,corona virus,10,1,2/17/2022,2/26/2022,Carles Pérez,24,Right Winger,AS Roma,Serie A
+21/22,muscle fatigue,15,4,12/4/2021,12/18/2021,Carles Pérez,24,Right Winger,AS Roma,Serie A
+21/22,ankle injury,15,1,12/22/2021,1/5/2022,Tammy Abraham,24,Forward,AS Roma,Serie A
+21/22,bruise on ankle,6,1,10/12/2021,10/17/2021,Tammy Abraham,24,Forward,AS Roma,Serie A
+21/22,corona virus,7,1,1/2/2022,1/8/2022,Borja Mayoral,25,Forward,AS Roma,Serie A
+21/22,corona virus,7,1,2/17/2022,2/23/2022,Eldor Shomurodov,27,Forward,AS Roma,Serie A
 21/22,fitness,39,7,11/26/2021,1/3/2022,Bartlomiej Dragowski,24,Goalkeeper,Fiorentina,Serie A
 21/22,hamstring injury,51,11,10/3/2021,11/22/2021,Bartlomiej Dragowski,24,Goalkeeper,Fiorentina,Serie A
 21/22,tonsillitis,6,1,2/19/2022,2/24/2022,Pietro Terracciano,32,Goalkeeper,Fiorentina,Serie A
@@ -13472,59 +13472,59 @@ Season,Injury,Days,Games missed,injury_from_parsed,injury_until_parsed,player_na
 22/23,bruised knee,5,1,1/4/2023,1/8/2023,Duván Zapata,32,Forward,Atalanta,Serie A
 22/23,hamstring injury,51,7,9/1/2022,10/21/2022,Duván Zapata,32,Forward,Atalanta,Serie A
 22/23,adductor injury,15,2,11/6/2022,11/20/2022,Luis Muriel,32,Forward,Atalanta,Serie A
-22/23,rest,4,1,5/26/2023,5/29/2023,Rui Patrício,35,Goalkeeper,Roma,Serie A
-22/23,rest,3,1,5/13/2023,5/15/2023,Rui Patrício,35,Goalkeeper,Roma,Serie A
-22/23,heel injury,6,2,3/5/2023,3/10/2023,Roger Ibañez,24,Centre-Back,Roma,Serie A
-22/23,hamstring muscle injury,28,7,4/24/2023,5/21/2023,Diego Llorente,29,Centre-Back,Roma,Serie A
-22/23,adductor pain,11,4,3/9/2023,3/19/2023,Diego Llorente,29,Centre-Back,Roma,Serie A
-22/23,hamstring injury,28,7,4/20/2023,5/17/2023,Chris Smalling,33,Centre-Back,Roma,Serie A
-22/23,cruciate ligament injury,253,43,4/29/2023,1/6/2024,Marash Kumbulla,23,Centre-Back,Roma,Serie A
-22/23,muscular problems,10,2,10/13/2022,10/22/2022,Marash Kumbulla,23,Centre-Back,Roma,Serie A
-22/23,thigh problems,28,7,8/30/2022,9/26/2022,Marash Kumbulla,23,Centre-Back,Roma,Serie A
-22/23,muscular problems,12,3,5/18/2023,5/29/2023,Leonardo Spinazzola,30,Left-Back,Roma,Serie A
-22/23,hamstring strain,16,4,1/29/2023,2/13/2023,Leonardo Spinazzola,30,Left-Back,Roma,Serie A
-22/23,hamstring muscle injury,47,7,10/30/2022,12/15/2022,Leonardo Spinazzola,30,Left-Back,Roma,Serie A
-22/23,muscular problems,9,2,5/18/2023,5/26/2023,Zeki Çelik,26,Right-Back,Roma,Serie A
-22/23,inner ligament injury,24,6,10/6/2022,10/29/2022,Zeki Çelik,26,Right-Back,Roma,Serie A
-22/23,knee surgery,74,15,3/21/2023,6/2/2023,Rick Karsdorp,28,Right-Back,Roma,Serie A
-22/23,broken nose bone,6,2,3/16/2023,3/21/2023,Rick Karsdorp,28,Right-Back,Roma,Serie A
-22/23,meniscus tear,31,6,9/15/2022,10/15/2022,Rick Karsdorp,28,Right-Back,Roma,Serie A
-22/23,minor knock,11,3,9/5/2022,9/15/2022,Rick Karsdorp,28,Right-Back,Roma,Serie A
-22/23,scaphoid surgery,29,1,11/17/2022,12/15/2022,Bryan Cristante,28,Defensive Midfield,Roma,Serie A
-22/23,scaphoid fracture,4,2,11/13/2022,11/16/2022,Bryan Cristante,28,Defensive Midfield,Roma,Serie A
-22/23,rest,4,1,5/26/2023,5/29/2023,Nemanja Matić,34,Defensive Midfield,Roma,Serie A
-22/23,abdominal problems,5,1,3/14/2023,3/18/2023,Nemanja Matić,34,Defensive Midfield,Roma,Serie A
-22/23,adductor pain,6,2,10/26/2022,10/31/2022,Nemanja Matić,34,Defensive Midfield,Roma,Serie A
-22/23,cruciate ligament surgery,269,45,7/21/2022,4/15/2023,Ebrima Darboe,22,Defensive Midfield,Roma,Serie A
-22/23,muscle injury,5,1,8/11/2022,8/15/2022,Mady Camara,26,Central Midfield,Roma,Serie A
-22/23,hamstring injury,16,4,4/20/2023,5/5/2023,Georginio Wijnaldum,32,Central Midfield,Roma,Serie A
-22/23,broken tibia,164,34,8/22/2022,2/1/2023,Georginio Wijnaldum,32,Central Midfield,Roma,Serie A
-22/23,stomach flu,4,1,10/22/2022,10/25/2022,Nicola Zalewski,21,Left Midfield,Roma,Serie A
-22/23,muscle fatigue,8,2,9/9/2022,9/16/2022,Nicola Zalewski,21,Left Midfield,Roma,Serie A
-22/23,ankle problems,7,2,5/22/2023,5/28/2023,Lorenzo Pellegrini,27,Attacking Midfield,Roma,Serie A
-22/23,crack bruise,6,2,3/9/2023,3/14/2023,Lorenzo Pellegrini,27,Attacking Midfield,Roma,Serie A
-22/23,muscle fatigue,4,2,2/16/2023,2/19/2023,Lorenzo Pellegrini,27,Attacking Midfield,Roma,Serie A
-22/23,hamstring muscle injury,8,3,11/6/2022,11/13/2022,Lorenzo Pellegrini,27,Attacking Midfield,Roma,Serie A
-22/23,muscle fatigue,8,2,10/1/2022,10/8/2022,Lorenzo Pellegrini,27,Attacking Midfield,Roma,Serie A
-22/23,muscular problems,13,3,9/18/2022,9/30/2022,Lorenzo Pellegrini,27,Attacking Midfield,Roma,Serie A
-22/23,depression,9,2,1/31/2023,2/8/2023,Nicolò Zaniolo,23,Attacking Midfield,Roma,Serie A
-22/23,flu,4,1,1/15/2023,1/18/2023,Nicolò Zaniolo,23,Attacking Midfield,Roma,Serie A
-22/23,shoulder injury,22,6,8/22/2022,9/12/2022,Nicolò Zaniolo,23,Attacking Midfield,Roma,Serie A
-22/23,hamstring muscle injury,15,4,5/3/2023,5/17/2023,Stephan El Shaarawy,30,Left Winger,Roma,Serie A
-22/23,muscular problems,28,8,8/30/2022,9/26/2022,Stephan El Shaarawy,30,Left Winger,Roma,Serie A
-22/23,shoulder injury,9,3,4/8/2023,4/16/2023,Ola Solbakken,24,Right Winger,Roma,Serie A
-22/23,muscle injury,14,4,3/4/2023,3/17/2023,Ola Solbakken,24,Right Winger,Roma,Serie A
-22/23,shoulder injury,39,2,12/1/2022,1/8/2023,Ola Solbakken,24,Right Winger,Roma,Serie A
-22/23,ankle problems,11,2,5/19/2023,5/29/2023,Paulo Dybala,29,Second Striker,Roma,Serie A
-22/23,ankle sprain,12,3,4/24/2023,5/5/2023,Paulo Dybala,29,Second Striker,Roma,Serie A
-22/23,cruciate ligament injury,286,40,6/5/2023,3/16/2024,Tammy Abraham,25,Forward,Roma,Serie A
-22/23,shoulder injury,4,2,4/13/2023,4/16/2023,Tammy Abraham,25,Forward,Roma,Serie A
-22/23,eye injury,5,2,2/19/2023,2/23/2023,Tammy Abraham,25,Forward,Roma,Serie A
-22/23,muscular problems,3,1,1/29/2023,1/31/2023,Tammy Abraham,25,Forward,Roma,Serie A
-22/23,shoulder injury,6,2,9/4/2022,9/9/2022,Tammy Abraham,25,Forward,Roma,Serie A
-22/23,rib fracture,6,2,4/29/2023,5/4/2023,Andrea Belotti,29,Forward,Roma,Serie A
-22/23,wrist fracture,7,2,3/9/2023,3/15/2023,Andrea Belotti,29,Forward,Roma,Serie A
-22/23,thigh problems,25,1,12/13/2022,1/6/2023,Andrea Belotti,29,Forward,Roma,Serie A
+22/23,rest,4,1,5/26/2023,5/29/2023,Rui Patrício,35,Goalkeeper,AS Roma,Serie A
+22/23,rest,3,1,5/13/2023,5/15/2023,Rui Patrício,35,Goalkeeper,AS Roma,Serie A
+22/23,heel injury,6,2,3/5/2023,3/10/2023,Roger Ibañez,24,Centre-Back,AS Roma,Serie A
+22/23,hamstring muscle injury,28,7,4/24/2023,5/21/2023,Diego Llorente,29,Centre-Back,AS Roma,Serie A
+22/23,adductor pain,11,4,3/9/2023,3/19/2023,Diego Llorente,29,Centre-Back,AS Roma,Serie A
+22/23,hamstring injury,28,7,4/20/2023,5/17/2023,Chris Smalling,33,Centre-Back,AS Roma,Serie A
+22/23,cruciate ligament injury,253,43,4/29/2023,1/6/2024,Marash Kumbulla,23,Centre-Back,AS Roma,Serie A
+22/23,muscular problems,10,2,10/13/2022,10/22/2022,Marash Kumbulla,23,Centre-Back,AS Roma,Serie A
+22/23,thigh problems,28,7,8/30/2022,9/26/2022,Marash Kumbulla,23,Centre-Back,AS Roma,Serie A
+22/23,muscular problems,12,3,5/18/2023,5/29/2023,Leonardo Spinazzola,30,Left-Back,AS Roma,Serie A
+22/23,hamstring strain,16,4,1/29/2023,2/13/2023,Leonardo Spinazzola,30,Left-Back,AS Roma,Serie A
+22/23,hamstring muscle injury,47,7,10/30/2022,12/15/2022,Leonardo Spinazzola,30,Left-Back,AS Roma,Serie A
+22/23,muscular problems,9,2,5/18/2023,5/26/2023,Zeki Çelik,26,Right-Back,AS Roma,Serie A
+22/23,inner ligament injury,24,6,10/6/2022,10/29/2022,Zeki Çelik,26,Right-Back,AS Roma,Serie A
+22/23,knee surgery,74,15,3/21/2023,6/2/2023,Rick Karsdorp,28,Right-Back,AS Roma,Serie A
+22/23,broken nose bone,6,2,3/16/2023,3/21/2023,Rick Karsdorp,28,Right-Back,AS Roma,Serie A
+22/23,meniscus tear,31,6,9/15/2022,10/15/2022,Rick Karsdorp,28,Right-Back,AS Roma,Serie A
+22/23,minor knock,11,3,9/5/2022,9/15/2022,Rick Karsdorp,28,Right-Back,AS Roma,Serie A
+22/23,scaphoid surgery,29,1,11/17/2022,12/15/2022,Bryan Cristante,28,Defensive Midfield,AS Roma,Serie A
+22/23,scaphoid fracture,4,2,11/13/2022,11/16/2022,Bryan Cristante,28,Defensive Midfield,AS Roma,Serie A
+22/23,rest,4,1,5/26/2023,5/29/2023,Nemanja Matić,34,Defensive Midfield,AS Roma,Serie A
+22/23,abdominal problems,5,1,3/14/2023,3/18/2023,Nemanja Matić,34,Defensive Midfield,AS Roma,Serie A
+22/23,adductor pain,6,2,10/26/2022,10/31/2022,Nemanja Matić,34,Defensive Midfield,AS Roma,Serie A
+22/23,cruciate ligament surgery,269,45,7/21/2022,4/15/2023,Ebrima Darboe,22,Defensive Midfield,AS Roma,Serie A
+22/23,muscle injury,5,1,8/11/2022,8/15/2022,Mady Camara,26,Central Midfield,AS Roma,Serie A
+22/23,hamstring injury,16,4,4/20/2023,5/5/2023,Georginio Wijnaldum,32,Central Midfield,AS Roma,Serie A
+22/23,broken tibia,164,34,8/22/2022,2/1/2023,Georginio Wijnaldum,32,Central Midfield,AS Roma,Serie A
+22/23,stomach flu,4,1,10/22/2022,10/25/2022,Nicola Zalewski,21,Left Midfield,AS Roma,Serie A
+22/23,muscle fatigue,8,2,9/9/2022,9/16/2022,Nicola Zalewski,21,Left Midfield,AS Roma,Serie A
+22/23,ankle problems,7,2,5/22/2023,5/28/2023,Lorenzo Pellegrini,27,Attacking Midfield,AS Roma,Serie A
+22/23,crack bruise,6,2,3/9/2023,3/14/2023,Lorenzo Pellegrini,27,Attacking Midfield,AS Roma,Serie A
+22/23,muscle fatigue,4,2,2/16/2023,2/19/2023,Lorenzo Pellegrini,27,Attacking Midfield,AS Roma,Serie A
+22/23,hamstring muscle injury,8,3,11/6/2022,11/13/2022,Lorenzo Pellegrini,27,Attacking Midfield,AS Roma,Serie A
+22/23,muscle fatigue,8,2,10/1/2022,10/8/2022,Lorenzo Pellegrini,27,Attacking Midfield,AS Roma,Serie A
+22/23,muscular problems,13,3,9/18/2022,9/30/2022,Lorenzo Pellegrini,27,Attacking Midfield,AS Roma,Serie A
+22/23,depression,9,2,1/31/2023,2/8/2023,Nicolò Zaniolo,23,Attacking Midfield,AS Roma,Serie A
+22/23,flu,4,1,1/15/2023,1/18/2023,Nicolò Zaniolo,23,Attacking Midfield,AS Roma,Serie A
+22/23,shoulder injury,22,6,8/22/2022,9/12/2022,Nicolò Zaniolo,23,Attacking Midfield,AS Roma,Serie A
+22/23,hamstring muscle injury,15,4,5/3/2023,5/17/2023,Stephan El Shaarawy,30,Left Winger,AS Roma,Serie A
+22/23,muscular problems,28,8,8/30/2022,9/26/2022,Stephan El Shaarawy,30,Left Winger,AS Roma,Serie A
+22/23,shoulder injury,9,3,4/8/2023,4/16/2023,Ola Solbakken,24,Right Winger,AS Roma,Serie A
+22/23,muscle injury,14,4,3/4/2023,3/17/2023,Ola Solbakken,24,Right Winger,AS Roma,Serie A
+22/23,shoulder injury,39,2,12/1/2022,1/8/2023,Ola Solbakken,24,Right Winger,AS Roma,Serie A
+22/23,ankle problems,11,2,5/19/2023,5/29/2023,Paulo Dybala,29,Second Striker,AS Roma,Serie A
+22/23,ankle sprain,12,3,4/24/2023,5/5/2023,Paulo Dybala,29,Second Striker,AS Roma,Serie A
+22/23,cruciate ligament injury,286,40,6/5/2023,3/16/2024,Tammy Abraham,25,Forward,AS Roma,Serie A
+22/23,shoulder injury,4,2,4/13/2023,4/16/2023,Tammy Abraham,25,Forward,AS Roma,Serie A
+22/23,eye injury,5,2,2/19/2023,2/23/2023,Tammy Abraham,25,Forward,AS Roma,Serie A
+22/23,muscular problems,3,1,1/29/2023,1/31/2023,Tammy Abraham,25,Forward,AS Roma,Serie A
+22/23,shoulder injury,6,2,9/4/2022,9/9/2022,Tammy Abraham,25,Forward,AS Roma,Serie A
+22/23,rib fracture,6,2,4/29/2023,5/4/2023,Andrea Belotti,29,Forward,AS Roma,Serie A
+22/23,wrist fracture,7,2,3/9/2023,3/15/2023,Andrea Belotti,29,Forward,AS Roma,Serie A
+22/23,thigh problems,25,1,12/13/2022,1/6/2023,Andrea Belotti,29,Forward,AS Roma,Serie A
 22/23,chest injury,3,1,4/13/2023,4/15/2023,Wojciech Szczesny,33,Goalkeeper,Juventus,Serie A
 22/23,ankle sprain,19,6,8/31/2022,9/18/2022,Wojciech Szczesny,33,Goalkeeper,Juventus,Serie A
 22/23,adductor injury,28,2,7/30/2022,8/26/2022,Wojciech Szczesny,33,Goalkeeper,Juventus,Serie A
@@ -14680,34 +14680,34 @@ Season,Injury,Days,Games missed,injury_from_parsed,injury_until_parsed,player_na
 23/24,ankle surgery,87,13,7/27/2023,10/21/2023,Gianluca Lapadula,34,Forward,Cagliari,Serie A
 23/24,ankle sprain,69,9,2/25/2024,5/3/2024,Leonardo Pavoletti,35,Forward,Cagliari,Serie A
 23/24,foot injury,3,1,1/4/2024,1/6/2024,Leonardo Pavoletti,35,Forward,Cagliari,Serie A
-23/24,rest,3,1,5/25/2024,5/27/2024,Lorenzo Montipò,28,Goalkeeper,Verona,Serie A
-23/24,shoulder injury,78,10,1/19/2024,4/5/2024,Alessandro Berardi,33,Goalkeeper,Verona,Serie A
-23/24,hamstring muscle injury,24,4,1/25/2024,2/17/2024,Isak Hien,25,Centre-Back,Verona,Serie A
-23/24,muscular problems,10,2,12/2/2023,12/11/2023,Isak Hien,25,Centre-Back,Verona,Serie A
-23/24,muscle injury,30,6,10/1/2023,10/30/2023,Isak Hien,25,Centre-Back,Verona,Serie A
-23/24,fracture,13,2,11/26/2023,12/8/2023,Giangiacomo Magnani,28,Centre-Back,Verona,Serie A
-23/24,fitness,4,1,2/27/2024,3/1/2024,Koray Günter,29,Centre-Back,Verona,Serie A
-23/24,ankle sprain,32,9,9/18/2023,10/19/2023,Josh Doig,22,Left-Back,Verona,Serie A
-23/24,hamstring muscle injury,51,10,9/26/2023,11/15/2023,Juan Cabal,23,Left-Back,Verona,Serie A
-23/24,back injury,9,1,12/8/2023,12/16/2023,Fabien Centonze,28,Right-Back,Verona,Serie A
-23/24,hamstring injury,29,4,8/10/2023,9/7/2023,Fabien Centonze,28,Right-Back,Verona,Serie A
-23/24,neck injury,80,9,7/8/2023,9/25/2023,Jackson Tchatchoua,22,Right-Back,Verona,Serie A
-23/24,thigh problems,6,1,2/18/2024,2/23/2024,Davide Faraoni,32,Right-Back,Verona,Serie A
-23/24,flu,6,1,3/31/2024,4/5/2024,Reda Belahyane,20,Defensive Midfield,Verona,Serie A
-23/24,rest,3,1,5/25/2024,5/27/2024,Michael Folorunsho,26,Central Midfield,Verona,Serie A
-23/24,flu,5,1,3/3/2024,3/7/2024,Michael Folorunsho,26,Central Midfield,Verona,Serie A
-23/24,muscular problems,7,1,1/13/2024,1/19/2024,Michael Folorunsho,26,Central Midfield,Verona,Serie A
-23/24,flu,4,1,12/23/2023,12/26/2023,Michael Folorunsho,26,Central Midfield,Verona,Serie A
-23/24,hamstring injury,47,4,7/27/2023,9/11/2023,Darko Lazović,33,Left Midfield,Verona,Serie A
-23/24,flu,11,2,12/29/2023,1/8/2024,Riccardo Saponara,32,Attacking Midfield,Verona,Serie A
-23/24,muscular problems,7,1,12/2/2023,12/8/2023,Riccardo Saponara,32,Attacking Midfield,Verona,Serie A
-23/24,ankle sprain,5,1,8/31/2023,9/4/2023,Riccardo Saponara,32,Attacking Midfield,Verona,Serie A
-23/24,muscular problems,21,5,2/20/2024,3/11/2024,Cyril Ngonge,24,Right Winger,Verona,Serie A
-23/24,adductor injury,11,2,9/27/2023,10/7/2023,Jordi Mboula,25,Right Winger,Verona,Serie A
-23/24,bruise on ankle,6,1,3/31/2024,4/5/2024,Elayis Tavsan,23,Right Winger,Verona,Serie A
-23/24,collateral ligament injury,31,3,3/19/2024,4/18/2024,Yayah Kallon,23,Right Winger,Verona,Serie A
-23/24,injury to the ankle,6,1,2/11/2024,2/16/2024,Karol Swiderski,27,Forward,Verona,Serie A
-23/24,muscle fatigue,8,1,12/9/2023,12/16/2023,Juan Manuel Cruz,24,Forward,Verona,Serie A
+23/24,rest,3,1,5/25/2024,5/27/2024,Lorenzo Montipò,28,Goalkeeper,Hellas Verona,Serie A
+23/24,shoulder injury,78,10,1/19/2024,4/5/2024,Alessandro Berardi,33,Goalkeeper,Hellas Verona,Serie A
+23/24,hamstring muscle injury,24,4,1/25/2024,2/17/2024,Isak Hien,25,Centre-Back,Hellas Verona,Serie A
+23/24,muscular problems,10,2,12/2/2023,12/11/2023,Isak Hien,25,Centre-Back,Hellas Verona,Serie A
+23/24,muscle injury,30,6,10/1/2023,10/30/2023,Isak Hien,25,Centre-Back,Hellas Verona,Serie A
+23/24,fracture,13,2,11/26/2023,12/8/2023,Giangiacomo Magnani,28,Centre-Back,Hellas Verona,Serie A
+23/24,fitness,4,1,2/27/2024,3/1/2024,Koray Günter,29,Centre-Back,Hellas Verona,Serie A
+23/24,ankle sprain,32,9,9/18/2023,10/19/2023,Josh Doig,22,Left-Back,Hellas Verona,Serie A
+23/24,hamstring muscle injury,51,10,9/26/2023,11/15/2023,Juan Cabal,23,Left-Back,Hellas Verona,Serie A
+23/24,back injury,9,1,12/8/2023,12/16/2023,Fabien Centonze,28,Right-Back,Hellas Verona,Serie A
+23/24,hamstring injury,29,4,8/10/2023,9/7/2023,Fabien Centonze,28,Right-Back,Hellas Verona,Serie A
+23/24,neck injury,80,9,7/8/2023,9/25/2023,Jackson Tchatchoua,22,Right-Back,Hellas Verona,Serie A
+23/24,thigh problems,6,1,2/18/2024,2/23/2024,Davide Faraoni,32,Right-Back,Hellas Verona,Serie A
+23/24,flu,6,1,3/31/2024,4/5/2024,Reda Belahyane,20,Defensive Midfield,Hellas Verona,Serie A
+23/24,rest,3,1,5/25/2024,5/27/2024,Michael Folorunsho,26,Central Midfield,Hellas Verona,Serie A
+23/24,flu,5,1,3/3/2024,3/7/2024,Michael Folorunsho,26,Central Midfield,Hellas Verona,Serie A
+23/24,muscular problems,7,1,1/13/2024,1/19/2024,Michael Folorunsho,26,Central Midfield,Hellas Verona,Serie A
+23/24,flu,4,1,12/23/2023,12/26/2023,Michael Folorunsho,26,Central Midfield,Hellas Verona,Serie A
+23/24,hamstring injury,47,4,7/27/2023,9/11/2023,Darko Lazović,33,Left Midfield,Hellas Verona,Serie A
+23/24,flu,11,2,12/29/2023,1/8/2024,Riccardo Saponara,32,Attacking Midfield,Hellas Verona,Serie A
+23/24,muscular problems,7,1,12/2/2023,12/8/2023,Riccardo Saponara,32,Attacking Midfield,Hellas Verona,Serie A
+23/24,ankle sprain,5,1,8/31/2023,9/4/2023,Riccardo Saponara,32,Attacking Midfield,Hellas Verona,Serie A
+23/24,muscular problems,21,5,2/20/2024,3/11/2024,Cyril Ngonge,24,Right Winger,Hellas Verona,Serie A
+23/24,adductor injury,11,2,9/27/2023,10/7/2023,Jordi Mboula,25,Right Winger,Hellas Verona,Serie A
+23/24,bruise on ankle,6,1,3/31/2024,4/5/2024,Elayis Tavsan,23,Right Winger,Hellas Verona,Serie A
+23/24,collateral ligament injury,31,3,3/19/2024,4/18/2024,Yayah Kallon,23,Right Winger,Hellas Verona,Serie A
+23/24,injury to the ankle,6,1,2/11/2024,2/16/2024,Karol Swiderski,27,Forward,Hellas Verona,Serie A
+23/24,muscle fatigue,8,1,12/9/2023,12/16/2023,Juan Manuel Cruz,24,Forward,Hellas Verona,Serie A
 23/24,calf problems,4,1,1/26/2024,1/29/2024,Enrico Delprato,24,Right-Back,Salernitana,Serie A
 23/24,thigh problems,31,5,8/11/2023,9/10/2023,Antoine Hainaut,22,Right-Back,Salernitana,Serie A
 23/24,ankle problems,11,2,2/26/2024,3/7/2024,Adrián Bernabé,23,Central Midfield,Salernitana,Serie A
@@ -14949,57 +14949,57 @@ Season,Injury,Days,Games missed,injury_from_parsed,injury_until_parsed,player_na
 24/25,hamstring injury,23,4,12/22/2024,1/13/2025,Mateo Retegui,26,Forward,Atalanta,Serie A
 24/25,hamstring injury,165,18,2/2/2025,7/16/2025,Gianluca Scamacca,26,Forward,Atalanta,Serie A
 24/25,cruciate ligament tear,177,32,8/4/2024,1/27/2025,Gianluca Scamacca,26,Forward,Atalanta,Serie A
-24/25,hip injury,15,2,2/7/2025,2/21/2025,Mathew Ryan,33,Goalkeeper,Roma,Serie A
-24/25,shoulder injury,5,1,5/11/2025,5/15/2025,Pierluigi Gollini,30,Goalkeeper,Roma,Serie A
-24/25,hip injury,37,5,10/15/2024,11/20/2024,Pierluigi Gollini,30,Goalkeeper,Roma,Serie A
-24/25,fever,4,1,11/5/2024,11/8/2024,Evan Ndicka,26,Centre-Back,Roma,Serie A
-24/25,flu,2,1,10/24/2024,10/25/2024,Gianluca Mancini,29,Centre-Back,Roma,Serie A
-24/25,foot injury,16,2,4/16/2025,5/1/2025,Victor Nelsson,27,Centre-Back,Roma,Serie A
-24/25,chest injury,112,11,3/11/2025,6/30/2025,Mario Hermoso,30,Centre-Back,Roma,Serie A
-24/25,stomach flu,4,1,2/15/2025,2/18/2025,Mario Hermoso,30,Centre-Back,Roma,Serie A
-24/25,muscular problems,35,6,11/1/2024,12/5/2024,Mario Hermoso,30,Centre-Back,Roma,Serie A
-24/25,rest,3,1,2/8/2025,2/10/2025,Mats Hummels,36,Centre-Back,Roma,Serie A
-24/25,influenza,5,1,12/16/2024,12/20/2024,Mats Hummels,36,Centre-Back,Roma,Serie A
-24/25,fever,4,1,10/5/2024,10/8/2024,Mats Hummels,36,Centre-Back,Roma,Serie A
-24/25,foot injury,5,1,3/24/2025,3/28/2025,Anass Salah-Eddine,23,Left-Back,Roma,Serie A
-24/25,flu,5,1,1/11/2025,1/15/2025,Samuel Dahl,22,Left-Back,Roma,Serie A
-24/25,muscle injury,20,3,3/17/2025,4/5/2025,Devyne Rensch,22,Right-Back,Roma,Serie A
-24/25,adductor pain,8,2,2/12/2025,2/19/2025,Devyne Rensch,22,Right-Back,Roma,Serie A
-24/25,leg injury,9,3,12/1/2024,12/9/2024,Devyne Rensch,22,Right-Back,Roma,Serie A
-24/25,hamstring muscle injury,25,6,3/7/2025,3/31/2025,Zeki Çelik,28,Right-Back,Roma,Serie A
-24/25,muscular problems,4,1,3/2/2025,3/5/2025,Zeki Çelik,28,Right-Back,Roma,Serie A
-24/25,flu,4,1,1/3/2025,1/6/2025,Zeki Çelik,28,Right-Back,Roma,Serie A
-24/25,adductor injury,5,1,12/7/2024,12/11/2024,Zeki Çelik,28,Right-Back,Roma,Serie A
-24/25,hamstring injury,41,6,3/20/2025,4/29/2025,Saud Abdulhamid,26,Right-Back,Roma,Serie A
-24/25,ill,7,2,1/28/2025,2/3/2025,Lucas Gourna-Douath,22,Defensive Midfield,Roma,Serie A
-24/25,ankle injury,4,1,12/3/2024,12/6/2024,Lucas Gourna-Douath,22,Defensive Midfield,Roma,Serie A
-24/25,ankle injury,11,4,10/27/2024,11/6/2024,Lucas Gourna-Douath,22,Defensive Midfield,Roma,Serie A
-24/25,ankle problems,52,10,12/4/2024,1/24/2025,Bryan Cristante,30,Defensive Midfield,Roma,Serie A
-24/25,rest,3,1,2/8/2025,2/10/2025,Leandro Paredes,31,Defensive Midfield,Roma,Serie A
-24/25,flu,6,2,12/12/2024,12/17/2024,Leandro Paredes,31,Defensive Midfield,Roma,Serie A
-24/25,muscle fatigue,5,1,12/16/2024,12/20/2024,Manu Koné,24,Central Midfield,Roma,Serie A
-24/25,collateral ligament injury,40,6,8/26/2024,10/4/2024,Enzo Le Fée,25,Central Midfield,Roma,Serie A
-24/25,ankle surgery,74,18,9/15/2024,11/27/2024,Alexis Saelemaekers,26,Right Midfield,Roma,Serie A
-24/25,calf injury,23,6,2/24/2025,3/18/2025,Nicola Zalewski,23,Left Midfield,Roma,Serie A
-24/25,fever,6,1,11/9/2024,11/14/2024,Nicola Zalewski,23,Left Midfield,Roma,Serie A
-24/25,hamstring strain,114,4,5/8/2025,8/29/2025,Lorenzo Pellegrini,29,Attacking Midfield,Roma,Serie A
-24/25,muscular problems,11,1,11/8/2024,11/18/2024,Lorenzo Pellegrini,29,Attacking Midfield,Roma,Serie A
-24/25,knee problems,6,2,9/22/2024,9/27/2024,Lorenzo Pellegrini,29,Attacking Midfield,Roma,Serie A
-24/25,calf injury,23,4,10/6/2024,10/28/2024,Stephan El Shaarawy,33,Left Winger,Roma,Serie A
-24/25,cruciate ligament tear,183,13,5/2/2025,10/31/2025,João Costa,20,Right Winger,Roma,Serie A
-24/25,tendon rupture,107,10,3/16/2025,6/30/2025,Paulo Dybala,31,Second Striker,Roma,Serie A
-24/25,bruised knee,6,2,2/13/2025,2/18/2025,Paulo Dybala,31,Second Striker,Roma,Serie A
-24/25,muscular problems,15,1,11/8/2024,11/22/2024,Paulo Dybala,31,Second Striker,Roma,Serie A
-24/25,muscular problems,13,1,10/4/2024,10/16/2024,Paulo Dybala,31,Second Striker,Roma,Serie A
-24/25,thigh problems,75,4,5/16/2025,7/29/2025,Artem Dovbyk,28,Forward,Roma,Serie A
-24/25,infection,4,1,3/18/2025,3/21/2025,Artem Dovbyk,28,Forward,Roma,Serie A
-24/25,adductor pain,7,2,2/20/2025,2/26/2025,Artem Dovbyk,28,Forward,Roma,Serie A
-24/25,fever,4,1,12/6/2024,12/9/2024,Artem Dovbyk,28,Forward,Roma,Serie A
-24/25,fever,3,1,10/31/2024,11/2/2024,Artem Dovbyk,28,Forward,Roma,Serie A
-24/25,muscle injury,8,2,9/5/2024,9/12/2024,Artem Dovbyk,28,Forward,Roma,Serie A
-24/25,thigh problems,7,1,5/1/2025,5/7/2025,Tammy Abraham,28,Forward,Roma,Serie A
-24/25,shoulder injury,14,3,10/19/2024,11/1/2024,Tammy Abraham,28,Forward,Roma,Serie A
-24/25,groin injury,18,4,11/15/2024,12/2/2024,Eldor Shomurodov,30,Forward,Roma,Serie A
+24/25,hip injury,15,2,2/7/2025,2/21/2025,Mathew Ryan,33,Goalkeeper,AS Roma,Serie A
+24/25,shoulder injury,5,1,5/11/2025,5/15/2025,Pierluigi Gollini,30,Goalkeeper,AS Roma,Serie A
+24/25,hip injury,37,5,10/15/2024,11/20/2024,Pierluigi Gollini,30,Goalkeeper,AS Roma,Serie A
+24/25,fever,4,1,11/5/2024,11/8/2024,Evan Ndicka,26,Centre-Back,AS Roma,Serie A
+24/25,flu,2,1,10/24/2024,10/25/2024,Gianluca Mancini,29,Centre-Back,AS Roma,Serie A
+24/25,foot injury,16,2,4/16/2025,5/1/2025,Victor Nelsson,27,Centre-Back,AS Roma,Serie A
+24/25,chest injury,112,11,3/11/2025,6/30/2025,Mario Hermoso,30,Centre-Back,AS Roma,Serie A
+24/25,stomach flu,4,1,2/15/2025,2/18/2025,Mario Hermoso,30,Centre-Back,AS Roma,Serie A
+24/25,muscular problems,35,6,11/1/2024,12/5/2024,Mario Hermoso,30,Centre-Back,AS Roma,Serie A
+24/25,rest,3,1,2/8/2025,2/10/2025,Mats Hummels,36,Centre-Back,AS Roma,Serie A
+24/25,influenza,5,1,12/16/2024,12/20/2024,Mats Hummels,36,Centre-Back,AS Roma,Serie A
+24/25,fever,4,1,10/5/2024,10/8/2024,Mats Hummels,36,Centre-Back,AS Roma,Serie A
+24/25,foot injury,5,1,3/24/2025,3/28/2025,Anass Salah-Eddine,23,Left-Back,AS Roma,Serie A
+24/25,flu,5,1,1/11/2025,1/15/2025,Samuel Dahl,22,Left-Back,AS Roma,Serie A
+24/25,muscle injury,20,3,3/17/2025,4/5/2025,Devyne Rensch,22,Right-Back,AS Roma,Serie A
+24/25,adductor pain,8,2,2/12/2025,2/19/2025,Devyne Rensch,22,Right-Back,AS Roma,Serie A
+24/25,leg injury,9,3,12/1/2024,12/9/2024,Devyne Rensch,22,Right-Back,AS Roma,Serie A
+24/25,hamstring muscle injury,25,6,3/7/2025,3/31/2025,Zeki Çelik,28,Right-Back,AS Roma,Serie A
+24/25,muscular problems,4,1,3/2/2025,3/5/2025,Zeki Çelik,28,Right-Back,AS Roma,Serie A
+24/25,flu,4,1,1/3/2025,1/6/2025,Zeki Çelik,28,Right-Back,AS Roma,Serie A
+24/25,adductor injury,5,1,12/7/2024,12/11/2024,Zeki Çelik,28,Right-Back,AS Roma,Serie A
+24/25,hamstring injury,41,6,3/20/2025,4/29/2025,Saud Abdulhamid,26,Right-Back,AS Roma,Serie A
+24/25,ill,7,2,1/28/2025,2/3/2025,Lucas Gourna-Douath,22,Defensive Midfield,AS Roma,Serie A
+24/25,ankle injury,4,1,12/3/2024,12/6/2024,Lucas Gourna-Douath,22,Defensive Midfield,AS Roma,Serie A
+24/25,ankle injury,11,4,10/27/2024,11/6/2024,Lucas Gourna-Douath,22,Defensive Midfield,AS Roma,Serie A
+24/25,ankle problems,52,10,12/4/2024,1/24/2025,Bryan Cristante,30,Defensive Midfield,AS Roma,Serie A
+24/25,rest,3,1,2/8/2025,2/10/2025,Leandro Paredes,31,Defensive Midfield,AS Roma,Serie A
+24/25,flu,6,2,12/12/2024,12/17/2024,Leandro Paredes,31,Defensive Midfield,AS Roma,Serie A
+24/25,muscle fatigue,5,1,12/16/2024,12/20/2024,Manu Koné,24,Central Midfield,AS Roma,Serie A
+24/25,collateral ligament injury,40,6,8/26/2024,10/4/2024,Enzo Le Fée,25,Central Midfield,AS Roma,Serie A
+24/25,ankle surgery,74,18,9/15/2024,11/27/2024,Alexis Saelemaekers,26,Right Midfield,AS Roma,Serie A
+24/25,calf injury,23,6,2/24/2025,3/18/2025,Nicola Zalewski,23,Left Midfield,AS Roma,Serie A
+24/25,fever,6,1,11/9/2024,11/14/2024,Nicola Zalewski,23,Left Midfield,AS Roma,Serie A
+24/25,hamstring strain,114,4,5/8/2025,8/29/2025,Lorenzo Pellegrini,29,Attacking Midfield,AS Roma,Serie A
+24/25,muscular problems,11,1,11/8/2024,11/18/2024,Lorenzo Pellegrini,29,Attacking Midfield,AS Roma,Serie A
+24/25,knee problems,6,2,9/22/2024,9/27/2024,Lorenzo Pellegrini,29,Attacking Midfield,AS Roma,Serie A
+24/25,calf injury,23,4,10/6/2024,10/28/2024,Stephan El Shaarawy,33,Left Winger,AS Roma,Serie A
+24/25,cruciate ligament tear,183,13,5/2/2025,10/31/2025,João Costa,20,Right Winger,AS Roma,Serie A
+24/25,tendon rupture,107,10,3/16/2025,6/30/2025,Paulo Dybala,31,Second Striker,AS Roma,Serie A
+24/25,bruised knee,6,2,2/13/2025,2/18/2025,Paulo Dybala,31,Second Striker,AS Roma,Serie A
+24/25,muscular problems,15,1,11/8/2024,11/22/2024,Paulo Dybala,31,Second Striker,AS Roma,Serie A
+24/25,muscular problems,13,1,10/4/2024,10/16/2024,Paulo Dybala,31,Second Striker,AS Roma,Serie A
+24/25,thigh problems,75,4,5/16/2025,7/29/2025,Artem Dovbyk,28,Forward,AS Roma,Serie A
+24/25,infection,4,1,3/18/2025,3/21/2025,Artem Dovbyk,28,Forward,AS Roma,Serie A
+24/25,adductor pain,7,2,2/20/2025,2/26/2025,Artem Dovbyk,28,Forward,AS Roma,Serie A
+24/25,fever,4,1,12/6/2024,12/9/2024,Artem Dovbyk,28,Forward,AS Roma,Serie A
+24/25,fever,3,1,10/31/2024,11/2/2024,Artem Dovbyk,28,Forward,AS Roma,Serie A
+24/25,muscle injury,8,2,9/5/2024,9/12/2024,Artem Dovbyk,28,Forward,AS Roma,Serie A
+24/25,thigh problems,7,1,5/1/2025,5/7/2025,Tammy Abraham,28,Forward,AS Roma,Serie A
+24/25,shoulder injury,14,3,10/19/2024,11/1/2024,Tammy Abraham,28,Forward,AS Roma,Serie A
+24/25,groin injury,18,4,11/15/2024,12/2/2024,Eldor Shomurodov,30,Forward,AS Roma,Serie A
 24/25,flu,4,1,4/7/2025,4/10/2025,Alex Meret,28,Goalkeeper,Napoli,Serie A
 24/25,adductor injury,33,5,9/21/2024,10/23/2024,Alex Meret,28,Goalkeeper,Napoli,Serie A
 24/25,muscle strain,9,2,5/18/2025,5/26/2025,Elia Caprile,24,Goalkeeper,Napoli,Serie A

@@ -3,7 +3,7 @@ import pandas as pd
 # 1. Daten laden
 df = pd.read_csv('./Data/full_dataset_thesis - 1.csv')
 
-# 2. Bereinigung der 'Days'-Spalte (z.B. "10 days" -> 10, "-" -> 0)
+# 2. Bereinigung der 'Days'-Spalte (z. B. "10 days" -> 10, "-" -> 0)
 df['Days'] = df['Days'].str.replace(' days', '').str.replace('-', '0').fillna('0')
 df['Days'] = pd.to_numeric(df['Days'], errors='coerce').fillna(0).astype(int)
 
@@ -50,12 +50,13 @@ club_mapping = {
     'Schalke 04': 'FC Schalke 04',
     'FC Koln': 'FC Köln',
     'Borussia Monchengladbach': 'Borussia Mönchengladbach',
+    'Roma': 'AS Roma',
+    'Verona': 'Hellas Verona',
 }
 df['club'] = df['club'].replace(club_mapping)
 
 # 6. Verletzungen vereinheitlichen (Kleinschreibung)
 df['Injury'] = df['Injury'].str.lower()
-
 
 # 7. Bereinigte Daten speichern
 df.to_csv('./Data/cleaned_dataset_final.csv', index=False)
