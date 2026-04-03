@@ -10,16 +10,12 @@ st.set_page_config(page_title="Europäische Fussballverletzungen Dashboard", lay
 
 # Title and Description
 st.title("⚽ Europäische Fussballverletzungen (2020-2025)")
-st.markdown("""
-Dieses Dashboard ermöglicht die Analyse von Verletzungsmustern im europäischen Profifussball.
-Basiert auf der **CPA Management Accounting Guideline** für datengesteuerte Entscheidungen.
-""")
 
 # Load Data
 @st.cache_data
 def load_data():
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    path = os.path.join(script_dir, "Data/cleaned_dataset_final.csv")
+    path = os.path.join(script_dir, "../Data/cleaned_dataset_final.csv")
     df = pd.read_csv(path, encoding='utf8', delimiter=',')
     
     # Cleaning 'Games missed'
@@ -128,7 +124,7 @@ with tab_injuries:
     selected_injury = st.selectbox("Verletzung auswählen", all_injuries, help="Wähle eine Verletzung aus, um den Vergleich zu starten.")
 
     if selected_injury:
-        inj_df = df[df['Injury'] == selected_injury]
+        inj_df = df[df['Injury'] == selected_injury].copy()
         
         # KPIs for this injury
         i_col1, i_col2, i_col3 = st.columns(3)
@@ -199,7 +195,7 @@ with tab_injuries:
         
         with st.expander("Detaillierte Liste der Spieler"):
             st.dataframe(
-                inj_df[['player_name', 'club', 'league', 'Season', 'Days', 'Games missed']].sort_values('Days', ascending=False),
+                inj_df[['player_name', 'club', 'league', 'Season', 'Days', 'Games missed']].sort_values(by='Days', ascending=False),
                 use_container_width=True,
                 hide_index=True
             )

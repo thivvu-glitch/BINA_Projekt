@@ -57,10 +57,10 @@ uv run python data_clean.py
 
 Dieser Schritt erstellt/aktualisiert `cleaned_dataset_final.csv`, das vom Dashboard geladen wird.
 
-Interaktives Dashboard:
+Streamlit Seite:
 
 ```bash
-uv run streamlit run dashboard.py
+uv run streamlit run Home.py
 ```
 
 Analyse-Skript (optional):
