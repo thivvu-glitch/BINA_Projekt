@@ -47,7 +47,7 @@ Beispielsweise lassen sich mit dem Datenset unter anderem folgende Fragen unters
 * Gibt es Unterschiede zwischen Ligen, Vereinen oder Altersgruppen?
 * Treten bestimmte Verletzungen bei gewissen Positionen häufiger auf?
 
-### Datenbeschaffung und -Überprüfung
+### Datenbeschaffung und -überprüfung
 Bevor das Datenset für die Analyse verwendet wurde, haben wir geprüft:
 * Ob das Datenset alle identifizierten Informationsbedarfe aus Schritt 1 abdeckt
 * Ob das Datenset zuverlässig und konsistent strukturiert ist
