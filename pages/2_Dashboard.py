@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+from streamlit_plotly_events import plotly_events
 
 import os
 
@@ -64,11 +65,12 @@ col4.metric("Ø Verpasste Spiele", f"{filtered_df['Games missed'].mean():.1f}".r
 if filtered_df.empty:
     st.warning("Keine Daten für die gewählten Filter. Bitte passe Liga, Saison oder Spieler an.")
 
-tab_overview, tab_injuries, tab_trends, tab_tables, tab_dddm = st.tabs([
+tab_overview, tab_injuries, tab_trends, tab_tables, tap_maps, tab_dddm = st.tabs([
     "Übersicht",
     "Verletzungsvergleich",
     "Zeit & Liga",
     "Tabellen",
+    "Karten",
     "DDDM Entscheidungen"
 ])
 
@@ -289,6 +291,140 @@ with tab_tables:
                         display_df.columns = ['Liga', 'Spieler', 'Verein', 'Verletzung', 'Ausfalltage', 'Verpasste Spiele']
                         display_df = display_df.sort_values('Ausfalltage', ascending=False)
                         st.dataframe(display_df, use_container_width=True, hide_index=True)
+
+with tap_maps:
+    st.subheader("Interaktive Karten")
+    st.markdown("Analysiere die Verletzungen der Spieler nach Position in den einzelnen Clubs.")
+
+    # Clubs Selection
+    all_clubs = sorted(df['club'].dropna().unique().tolist())
+    selected_club = st.selectbox("Club auswählen", all_clubs, help="Wähle einen Club aus, um die Verletzungen auf den einzelnen Spielerpositionen zu sehen.")
+
+    if selected_club:
+        club_df = df[df['club'] == selected_club].copy()
+
+        position_coords = {
+            "Goalkeeper": (5, 40),
+
+            "Left-Back": (20, 65),
+            "Centre-Back": (20, 40),
+            "Right-Back": (20, 15),
+
+            "Defensive Midfield": (40, 40),
+            "Central Midfield": (55, 40),
+            "Attacking Midfield": (70, 40),
+            "Midfielder": (55, 52),
+
+            "Left Midfield": (52, 65),
+            "Right Midfield": (52, 15),
+
+            "Left Winger": (85, 68),
+            "Right Winger": (85, 12),
+
+            "Second Striker": (92, 40),
+            "Forward": (105, 40)
+        }
+
+        club_df = club_df[club_df['player_position'].isin(position_coords.keys())].copy()
+
+        injury_counts = (
+            club_df.groupby("player_position")
+            .size()
+            .reset_index(name="injury_count")
+        )
+
+        injury_counts['x'] = injury_counts['player_position'].map(lambda p: position_coords[p][0])
+        injury_counts['y'] = injury_counts['player_position'].map(lambda p: position_coords[p][1])
+
+        # Hover-details
+        details = (
+            club_df.groupby("player_position")
+            .agg({
+                "player_name": lambda x: ", ".join(sorted(set(map(str, x)))),
+                "Injury": lambda x: ", ".join(sorted(set(map(str, x))))
+            })
+            .reset_index()
+        )
+
+        injury_counts = injury_counts.merge(details, on="player_position", how="left")
+
+        # Bubble-size
+        injury_counts['bubble_size'] = injury_counts['injury_count']
+
+        fig = go.Figure()
+
+        fig.update_layout(
+            plot_bgcolor="#6aa84f",
+            paper_bgcolor="white",
+            height=700,
+            margin=dict(l=20, r=20, t=20, b=20)
+        )
+
+        shapes = [
+            dict(type="rect", x0=0, y0=0, x1=120, y1=80, line=dict(color="white", width=3)),  # soccer field
+            dict(type="line", x0=60, y0=0, x1=60, y1=80, line=dict(color="white", width=3)),  # halfway line
+            dict(type="circle", x0=50, y0=30, x1=70, y1=50, line=dict(color="white", width=3)),  # center circle
+            dict(type="circle", x0=59, y0=39, x1=61, y1=41, line=dict(color="white", width=2), fillcolor="white"),  # center mark
+
+            dict(type="rect", x0=0, y0=18, x1=18, y1=62, line=dict(color="white", width=3)),  # goal area left
+            dict(type="rect", x0=102, y0=18, x1=120, y1=62, line=dict(color="white", width=3)),  # goal area right
+
+            dict(type="rect", x0=0, y0=30, x1=6, y1=50, line=dict(color="white", width=3)),  # penalty area left
+            dict(type="rect", x0=114, y0=30, x1=120, y1=50, line=dict(color="white", width=3)),  # penalty area right
+
+            dict(type="circle", x0=10, y0=39, x1=12, y1=41, line=dict(color="white", width=2), fillcolor="white"),  # penalty mark left
+            dict(type="circle", x0=108, y0=39, x1=110, y1=41, line=dict(color="white", width=2), fillcolor="white"),  # penalty mark right
+
+            dict(type="path", path="M 18,32 Q 25,40 18,48", line_color="white",),  # penalty arc left
+            dict(type="path", path="M 102,32 Q 95,40 102,48", line_color="white",),  # penalty arc right
+
+            dict(type="path", path="M 0,76 Q 4,76 4,80", line_color="white",),  # corner arc top left
+            dict(type="path", path="M 0,4 Q 4,4 4,0", line_color="white",),  # corner arc down left
+            dict(type="path", path="M 120,76 Q 116,76 116,80", line_color="white",),  # corner arc top right
+            dict(type="path", path="M 120,4 Q 116,4 116,0", line_color="white",),  # corner arc bottom right
+        ]
+
+        fig.update_layout(shapes=shapes)
+
+        fig.add_trace(go.Scatter(
+            x=injury_counts['x'],
+            y=injury_counts['y'],
+            mode="markers+text",
+            text=injury_counts['injury_count'],
+            textposition="middle center",
+            textfont=dict(
+                color="white",
+                size=16
+            ),
+            marker=dict(
+                size=injury_counts['bubble_size'],
+                color="red",
+                opacity=0.75,
+                line=dict(color="black", width=2)
+            ),
+            customdata=injury_counts[['player_position', 'injury_count', 'player_name', 'Injury']],
+            hovertemplate=(
+                "<b>%{customdata[0]}</b><br>"
+                "Anzahl Verletzungen: %{customdata[1]}<br>"
+                "Spieler: %{customdata[2]}<br>"
+                "Verletzungen: %{customdata[3]}<extra></extra>"
+            )
+        ))
+
+        # Labels
+        for _, row in injury_counts.iterrows():
+            fig.add_annotation(
+                x=row['x'],
+                y=row['y'] - 6,
+                text=row['player_position'],
+                showarrow=False,
+                font=dict(size=11, color="white")
+            )
+
+        fig.update_xaxes(visible=False, range=[0, 120])
+        fig.update_yaxes(visible=False, range=[0, 80], scaleanchor="x", scaleratio=1)
+
+        st.plotly_chart(fig, use_container_width=True)
 
 with tab_dddm:
     st.subheader("📊 DDDM: Risikoanalyse für Kadermanagement (CPA)")
