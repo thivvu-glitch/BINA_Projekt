@@ -65,12 +65,13 @@ col4.metric("Ø Verpasste Spiele", f"{filtered_df['Games missed'].mean():.1f}".r
 if filtered_df.empty:
     st.warning("Keine Daten für die gewählten Filter. Bitte passe Liga, Saison oder Spieler an.")
 
-tab_overview, tab_injuries, tab_trends, tab_tables, tap_maps, tab_dddm = st.tabs([
+tab_overview, tab_injuries, tab_trends, tab_tables, tap_maps, tab_bodymap, tab_dddm = st.tabs([
     "Übersicht",
     "Verletzungsvergleich",
     "Zeit & Liga",
     "Tabellen",
-    "Karten",
+    "Karten",    
+    "Bodymap",
     "DDDM Entscheidungen"
 ])
 
@@ -425,6 +426,155 @@ with tap_maps:
         fig.update_yaxes(visible=False, range=[0, 80], scaleanchor="x", scaleratio=1)
 
         st.plotly_chart(fig, use_container_width=True)
+
+with tab_bodymap:
+    st.subheader("Interaktive Körperkarte")
+    st.markdown("Analysiere die Verletzungen der Spieler durch ihre körperliche Position.")
+
+    # Clubs Selection
+    all_clubs = sorted(df['club'].dropna().unique().tolist())
+    selected_club = st.selectbox("Club auswählen", all_clubs, help="Wähle einen Club aus, um die meisten körperlichen Verletzungen hervorzuheben.")
+
+    if selected_club:
+        club_df = df[df['club'] == selected_club].copy()
+
+        position_coords = {
+            "Muscle": (45, 60),            
+            "Knee": (45, 45),
+            "Ankle/Foot": (45, 15),
+            "Back/Spine": (50, 95),
+            "Head": (50, 125),
+            "Shoulder": (32.5, 111.5),
+            
+        }
+
+        club_df = club_df[club_df['injury_category'].isin(position_coords.keys())].copy()   
+        
+        injury_counts = (
+            club_df.groupby("injury_category")
+            .agg(
+                injury_count=("injury_category", "size"),
+                player_name=("player_name", lambda x: ", ".join(sorted(set(x)))),
+                injury_type=("Injury", lambda x: ", ".join(sorted(set(x))))
+            )
+            .reset_index()
+        )
+        injury_counts['x'] = injury_counts['injury_category'].map(lambda p: position_coords[p][0])
+        injury_counts['y'] = injury_counts['injury_category'].map(lambda p: position_coords[p][1])
+
+        fig = go.Figure()
+
+        # Layout
+        fig.update_layout(
+            plot_bgcolor="white",
+            paper_bgcolor="white",
+            height=800,
+            margin=dict(l=20, r=20, t=20, b=20),
+            xaxis=dict(visible=False, range=[0, 100]),
+            yaxis=dict(visible=False, range=[0, 140])
+        )
+
+        shapes = [
+
+            # Kopf
+            dict(type="circle", x0=40, y0=115, x1=60, y1=135, line=dict(color="black", width=2)),
+
+            # Oberkörper
+            dict(type="rect", x0=35, y0=70, x1=65, y1=115, line=dict(color="black", width=2)),
+
+            # Arme
+            dict(type="rect", x0=27, y0=60, x1=35, y1=114, line=dict(color="black", width=2)),
+            dict(type="rect", x0=65, y0=60, x1=73, y1=114, line=dict(color="black", width=2)),
+
+            # Beine
+            dict(type="rect", x0=40, y0=20, x1=50, y1=70, line=dict(color="black", width=2)),
+            dict(type="rect", x0=50, y0=20, x1=60, y1=70, line=dict(color="black", width=2)),
+
+            # Knie
+            dict(type="circle", x0=40, y0=40, x1=50, y1=50, line=dict(color="black", width=2)),
+            dict(type="circle", x0=50, y0=40, x1=60, y1=50, line=dict(color="black", width=2)),
+
+            # Schultern
+            dict(type="circle", x0=27, y0=106, x1=38, y1=117, line=dict(color="black", width=2), layer="below"),
+            dict(type="circle", x0=62, y0=106, x1=73, y1=117, line=dict(color="black", width=2), layer="below"),
+
+            # Füsse
+            dict(type="rect", x0=35, y0=10, x1=50, y1=20, line=dict(color="black", width=2)),
+            dict(type="rect", x0=50, y0=10, x1=65, y1=20, line=dict(color="black", width=2)),
+        ]
+
+        legend_shapes = [
+            # Bänder
+            dict(type="rect", x0=5, y0=110, x1=15, y1=120, fillcolor="blue"),
+            # Knochen
+            dict(type="rect", x0=5, y0=95, x1=15, y1=105, fillcolor="orange"),
+            # Krank / Illness
+            dict(type="rect", x0=5, y0=80, x1=15, y1=90, fillcolor="purple"),
+            # Non-Injury
+            dict(type="rect", x0=5, y0=65, x1=15, y1=75, fillcolor="green"),
+            # Minor
+            dict(type="rect", x0=5, y0=50, x1=15, y1=60, fillcolor="yellow"),
+        ]
+
+        shapes.extend(legend_shapes)
+        
+        fig.update_layout(shapes=shapes)
+        # -----------------------
+        # 🏷️ LEGEND TEXT
+        # -----------------------
+
+        fig.add_trace(go.Scatter(
+            x=[17, 17, 17, 17, 17],
+            y=[115, 100, 85, 70, 55],
+            mode="text",
+            text=["Bänder", "Knochen", "Illness", "Non-Injury", "Minor"],
+            showlegend=False
+        ))
+
+        # -----------------------
+        # 🔴 VERLETZUNGEN (BUBBLES)
+        # -----------------------
+
+        median_val = injury_counts['injury_count'].median() + 50
+
+        injury_counts['text_color'] = injury_counts['injury_count'].apply(
+            lambda v: "white" if v > median_val else "black"
+        )
+
+        fig.add_trace(go.Scatter(
+            x=injury_counts['x'],
+            y=injury_counts['y'],
+            mode="markers+text",
+            text=injury_counts['injury_count'],
+            textposition="middle center",
+            marker=dict(
+                size=35,
+                color=injury_counts['injury_count'],
+                colorscale="Reds",
+                cmin=injury_counts['injury_count'].min(),
+                cmax=injury_counts['injury_count'].max(),
+                opacity=1,   
+                line=dict(color="black", width=2),
+                colorbar=dict(title="Verletzungen")  # optional
+            ),
+                customdata=injury_counts[['injury_category', 'injury_count', 'player_name', 'injury_type']],
+                hovertemplate=(
+                "<b>%{customdata[0]}</b><br>"
+                "Anzahl: %{customdata[1]}<br>"
+                "Spieler: %{customdata[2]}<br>"
+                "Typ: %{customdata[3]}<extra></extra>"
+            ),
+            textfont=dict(
+                color=injury_counts['text_color'],
+                size=16
+            )
+        ))
+                
+        fig.update_xaxes(visible=False, range=[0, 80])
+        fig.update_yaxes(visible=False, range=[0, 150], scaleanchor="x", scaleratio=1)
+
+        st.plotly_chart(fig, use_container_width=True)
+        
 
 with tab_dddm:
     st.subheader("📊 DDDM: Risikoanalyse für Kadermanagement (CPA)")
