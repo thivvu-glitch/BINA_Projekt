@@ -432,148 +432,287 @@ with tab_bodymap:
     st.markdown("Analysiere die Verletzungen der Spieler durch ihre körperliche Position.")
 
     # Clubs Selection
-    all_clubs = sorted(df['club'].dropna().unique().tolist())
-    selected_club = st.selectbox("Club auswählen", all_clubs, help="Wähle einen Club aus, um die meisten körperlichen Verletzungen hervorzuheben.")
+all_clubs = sorted(df["club"].dropna().unique().tolist())
+selected_club = st.selectbox(
+    "Club auswählen",
+    all_clubs,
+    help="Wähle einen Club aus, um die häufigsten körperlichen Verletzungen hervorzuheben."
+)
 
-    if selected_club:
-        club_df = df[df['club'] == selected_club].copy()
+if selected_club:
+    club_df = df[df["club"] == selected_club].copy()
 
-        position_coords = {
-            "Muscle": (45, 60),            
-            "Knee": (45, 45),
-            "Ankle/Foot": (45, 15),
-            "Back/Spine": (50, 95),
-            "Head": (50, 125),
-            "Shoulder": (32.5, 111.5),
-            
-        }
+    position_coords = {
+        "Muscle": (45, 62),
+        "Knee": (45, 42),
+        "Ankle/Foot": (45, 14),
+        "Back/Spine": (50, 94),
+        "Head": (50, 124),
+        "Shoulder": (34.5, 110.5),
+    }
 
-        club_df = club_df[club_df['injury_category'].isin(position_coords.keys())].copy()   
-        
-        injury_counts = (
-            club_df.groupby("injury_category")
-            .agg(
-                injury_count=("injury_category", "size"),
-                player_name=("player_name", lambda x: ", ".join(sorted(set(x)))),
-                injury_type=("Injury", lambda x: ", ".join(sorted(set(x))))
-            )
-            .reset_index()
+    club_df = club_df[club_df["injury_category"].isin(position_coords.keys())].copy()
+
+    injury_counts = (
+        club_df.groupby("injury_category")
+        .agg(
+            injury_count=("injury_category", "size"),
+            player_name=("player_name", lambda x: ", ".join(sorted(set(x)))),
+            injury_type=("Injury", lambda x: ", ".join(sorted(set(x))))
         )
-        injury_counts['x'] = injury_counts['injury_category'].map(lambda p: position_coords[p][0])
-        injury_counts['y'] = injury_counts['injury_category'].map(lambda p: position_coords[p][1])
+        .reset_index()
+    )
 
-        fig = go.Figure()
+    injury_counts["x"] = injury_counts["injury_category"].map(lambda p: position_coords[p][0])
+    injury_counts["y"] = injury_counts["injury_category"].map(lambda p: position_coords[p][1])
 
-        # Layout
-        fig.update_layout(
-            plot_bgcolor="white",
-            paper_bgcolor="white",
-            height=800,
-            margin=dict(l=20, r=20, t=20, b=20),
-            xaxis=dict(visible=False, range=[0, 100]),
-            yaxis=dict(visible=False, range=[0, 140])
+    fig = go.Figure()
+
+    # -----------------------
+    # Layout
+    # -----------------------
+    fig.update_layout(
+        height=820,
+        paper_bgcolor="#F8FAFC",
+        plot_bgcolor="#F8FAFC",
+        margin=dict(l=30, r=170, t=40, b=30),
+        title=dict(
+            text=f"Körperzonen mit Verletzungshäufung – {selected_club}",
+            x=0.5,
+            xanchor="center",
+            font=dict(size=22, color="#0F172A")
+        ),
+        font=dict(
+            family="Arial, sans-serif",
+            color="#334155"
+        ),
+        xaxis=dict(
+            visible=False,
+            range=[0, 100],
+            fixedrange=True
+        ),
+        yaxis=dict(
+            visible=False,
+            range=[0, 140],
+            scaleanchor="x",
+            scaleratio=1,
+            fixedrange=True
+        )
+    )
+
+    # -----------------------
+    # Body silhouette
+    # -----------------------
+    body_line = dict(color="#94A3B8", width=2.2)
+    body_fill = "#E2E8F0"
+
+    shapes = [
+        # Kopf
+        dict(
+            type="circle", x0=40, y0=114, x1=60, y1=134,
+            line=body_line, fillcolor="#F8FAFC", layer="below"
+        ),
+
+        # Hals
+        dict(
+            type="rect", x0=46, y0=109, x1=54, y1=114,
+            line=dict(color="rgba(0,0,0,0)"), fillcolor=body_fill, layer="below"
+        ),
+
+        # Oberkörper
+        dict(
+            type="path",
+            path="M 35 108 Q 34 92 35 72 L 65 72 Q 66 92 65 108 Q 58 114 50 114 Q 42 114 35 108 Z",
+            line=body_line, fillcolor=body_fill, layer="below"
+        ),
+
+        # Arm links
+        dict(
+            type="path",
+            path="M 35 106 Q 29 101 28 94 L 28 60 Q 28 57 31 57 L 35 57 L 35 106 Z",
+            line=body_line, fillcolor="#EEF2F7", layer="below"
+        ),
+
+        # Arm rechts
+        dict(
+            type="path",
+            path="M 65 106 Q 71 101 72 94 L 72 60 Q 72 57 69 57 L 65 57 L 65 106 Z",
+            line=body_line, fillcolor="#EEF2F7", layer="below"
+        ),
+
+        # Hüfte
+        dict(
+            type="path",
+            path="M 40 72 L 60 72 L 58 64 L 42 64 Z",
+            line=body_line, fillcolor="#CBD5E1", layer="below"
+        ),
+
+        # Bein links
+        dict(
+            type="path",
+            path="M 42 64 L 49 64 L 49 20 L 40 20 L 40 58 Q 40 62 42 64 Z",
+            line=body_line, fillcolor="#EEF2F7", layer="below"
+        ),
+
+        # Bein rechts
+        dict(
+            type="path",
+            path="M 51 64 L 58 64 L 60 58 L 60 20 L 51 20 Z",
+            line=body_line, fillcolor="#EEF2F7", layer="below"
+        ),
+
+        # Knie links
+        dict(
+            type="circle", x0=40, y0=39, x1=49, y1=48,
+            line=body_line, fillcolor="#F8FAFC", layer="below"
+        ),
+
+        # Knie rechts
+        dict(
+            type="circle", x0=51, y0=39, x1=60, y1=48,
+            line=body_line, fillcolor="#F8FAFC", layer="below"
+        ),
+
+        # Fuß links
+        dict(
+            type="path",
+            path="M 38 20 L 50 20 L 50 10 L 36 10 L 36 16 Q 36 20 38 20 Z",
+            line=body_line, fillcolor="#DCE3EA", layer="below"
+        ),
+
+        # Fuß rechts
+        dict(
+            type="path",
+            path="M 50 20 L 62 20 Q 64 20 64 18 L 64 10 L 50 10 Z",
+            line=body_line, fillcolor="#DCE3EA", layer="below"
+        ),
+    ]
+
+    fig.update_layout(shapes=shapes)
+
+    # -----------------------
+    # Legende links unten als Annotationen
+    # -----------------------
+    legend_items = [
+        ("Bänder", "#2563EB"),
+        ("Knochen", "#F59E0B"),
+        ("Illness", "#7C3AED"),
+        ("Non-Injury", "#16A34A"),
+        ("Minor", "#EAB308"),
+    ]
+
+    legend_x = 77
+    legend_y_start = 112
+    gap = 10
+
+    fig.add_annotation(
+        x=legend_x,
+        y=legend_y_start + 10,
+        text="<b>Kategorien</b>",
+        showarrow=False,
+        xanchor="left",
+        font=dict(size=14, color="#0F172A")
+    )
+
+    for i, (label, color) in enumerate(legend_items):
+        y = legend_y_start - i * gap
+
+        fig.add_shape(
+            type="rect",
+            x0=legend_x,
+            y0=y - 2.5,
+            x1=legend_x + 4,
+            y1=y + 2.5,
+            line=dict(color="rgba(0,0,0,0)"),
+            fillcolor=color
         )
 
-        shapes = [
-
-            # Kopf
-            dict(type="circle", x0=40, y0=115, x1=60, y1=135, line=dict(color="black", width=2)),
-
-            # Oberkörper
-            dict(type="rect", x0=35, y0=70, x1=65, y1=115, line=dict(color="black", width=2)),
-
-            # Arme
-            dict(type="rect", x0=27, y0=60, x1=35, y1=114, line=dict(color="black", width=2)),
-            dict(type="rect", x0=65, y0=60, x1=73, y1=114, line=dict(color="black", width=2)),
-
-            # Beine
-            dict(type="rect", x0=40, y0=20, x1=50, y1=70, line=dict(color="black", width=2)),
-            dict(type="rect", x0=50, y0=20, x1=60, y1=70, line=dict(color="black", width=2)),
-
-            # Knie
-            dict(type="circle", x0=40, y0=40, x1=50, y1=50, line=dict(color="black", width=2)),
-            dict(type="circle", x0=50, y0=40, x1=60, y1=50, line=dict(color="black", width=2)),
-
-            # Schultern
-            dict(type="circle", x0=27, y0=106, x1=38, y1=117, line=dict(color="black", width=2), layer="below"),
-            dict(type="circle", x0=62, y0=106, x1=73, y1=117, line=dict(color="black", width=2), layer="below"),
-
-            # Füsse
-            dict(type="rect", x0=35, y0=10, x1=50, y1=20, line=dict(color="black", width=2)),
-            dict(type="rect", x0=50, y0=10, x1=65, y1=20, line=dict(color="black", width=2)),
-        ]
-
-        legend_shapes = [
-            # Bänder
-            dict(type="rect", x0=5, y0=110, x1=15, y1=120, fillcolor="blue"),
-            # Knochen
-            dict(type="rect", x0=5, y0=95, x1=15, y1=105, fillcolor="orange"),
-            # Krank / Illness
-            dict(type="rect", x0=5, y0=80, x1=15, y1=90, fillcolor="purple"),
-            # Non-Injury
-            dict(type="rect", x0=5, y0=65, x1=15, y1=75, fillcolor="green"),
-            # Minor
-            dict(type="rect", x0=5, y0=50, x1=15, y1=60, fillcolor="yellow"),
-        ]
-
-        shapes.extend(legend_shapes)
-        
-        fig.update_layout(shapes=shapes)
-        # -----------------------
-        # 🏷️ LEGEND TEXT
-        # -----------------------
-
-        fig.add_trace(go.Scatter(
-            x=[17, 17, 17, 17, 17],
-            y=[115, 100, 85, 70, 55],
-            mode="text",
-            text=["Bänder", "Knochen", "Illness", "Non-Injury", "Minor"],
-            showlegend=False
-        ))
-
-        # -----------------------
-        # 🔴 VERLETZUNGEN (BUBBLES)
-        # -----------------------
-
-        median_val = injury_counts['injury_count'].median() + 50
-
-        injury_counts['text_color'] = injury_counts['injury_count'].apply(
-            lambda v: "white" if v > median_val else "black"
+        fig.add_annotation(
+            x=legend_x + 5.5,
+            y=y,
+            text=label,
+            showarrow=False,
+            xanchor="left",
+            yanchor="middle",
+            font=dict(size=12, color="#475569")
         )
 
-        fig.add_trace(go.Scatter(
-            x=injury_counts['x'],
-            y=injury_counts['y'],
-            mode="markers+text",
-            text=injury_counts['injury_count'],
-            textposition="middle center",
-            marker=dict(
-                size=35,
-                color=injury_counts['injury_count'],
-                colorscale="Reds",
-                cmin=injury_counts['injury_count'].min(),
-                cmax=injury_counts['injury_count'].max(),
-                opacity=1,   
-                line=dict(color="black", width=2),
-                colorbar=dict(title="Verletzungen")  # optional
+    # -----------------------
+    # Marker-Styling
+    # -----------------------
+    min_count = injury_counts["injury_count"].min()
+    max_count = injury_counts["injury_count"].max()
+
+    def label_color(v, vmin, vmax):
+        if vmax == vmin:
+            return "#FFFFFF"
+        threshold = vmin + (vmax - vmin) * 0.55
+        return "#FFFFFF" if v >= threshold else "#111827"
+
+    injury_counts["text_color"] = injury_counts["injury_count"].apply(
+        lambda v: label_color(v, min_count, max_count)
+    )
+
+    hover_custom = injury_counts[["injury_category", "injury_count", "player_name", "injury_type"]]
+
+    fig.add_trace(go.Scatter(
+        x=injury_counts["x"],
+        y=injury_counts["y"],
+        mode="markers+text",
+        text=injury_counts["injury_count"],
+        textposition="middle center",
+        customdata=hover_custom,
+        hovertemplate=(
+            "<b>%{customdata[0]}</b><br>"
+            "Anzahl: %{customdata[1]}<br>"
+            "Spieler: %{customdata[2]}<br>"
+            "Typ: %{customdata[3]}<extra></extra>"
+        ),
+        marker=dict(
+            size=36,
+            color=injury_counts["injury_count"],
+            colorscale=[
+                [0.0, "#FEE2E2"],
+                [0.25, "#FCA5A5"],
+                [0.5, "#F87171"],
+                [0.75, "#DC2626"],
+                [1.0, "#7F1D1D"]
+            ],
+            cmin=min_count,
+            cmax=max_count,
+            line=dict(color="#FFFFFF", width=2.5),
+            showscale=True,
+            colorbar=dict(
+                title="Anzahl",
+                thickness=12,
+                len=0.42,
+                y=0.28,
+                x=1.02,
+                outlinewidth=0,
+              #  tickfont=dict(size=11, color="#475569"),
+              #  titlefont=dict(size=12, color="#334155")
             ),
-                customdata=injury_counts[['injury_category', 'injury_count', 'player_name', 'injury_type']],
-                hovertemplate=(
-                "<b>%{customdata[0]}</b><br>"
-                "Anzahl: %{customdata[1]}<br>"
-                "Spieler: %{customdata[2]}<br>"
-                "Typ: %{customdata[3]}<extra></extra>"
-            ),
-            textfont=dict(
-                color=injury_counts['text_color'],
-                size=16
-            )
-        ))
-                
-        fig.update_xaxes(visible=False, range=[0, 80])
-        fig.update_yaxes(visible=False, range=[0, 150], scaleanchor="x", scaleratio=1)
+            opacity=0.97
+        ),
+        textfont=dict(
+            size=15,
+            color=injury_counts["text_color"],
+            family="Arial, sans-serif"
+        ),
+        showlegend=False
+    ))
 
-        st.plotly_chart(fig, use_container_width=True)
+    # Optional: dezente Unterzeile
+    fig.add_annotation(
+        x=50,
+        y=2.5,
+        text="Größere/dunklere Marker zeigen häufiger registrierte Verletzungen pro Körperzone",
+        showarrow=False,
+        font=dict(size=12, color="#64748B"),
+        xanchor="center"
+    )
+
+    st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
         
 
 with tab_dddm:
