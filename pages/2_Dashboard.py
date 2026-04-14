@@ -849,6 +849,19 @@ with tab_bodymap:
         
 
 with tab_dddm:
+    def season_start_year(season: str) -> int:
+        try:
+            return int(str(season).split("/")[0])
+        except (ValueError, IndexError):
+            return 9999
+
+    def checkSeason():
+        if any(season_start_year(season) < season_start_year(DEFAULT_SEASON) for season in selected_seasons):
+            return st.warning(
+                "Du hast ältere Saisons als 24/25 ausgewählt. Die Kaderzusammensetzung kann dadurch vom aktuellen Kader abweichen, "
+                "weil Transfers, Abgänge und Neuzugänge nicht mehr exakt dem heutigen Team entsprechen."
+            , icon="⚠️")
+        
     st.markdown("""
     ### 💼 Für wen ist dieser Dashboard?
     **Zielgruppe:** Club-Führung, Geschäftsführer, Sportdirektor, CFO, Contract Manager
@@ -931,8 +944,9 @@ with tab_dddm:
     **Anwendungsfall:** Soll der Vertrag eines Spielers verlängert werden?
     Diese prädiktive Metrik berechnet einen Risiko-Score basierend auf historischen Ausfalltagen, um finanzielle Fehlinvestitionen zu vermeiden.
     """)
-
+    
     if player_search and not filtered_df.empty:
+        checkSeason()
         player_data = filtered_df[filtered_df['player_name'].str.contains(player_search, case=False, na=False)]
 
         if not player_data.empty:
@@ -1003,6 +1017,7 @@ with tab_dddm:
     """)
 
     if not filtered_df.empty:
+        checkSeason()
         injury_cost = filtered_df.groupby('Injury').agg(
             Total_Days=('Days', 'sum'),
             Count=('Injury', 'count')
@@ -1045,6 +1060,7 @@ with tab_dddm:
 
     # Only show squad analysis when no specific player is searched
     if not player_search:
+        checkSeason()
         club_filtered_df = filtered_df.copy()
         
         if not club_filtered_df.empty:
