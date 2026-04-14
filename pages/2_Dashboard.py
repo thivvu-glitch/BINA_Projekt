@@ -1020,6 +1020,10 @@ with tab_dddm:
                 color='Total_Days',
                 color_continuous_scale='Reds'
             )
+            fig_treemap.update_traces(
+                texttemplate="%{label}<br>%{value} Ausfalltage",
+                textinfo='text'
+            )
             st.plotly_chart(fig_treemap, use_container_width=True)
 
         with c_med2:
@@ -1071,7 +1075,7 @@ with tab_dddm:
                 player_valuation_sorted = player_valuation.sort_values('Financial_Risk_EUR', ascending=False)
                 
                 # Top 10 highest financial risk players
-                st.subheader("🚨 Die 10 riskantesten Spieler (nach finanziellem Risiko)")
+                st.subheader("🚨 Die 10 finanziell riskantesten Spieler")
                 
                 top_risk = player_valuation_sorted.head(10)[['player_name', 'Market_Value', 'Total_Days', 'Injury_Count', 'Financial_Risk_EUR', 'Risk_Percentage']].copy()
                 top_risk.columns = ['Spieler', 'Marktwert (€)', 'Ausfalltage', 'Verletzungen', 'Finanz. Risiko (€)', 'Risiko %']
