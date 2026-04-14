@@ -458,8 +458,8 @@ with tap_maps:
             .reset_index(name="injury_count")
         )
 
-        injury_counts['x'] = injury_counts['player_position'].map(lambda p: position_coords[p][0])
-        injury_counts['y'] = injury_counts['player_position'].map(lambda p: position_coords[p][1])
+        injury_counts['x'] = injury_counts['player_position'].map(lambda p: position_coords.get(str(p), (None, None))[0])
+        injury_counts['y'] = injury_counts['player_position'].map(lambda p: position_coords.get(str(p), (None, None))[1])
 
         # Hover-details
         details = (
@@ -594,8 +594,8 @@ with tab_bodymap:
             .reset_index()
         )
 
-        injury_counts["x"] = injury_counts["injury_category"].map(lambda p: position_coords[p][0])
-        injury_counts["y"] = injury_counts["injury_category"].map(lambda p: position_coords[p][1])
+        injury_counts["x"] = injury_counts["injury_category"].map(lambda p: position_coords.get(str(p), (None, None))[0])
+        injury_counts["y"] = injury_counts["injury_category"].map(lambda p: position_coords.get(str(p), (None, None))[1])
 
         fig = go.Figure()
 
@@ -861,6 +861,69 @@ with tab_dddm:
     - **Capital Project Appraisal (CPA):** ROI von medizinischen Investitionen
     - **Strategische HR-Entscheidungen:** Spielertransfers, Versicherung, Vertragsstrukturen
     """)
+    st.divider()
+
+    st.subheader("🧭 Methodik & Entscheidungsgrundsatz")
+    st.markdown("""
+    Dieser Tab folgt dem Grundsatz: **sportliches Risiko in finanzielle Auswirkungen übersetzen**, damit Verträge,
+    Budget und Kaderstruktur datenbasiert entschieden werden.
+
+    **Zentrale Logik:**
+    1. Historische Ausfalltage messen die Verfügbarkeit.
+    2. Marktwert quantifiziert die finanzielle Relevanz eines Spielers.
+    3. Aus beiden wird ein monetärer Risikoindikator berechnet.
+    """)
+
+    with st.expander("Wie wird gerechnet und warum ist das relevant?", expanded=False):
+        st.markdown("""
+        **A) Spielerbezogene Risikoanalyse (bei aktiver Spielersuche)**
+
+        - **Gesamtausfalltage** = Summe aller `Days` des Spielers in der gewählten Filterung.
+        - **Anzahl Verletzungen** = Anzahl der Verletzungsereignisse.
+        - **Marktwert** = `market_value_in_eur` als finanzielle Basisgröße.
+
+        **Finanzielle Übersetzung:**
+        - Es wird ein 5-Jahres-Horizont angenommen (`career_years = 5`).
+        - **Daily Opportunity Cost** = Marktwert / (5 * 365)
+        - **Kapitalverlust durch Ausfalltage** = Daily Opportunity Cost * Gesamtausfalltage
+        - **Risiko in % des Marktwerts** = Gesamtausfalltage / (5 * 365) * 100
+
+        **Warum sinnvoll?**
+        - Verletzungstage werden in eine einheitliche Währung (EUR) überführt.
+        - Verträge können auf Basis von "Wert bei Verfügbarkeit" statt nur Bauchgefühl bewertet werden.
+
+        **B) Budget-/Präventionsanalyse (Medical Budget)**
+
+        - Verletzungstypen werden nach **Total_Days** aggregiert.
+        - Die höchsten Total_Days markieren die größten produktiven und finanziellen Belastungstreiber.
+
+        **Warum sinnvoll?**
+        - Präventionsbudget fließt zuerst in Verletzungstypen mit dem höchsten erwarteten ROI.
+
+        **C) Kader-Wertanalyse / Squad Vulnerability (ohne aktive Spielersuche)**
+
+        Pro Spieler werden berechnet:
+        - `Total_Days`, `Injury_Count`, `Market_Value`
+        - **Financial_Risk_EUR** = (Market_Value / (5 * 365)) * Total_Days
+        - **Risk_Percentage** = Total_Days / (5 * 365) * 100
+
+        Danach wird auf Kaderlevel aggregiert:
+        - Gesamtmarktwert
+        - Gesamtes Verletzungsrisiko (EUR)
+        - Ø Risiko pro Spieler
+        - Anteil Hochrisikospieler (>100 Ausfalltage)
+
+        **Warum sinnvoll?**
+        - Der Kader wird als Portfolio betrachtet: Konzentrationsrisiken werden sichtbar.
+        - Hohe Wertbindung bei hoher Ausfallanfälligkeit wird früh erkannt.
+
+        **D) Entscheidungsregel als Grundsatz**
+
+        - **Vertrag:** Je höher Financial_Risk_EUR und Risk_Percentage, desto defensiver Vertragsstruktur (Laufzeit, Bonuslogik, Absicherung).
+        - **Kaderplanung:** Bei hoher Hochrisikospieler-Quote Backups/Rotation gezielt ausbauen.
+        - **Budget:** Prävention dort priorisieren, wo der größte Risikoabbau pro investiertem Euro erwartet wird.
+        - **Risikotragfähigkeit:** Gesamtrisikoquote des Kaders als Steuergröße für Transfer- und Versicherungsstrategie nutzen.
+        """)
     st.divider()
     
     st.subheader("📊 DDDM: Risikoanalyse für Kadermanagement")
