@@ -1,7 +1,9 @@
 import pandas as pd
 
 # 1. Daten laden
-df = pd.read_csv('./Data/full_dataset_thesis - 1.csv')
+dfInjuries = pd.read_csv('./Data/full_dataset_thesis - 1.csv', encoding='utf-8')
+dfPlayers = pd.read_csv('./Data/players.csv', encoding='utf-8')
+df = pd.merge(dfInjuries, dfPlayers[['name', 'market_value_in_eur']], left_on='player_name', right_on='name', how='left')
 
 # 2. Bereinigung der 'Days'-Spalte (z. B. "10 days" -> 10, "-" -> 0)
 df['Days'] = df['Days'].str.replace(' days', '').str.replace('-', '0').fillna('0')
