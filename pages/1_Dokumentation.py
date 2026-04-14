@@ -46,6 +46,10 @@ Beispielsweise lassen sich mit dem Datenset unter anderem folgende Fragen unters
 * Welche Spielerpositionen sind am stärksten von Verletzungen betroffen?
 * Gibt es Unterschiede zwischen Ligen, Vereinen oder Altersgruppen?
 * Treten bestimmte Verletzungen bei gewissen Positionen häufiger auf?
+* Wie haben sich die Verletzungsmuster über die Saisons hinweg verändert?
+* Welche Spieler haben die meisten Spiele aufgrund von Verletzungen verpasst?
+* Gibt es Spieler, die trotz Verletzungen eine hohe Anzahl an Spielen absolviert haben?
+* Welche Vereine haben die meisten verletzungsbedingten Ausfälle zu verzeichnen?     
 
 ### Datenbeschaffung und -überprüfung
 Bevor das Datenset für die Analyse verwendet wurde, haben wir geprüft:
