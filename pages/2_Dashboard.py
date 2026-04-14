@@ -38,10 +38,11 @@ selected_leagues = st.sidebar.multiselect("Ligen auswählen", leagues, default=l
 
 # Season Filter
 seasons = sorted(df['Season'].unique().tolist())
-selected_seasons = st.sidebar.multiselect("Saisons auswählen", seasons, default=seasons)
+selected_seasons = st.sidebar.multiselect("Saisons auswählen", seasons, default="24/25")
 
 # Player Search
-player_search = st.sidebar.text_input("Spieler suchen (z. B. Sasa Kalajdzic)")
+player_searchBox = st.sidebar.multiselect("Spieler suchen", options=sorted(df['player_name'].dropna().unique().tolist()), max_selections=1, help="Gib den Namen eines Spielers ein, um seine Verletzungen zu analysieren. Du kannst auch mehrere Spieler auswählen.")
+player_search = player_searchBox[0] if player_searchBox else ""
 
 st.sidebar.markdown("---")
 st.sidebar.caption("Navigation erfolgt über Tabs im Hauptbereich.")
@@ -198,7 +199,7 @@ with tab_injuries:
         
         with st.expander("Detaillierte Liste der Spieler"):
             st.dataframe(
-                inj_df[['player_name', 'club', 'league', 'Season', 'Days', 'Games missed']].sort_values(by='Days', ascending=False),
+                inj_df[['player_name', 'club', 'league', 'Season', 'Days', 'Games missed']].sort_values(by='Days', ascending=False), # type: ignore
                 use_container_width=True,
                 hide_index=True
             )

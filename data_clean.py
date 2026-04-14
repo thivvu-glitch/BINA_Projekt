@@ -3,16 +3,19 @@ import pandas as pd
 # 1. Daten laden
 dfInjuries = pd.read_csv('./Data/full_dataset_thesis - 1.csv', encoding='utf-8')
 dfPlayers = pd.read_csv('./Data/players.csv', encoding='utf-8')
-df = pd.merge(dfInjuries, dfPlayers[['name', 'market_value_in_eur']], left_on='player_name', right_on='name', how='left')
 
 # 2. Bereinigung der 'Days'-Spalte (z. B. "10 days" -> 10, "-" -> 0)
-df['Days'] = df['Days'].str.replace(' days', '').str.replace('-', '0').fillna('0')
-df['Days'] = pd.to_numeric(df['Days'], errors='coerce').fillna(0).astype(int)
+dfInjuries['Days'] = dfInjuries['Days'].str.replace(' days', '').str.replace('-', '0').fillna('0')
+dfInjuries['Days'] = pd.to_numeric(dfInjuries['Days'], errors='coerce').fillna(0).astype(int)
 
 # 3. Textspalten standardisieren (Leerzeichen entfernen)
-text_cols = ['Injury', 'player_name', 'player_position', 'club', 'league']
-for col in text_cols:
-    df[col] = df[col].astype(str).str.strip()
+text_colsInjuries = ['Injury', 'player_name', 'player_position', 'club', 'league']
+for col in text_colsInjuries:
+    dfInjuries[col] = dfInjuries[col].astype(str).str.strip()
+
+text_colsPlayers = ['name']
+for col in text_colsPlayers:
+    dfPlayers[col] = dfPlayers[col].astype(str).str.strip()
 
 # 4. Kodierungsfehler beheben
 def fix_encoding(text):
@@ -28,8 +31,11 @@ def fix_encoding(text):
         text = text.replace(search, replace)
     return text
 
-for col in text_cols:
-    df[col] = df[col].apply(fix_encoding)
+for col in text_colsInjuries:
+    dfInjuries[col] = dfInjuries[col].apply(fix_encoding)
+
+for col in text_colsPlayers:
+    dfPlayers[col] = dfPlayers[col].apply(fix_encoding)
 
 # 5. Konsistenz der Vereinsnamen (z. B. Köln -> FC Köln)
 club_mapping = {
@@ -55,10 +61,10 @@ club_mapping = {
     'Roma': 'AS Roma',
     'Verona': 'Hellas Verona',
 }
-df['club'] = df['club'].replace(club_mapping)
+dfInjuries['club'] = dfInjuries['club'].replace(club_mapping)
 
 # 6. Verletzungen vereinheitlichen (Kleinschreibung)
-df['Injury'] = df['Injury'].str.lower()
+dfInjuries['Injury'] = dfInjuries['Injury'].str.lower()
 
 # 8. Kategorisierung der Verletzungen
 injury_map = {
@@ -220,8 +226,8 @@ injury_map = {
 
 }
 
-df['injury_category'] = (
-    df['Injury']
+dfInjuries['injury_category'] = (
+    dfInjuries['Injury']
     .str.strip()
     .map(injury_map)
     .fillna("Other")
@@ -231,6 +237,7 @@ df['injury_category'] = (
 
 
 # 9. Bereinigte Daten speichern
+df = pd.merge(dfInjuries, dfPlayers[['name', 'market_value_in_eur']], left_on='player_name', right_on='name', how='left')
 df.to_csv('./Data/cleaned_dataset_final.csv', index=False)
 
 print("Bereinigung abgeschlossen. Datei gespeichert unter: cleaned_dataset_final.csv")
