@@ -32,16 +32,76 @@ df = load_data()
 # Sidebar Filters
 st.sidebar.header("Filteroptionen")
 
-# League Filter
-leagues = sorted(df['league'].unique().tolist())
-selected_leagues = st.sidebar.multiselect("Ligen auswählen", leagues, default=leagues)
+# Defaults
+DEFAULT_SEASON = "24/25"
+
+# Club Filter (global)
+clubs = sorted(df['club'].dropna().unique().tolist())
+club_options = ["Alle Clubs"] + clubs
+
+if 'filter_club' not in st.session_state:
+    st.session_state['filter_club'] = "Alle Clubs"
+if 'filter_leagues' not in st.session_state:
+    st.session_state['filter_leagues'] = sorted(df['league'].dropna().unique().tolist())
+if 'filter_seasons' not in st.session_state:
+    st.session_state['filter_seasons'] = [DEFAULT_SEASON] if DEFAULT_SEASON in df['Season'].dropna().unique().tolist() else sorted(df['Season'].dropna().unique().tolist())
+if 'filter_players' not in st.session_state:
+    st.session_state['filter_players'] = []
+
+# Reset button
+if st.sidebar.button("Filter auf Default zurücksetzen"):
+    st.session_state['filter_club'] = "Alle Clubs"
+    st.session_state['filter_leagues'] = sorted(df['league'].dropna().unique().tolist())
+    st.session_state['filter_seasons'] = [DEFAULT_SEASON] if DEFAULT_SEASON in df['Season'].dropna().unique().tolist() else sorted(df['Season'].dropna().unique().tolist())
+    st.session_state['filter_players'] = []
+    st.rerun()
+
+selected_club_global = st.sidebar.selectbox(
+    "Club auswählen",
+    club_options,
+    key='filter_club',
+    help="Dieser globale Filter gilt für alle Dashboards."
+)
+
+# League Filter (depends on selected club)
+if selected_club_global == "Alle Clubs":
+    league_options = sorted(df['league'].dropna().unique().tolist())
+else:
+    league_options = sorted(df.loc[df['club'] == selected_club_global, 'league'].dropna().unique().tolist())
+
+st.session_state['filter_leagues'] = [l for l in st.session_state['filter_leagues'] if l in league_options]
+if not st.session_state['filter_leagues']:
+    st.session_state['filter_leagues'] = league_options
+
+selected_leagues = st.sidebar.multiselect("Ligen auswählen", league_options, key='filter_leagues')
 
 # Season Filter
-seasons = sorted(df['Season'].unique().tolist())
-selected_seasons = st.sidebar.multiselect("Saisons auswählen", seasons, default="24/25")
+season_options = sorted(df['Season'].dropna().unique().tolist())
+st.session_state['filter_seasons'] = [s for s in st.session_state['filter_seasons'] if s in season_options]
+if not st.session_state['filter_seasons']:
+    st.session_state['filter_seasons'] = [DEFAULT_SEASON] if DEFAULT_SEASON in season_options else season_options
 
-# Player Search
-player_searchBox = st.sidebar.multiselect("Spieler suchen", options=sorted(df['player_name'].dropna().unique().tolist()), max_selections=1, help="Gib den Namen eines Spielers ein, um seine Verletzungen zu analysieren. Du kannst auch mehrere Spieler auswählen.")
+selected_seasons = st.sidebar.multiselect("Saisons auswählen", season_options, key='filter_seasons')
+
+# Player Search (limited to selected club and other active filters)
+player_source_df = df.copy()
+if selected_club_global != "Alle Clubs":
+    player_source_df = player_source_df[player_source_df['club'] == selected_club_global]
+if selected_leagues:
+    player_source_df = player_source_df[player_source_df['league'].isin(selected_leagues)]
+if selected_seasons:
+    player_source_df = player_source_df[player_source_df['Season'].isin(selected_seasons)]
+
+player_options = sorted(player_source_df['player_name'].dropna().unique().tolist())
+st.session_state['filter_players'] = [p for p in st.session_state['filter_players'] if p in player_options]
+
+player_searchBox = st.sidebar.multiselect(
+    "Spieler suchen",
+    options=player_options,
+    key='filter_players',
+    max_selections=1,
+    help="Suche ist auf den ausgewählten Club (und aktive Liga/Saison-Filter) begrenzt."
+)
 player_search = player_searchBox[0] if player_searchBox else ""
 
 st.sidebar.markdown("---")
@@ -52,6 +112,9 @@ filtered_df = df[
     (df['league'].isin(selected_leagues)) &
     (df['Season'].isin(selected_seasons))
 ]
+
+if selected_club_global != "Alle Clubs":
+    filtered_df = filtered_df[filtered_df['club'] == selected_club_global]
 
 if player_search:
     filtered_df = filtered_df[filtered_df['player_name'].str.contains(player_search, case=False, na=False)]
@@ -77,6 +140,18 @@ tab_overview, tab_injuries, tab_trends, tab_tables, tap_maps, tab_bodymap, tab_d
 ])
 
 with tab_overview:
+    st.markdown("""
+    ### 📊 Für wen ist dieser Dashboard?
+    **Zielgruppe:** Analytiker, Trainer, Sport-Manager, Klub-Führung
+    
+    **Was sieht man?**
+    - Vergleich der Verletzungshäufigkeit zwischen Ligen
+    - Durchschnittliche Schweregrad (Ausfalltage) nach Liga
+    - Die 15 "Pechvögel" mit den längsten kumulierten Ausfallzeiten
+    - Schnelle Identifikation von Risiko-Clubs und Risiko-Positionen
+    """)
+    st.divider()
+    
     st.subheader("Kernvergleich der Ligen")
     c1, c2 = st.columns(2)
 
@@ -120,6 +195,19 @@ with tab_overview:
     st.plotly_chart(fig_top, use_container_width=True)
 
 with tab_injuries:
+    st.markdown("""
+    ### 🏥 Für wen ist dieser Dashboard?
+    **Zielgruppe:** Medizinisches Personal, Verletzungs-Spezialisten, Trainer, Ligen-Verbände
+    
+    **Was sieht man?**
+    - Detaillierte Analyse einer spezifischen Verletzungsart
+    - Verletzungshäufigkeit und Schweregrad nach Liga
+    - Zeitliche Verteilung und Muster der Verletzungen
+    - Betroffene Spieler und ihre Ausfallzeiten
+    - Identifikation von Hochrisiko-Verletzungstypen für Prävention
+    """)
+    st.divider()
+    
     st.subheader("Verletzungsvergleich zwischen den Ligen")
     st.markdown("Analysiere eine spezifische Verletzungsart über alle Ligen hinweg.")
 
@@ -205,6 +293,19 @@ with tab_injuries:
             )
 
 with tab_trends:
+    st.markdown("""
+    ### 📈 Für wen ist dieser Dashboard?
+    **Zielgruppe:** Strategische Planer, Team-Manager, Athletik-Trainer, Forscher
+    
+    **Was sieht man?**
+    - Saisonale und monatliche Verletzungsmuster
+    - Vergleich von Verletzungstrends zwischen verschiedenen Ligen
+    - Jahresüber-Vergleiche und historische Entwicklungen
+    - Identifikation von Peak-Monaten für Verletzungen
+    - Planung von Präventions- und Trainingsprogrammen basierend auf Saisonalität
+    """)
+    st.divider()
+    
     st.subheader("Saisonale Muster im Ligenvergleich")
     monthly = filtered_df.groupby(['Month_Num', 'Month', 'league']).size().reset_index(name='Anzahl').sort_values('Month_Num')
     fig_month = px.line(
@@ -257,6 +358,19 @@ with tab_trends:
         st.info("Keine Daten für ein Fazit vorhanden.")
 
 with tab_tables:
+    st.markdown("""
+    ### 📋 Für wen ist dieser Dashboard?
+    **Zielgruppe:** Datenanalytiker, Forscher, Klub-Administrator, Medizinische Teams
+    
+    **Was sieht man?**
+    - Vollständige, sortierbare Verletzungsdatenbank
+    - Details pro Spieler, Verein und Saison
+    - Ausgefallene Spiele und Ausfallzeiten im Detail
+    - Export-freundliche Tabellenformate für weitere Analysen
+    - Drilldown-Möglichkeit für detaillierte Fallstudien
+    """)
+    st.divider()
+    
     st.subheader("Detaillierte Tabellenansicht")
     comparison_mode = st.radio(
         "Tabellen gruppieren nach:",
@@ -295,15 +409,24 @@ with tab_tables:
                         st.dataframe(display_df, use_container_width=True, hide_index=True)
 
 with tap_maps:
+    st.markdown("""
+    ### ⚽ Für wen ist dieser Dashboard?
+    **Zielgruppe:** Trainer, Athletik-Trainer, Positionscoaches, Scouts
+    
+    **Was sieht man?**
+    - Interaktive Feldpositionen-Visualisierung (virtueller Fußballplatz)
+    - Verletzungshäufigkeit nach Spielerposition
+    - Positions-spezifische Verletzungsmuster
+    - Betroffene Spieler pro Position
+    - Strategische Insights für Aufstellung und Spielerrotation
+    """)
+    st.divider()
+    
     st.subheader("Interaktive Karten")
     st.markdown("Analysiere die Verletzungen der Spieler nach Position in den einzelnen Clubs.")
 
-    # Clubs Selection
-    all_clubs = sorted(df['club'].dropna().unique().tolist())
-    selected_club = st.selectbox("Club auswählen", all_clubs, help="Wähle einen Club aus, um die Verletzungen auf den einzelnen Spielerpositionen zu sehen.")
-
-    if selected_club:
-        club_df = df[df['club'] == selected_club].copy()
+    club_df = filtered_df.copy()
+    if not club_df.empty:
 
         position_coords = {
             "Goalkeeper": (5, 40),
@@ -427,21 +550,28 @@ with tap_maps:
         fig.update_yaxes(visible=False, range=[0, 80], scaleanchor="x", scaleratio=1)
 
         st.plotly_chart(fig, use_container_width=True)
+    else:
+        st.info("Keine Daten für die aktuelle Club-/Liga-/Saison-Auswahl in der Kartenansicht verfügbar.")
 
 with tab_bodymap:
+    st.markdown("""
+    ### 🏥 Für wen ist dieser Dashboard?
+    **Zielgruppe:** Medizinisches Personal, Physiotherapeuten, Sportmediziner, Forscher
+    
+    **Was sieht man?**
+    - Verletzungen nach Körperregion (Muskeln, Knie, Knöchel, etc.)
+    - Anatomische Schwachpunkte im Kader pro Club
+    - Häufigste Verletzungstypen nach Körperteil
+    - Ressourcenallokation für Sportverletzungsbehandlung
+    - Präventions- und Rehabilitations-Schwerpunkte
+    """)
+    st.divider()
+    
     st.subheader("Interaktive Körperkarte")
     st.markdown("Analysiere die Verletzungen der Spieler durch ihre körperliche Position.")
 
-    # Clubs Selection
-    all_clubs = sorted(df["club"].dropna().unique().tolist())
-    selected_club = st.selectbox(
-        "Club auswählen",
-        all_clubs,
-        help="Wähle einen Club aus, um die häufigsten körperlichen Verletzungen hervorzuheben."
-    )
-
-    if selected_club:
-        club_df = df[df["club"] == selected_club].copy()
+    club_df = filtered_df.copy()
+    if not club_df.empty:
 
         position_coords = {
             "Muscle": (45, 62),
@@ -478,7 +608,7 @@ with tab_bodymap:
             plot_bgcolor="#F8FAFC",
             margin=dict(l=30, r=170, t=40, b=30),
             title=dict(
-                text=f"Körperzonen mit Verletzungshäufung – {selected_club}",
+                text=f"Körperzonen mit Verletzungshäufung – {selected_club_global}",
                 x=0.5,
                 xanchor="center",
                 font=dict(size=22, color="#0F172A")
@@ -714,22 +844,30 @@ with tab_bodymap:
         )
 
         st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+    else:
+        st.info("Keine Daten für die aktuelle Club-/Liga-/Saison-Auswahl in der Körperkarte verfügbar.")
         
 
 with tab_dddm:
-    st.subheader("📊 DDDM: Risikoanalyse für Kadermanagement (CPA)")
+    st.markdown("""
+    ### 💼 Für wen ist dieser Dashboard?
+    **Zielgruppe:** Club-Führung, Geschäftsführer, Sportdirektor, CFO, Contract Manager
+    
+    **Was sieht man?**
+    - **Finanzielle Risikobewertung:** Marktwert vs. Verletzungshäufigkeit pro Spieler
+    - **Squad-Wertanalyse:** Gesamte Kader-Risikoexposition in Echtgeld
+    - **Vertragsentscheidungen:** Investitionsrisiken für Verlängerungen
+    - **Ressourcenplanung:** Budget-Allokation für Medizin und Prävention
+    - **Capital Project Appraisal (CPA):** ROI von medizinischen Investitionen
+    - **Strategische HR-Entscheidungen:** Spielertransfers, Versicherung, Vertragsstrukturen
+    """)
+    st.divider()
+    
+    st.subheader("📊 DDDM: Risikoanalyse für Kadermanagement")
     st.markdown("""
     **Anwendungsfall:** Soll der Vertrag eines Spielers verlängert werden?
     Diese prädiktive Metrik berechnet einen Risiko-Score basierend auf historischen Ausfalltagen, um finanzielle Fehlinvestitionen zu vermeiden.
     """)
-    
-    # Club Selection (only shown when no player is searched)
-    if not player_search:
-        all_clubs_dddm = sorted(df['club'].dropna().unique().tolist())
-        selected_club_dddm = st.selectbox("🏟️ Club auswählen", all_clubs_dddm, help="Wähle deinen Club aus, um die Analyse auf diese Mannschaft zu konzentrieren.")
-    else:
-        # Use default club when player is searched
-        selected_club_dddm = None
 
     if player_search and not filtered_df.empty:
         player_data = filtered_df[filtered_df['player_name'].str.contains(player_search, case=False, na=False)]
@@ -844,8 +982,7 @@ with tab_dddm:
 
     # Only show squad analysis when no specific player is searched
     if not player_search:
-        # Filter data by selected club
-        club_filtered_df = filtered_df[filtered_df['club'] == selected_club_dddm]
+        club_filtered_df = filtered_df.copy()
         
         if not club_filtered_df.empty:
             # Group by player and calculate aggregate metrics
@@ -920,7 +1057,7 @@ with tab_dddm:
                 sum_col1, sum_col2, sum_col3, sum_col4 = st.columns(4)
                 with sum_col1:
                     st.metric(
-                        "Gesamter Krader-Marktwert",
+                        "Gesamter Kader-Marktwert",
                         f"€{total_market_value:,.0f}".replace(",", ".")
                     )
                 with sum_col2:
@@ -984,4 +1121,3 @@ with tab_dddm:
         st.info("Die Squad-Wertanalyse ist aufgrund einer aktiven Spielersuche nicht verfügbar. Bitte leere die Suchfeld, um die Club-Kader-Analyse zu sehen.")
 
     st.markdown("---")
-    st.caption("Entwickelt für Senior Data Scientist Analyse (CPA Framework).")
