@@ -23,11 +23,67 @@ def load_data():
     df['Games missed'] = pd.to_numeric(df['Games missed'], errors='coerce').fillna(0).astype(int)
     # Dates
     df['injury_from_parsed'] = pd.to_datetime(df['injury_from_parsed'], errors='coerce')
-    df['Month'] = df['injury_from_parsed'].dt.month_name(locale="de_DE.UTF-8")  # 'locale="de_DE.utf8"' does not work on macOS, 'locale="de_DE.UTF-8"' does work on Windows and macOS
+    df['injury_until_parsed'] = pd.to_datetime(df['injury_until_parsed'], errors='coerce') # Ensure this exists
+    df['Month'] = df['injury_from_parsed'].dt.month_name(locale="de_DE.UTF-8")
     df['Month_Num'] = df['injury_from_parsed'].dt.month
     return df
 
+@st.cache_data
+def load_valuation_data():
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    val_path = os.path.join(script_dir, "../Data/player_valuations.csv")
+    players_path = os.path.join(script_dir, "../Data/players.csv")
+    
+    # Load valuations
+    val_df = pd.read_csv(val_path)
+    val_df['date'] = pd.to_datetime(val_df['date'])
+    
+    # Load player names for mapping
+    players_df = pd.read_csv(players_path)
+    players_df = players_df[['player_id', 'name']]
+    
+    # Join
+    merged_val = pd.merge(val_df, players_df, on='player_id', how='left')
+    return merged_val
+
+@st.cache_data
+def load_players_full():
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    players_path = os.path.join(script_dir, "../Data/players.csv")
+    players_df = pd.read_csv(players_path)
+    return players_df
+
+def get_injury_color(category, injury_name):
+    cat = str(category).lower()
+    inj = str(injury_name).lower()
+    
+    # Rot (Trauma/Struktur)
+    if any(x in cat for x in ['knee', 'ankle', 'foot', 'shoulder']) or \
+       any(x in inj for x in ['fracture', 'torn', 'break', 'rupture', 'ligament']):
+        return "red"
+    
+    # Orange (Muskulär)
+    if 'muscle' in cat or any(x in inj for x in ['hamstring', 'adductor', 'muscle', 'fibers', 'strain']):
+        return "orange"
+        
+    # Gelb (Krankheit)
+    if 'illness' in cat or any(x in inj for x in ['illness', 'internal', 'cold', 'flu', 'infection']):
+        return "yellow"
+        
+    # Grau (Andere)
+    return "grey"
+
+@st.cache_data
+def load_clubs():
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    clubs_path = os.path.join(script_dir, "../Data/clubs.csv")
+    clubs_df = pd.read_csv(clubs_path)
+    return clubs_df
+
 df = load_data()
+val_df = load_valuation_data()
+players_info_df = load_players_full()
+clubs_info_df = load_clubs()
 
 # Sidebar Filters
 st.sidebar.header("Filteroptionen")
@@ -129,14 +185,15 @@ col4.metric("Ø Verpasste Spiele", f"{filtered_df['Games missed'].mean():.1f}".r
 if filtered_df.empty:
     st.warning("Keine Daten für die gewählten Filter. Bitte passe Liga, Saison oder Spieler an.")
 
-tab_overview, tab_injuries, tab_trends, tab_tables, tap_maps, tab_bodymap, tab_dddm = st.tabs([
+tab_overview, tab_injuries, tab_trends, tab_tables, tap_maps, tab_bodymap, tab_dddm, tab_market_risk = st.tabs([
     "Übersicht",
     "Verletzungsvergleich",
     "Zeit & Liga",
     "Tabellen",
     "Karten",    
     "Bodymap",
-    "DDDM Entscheidungen"
+    "DDDM Entscheidungen",
+    "Marktwert & Risiko-Analyse"
 ])
 
 with tab_overview:
@@ -1204,3 +1261,263 @@ with tab_dddm:
         st.info("Die Squad-Wertanalyse ist aufgrund einer aktiven Spielersuche nicht verfügbar. Bitte leere die Suchfeld, um die Club-Kader-Analyse zu sehen.")
 
     st.markdown("---")
+
+with tab_market_risk:
+    st.markdown("""
+    ### 📉 Marktwert-Risiko & Verletzungskorrelation
+    **Zielgruppe:** Sportliche Leitung, Scouts, Finanzabteilung
+    
+    **Was sieht man?**
+    - Korrelation zwischen Marktwertentwicklung und Verletzungsphasen.
+    - Finanzieller Impact: Wertverlust durch schwere Verletzungen.
+    - Zeitliche Einordnung von Verletzungen in die Karriere-Wertkurve.
+    """)
+    st.divider()
+
+    if player_search:
+        # 1. Fetch player details for the "Steckbrief"
+        p_name = player_search
+        p_info = players_info_df[players_info_df['name'].str.contains(p_name, case=False, na=False)]
+        
+        if not p_info.empty:
+            p_data = p_info.iloc[0]
+            
+            # --- Spieler-Steckbrief Layout ---
+            st.markdown(f"## 👤 Spieler-Steckbrief: {p_data['name']}")
+            
+            prof_col1, prof_col2 = st.columns([0.8, 3.2])
+            
+            with prof_col1:
+                # Display player image
+                if pd.notna(p_data['image_url']):
+                    st.image(p_data['image_url'], use_container_width=True)
+                else:
+                    st.info("Kein Bild verfügbar")
+            
+            with prof_col2:
+                # Display biographical data in columns
+                stat_col1, stat_col2 = st.columns(2)
+                
+                with stat_col1:
+                    st.write(f"**Nationalität:** {p_data['country_of_citizenship']}")
+                    st.write(f"**Geburtsdatum:** {pd.to_datetime(p_data['date_of_birth']).strftime('%d.%m.%Y') if pd.notna(p_data['date_of_birth']) else 'Unbekannt'}")
+                    st.write(f"**Position:** {p_data['position']}")
+                    st.write(f"**Starker Fuß:** {p_data['foot'].capitalize() if pd.notna(p_data['foot']) else 'Unbekannt'}")
+                
+                with stat_col2:
+                    st.write(f"**Größe:** {int(p_data['height_in_cm'])} cm" if pd.notna(p_data['height_in_cm']) else "**Größe:** Unbekannt")
+                    st.write(f"**Aktueller Club:** {p_data['current_club_name']}")
+                    st.write(f"**Länderspiele:** {int(p_data['international_caps'])}" if pd.notna(p_data['international_caps']) else "**Länderspiele:** 0")
+                    st.write(f"**Länderspieltore:** {int(p_data['international_goals'])}" if pd.notna(p_data['international_goals']) else "**Länderspieltore:** 0")
+
+                st.divider()
+                # Key Metrics at a glance
+                m1, m2 = st.columns(2)
+                m1.metric("Aktueller Marktwert", f"€{p_data['market_value_in_eur']:,.0f}".replace(",", "."))
+                m2.metric("Höchster Marktwert", f"€{p_data['highest_market_value_in_eur']:,.0f}".replace(",", "."))
+
+            st.divider()
+
+        # 1. Filter data for the selected player
+        p_injuries = df[df['player_name'].str.contains(p_name, case=False, na=False)].copy()
+        p_valuations = val_df[val_df['name'].str.contains(p_name, case=False, na=False)].sort_values('date').copy()
+
+        if not p_valuations.empty:
+            st.subheader(f"Marktwert-Verlauf von {p_name}")
+
+            # Filter for specific injuries to show in chart
+            if not p_injuries.empty:
+                # Prepare display labels for multiselect
+                # Format: "Injury (X Wochen)"
+                p_injuries['display_label'] = p_injuries.apply(
+                    lambda row: f"{row['Injury']} ({int(row['Days'] // 7)} Wochen, ab {row['injury_from_parsed'].strftime('%d.%m.%y')})", 
+                    axis=1
+                )
+                
+                selected_vrects = st.multiselect(
+                    "Einzublendende Verletzungen im Chart auswählen:",
+                    options=p_injuries['display_label'].tolist(),
+                    default=p_injuries['display_label'].tolist(),
+                    help="Wähle aus, welche Verletzungsphasen als rote Flächen im Chart erscheinen sollen."
+                )
+                
+                visible_injuries = p_injuries[p_injuries['display_label'].isin(selected_vrects)]
+            else:
+                visible_injuries = pd.DataFrame()
+
+            # Plotly Chart
+            fig_mv = go.Figure()
+
+            # Add Market Value Line
+            fig_mv.add_trace(go.Scatter(
+                x=p_valuations['date'],
+                y=p_valuations['market_value_in_eur'],
+                mode='lines',
+                name='Marktwert (EUR)',
+                line=dict(color='#2563EB', width=3),
+                hovertemplate='<b>Datum:</b> %{x|%d.%m.%Y}<br><b>Marktwert:</b> €%{y:,.0f}<extra></extra>'
+            ))
+
+            # Add Injury vrects
+            if not visible_injuries.empty:
+                for _, row in visible_injuries.iterrows():
+                    start = row['injury_from_parsed']
+                    end = row['injury_until_parsed']
+                    if pd.notna(start) and pd.notna(end):
+                        # Determine color
+                        color = get_injury_color(row['injury_category'], row['Injury'])
+                        duration_days = int(row['Days'])
+                        
+                        fig_mv.add_vrect(
+                            x0=start, x1=end,
+                            fillcolor=color, opacity=0.3,
+                            layer="below", line_width=0,
+                            annotation_text=f"<b>{row['Injury']}</b> ({duration_days} Tage)",
+                            annotation_position="top left",
+                            annotation_font_size=11,
+                            annotation_font_color=color if color != "yellow" else "#B8860B", # Better contrast for yellow
+                        )
+
+            fig_mv.update_layout(
+                xaxis_title="Datum",
+                yaxis_title="Marktwert in EUR",
+                height=500,
+                hovermode='x unified',
+                template="plotly_white"
+            )
+
+            # Add Club Logos for every data point
+            if 'current_club_id' in p_valuations.columns:
+                # To prevent overloading with logos if data is very dense, 
+                # we could filter, but user asked for "everywhere".
+                for _, v_row in p_valuations.iterrows():
+                    c_id = v_row['current_club_id']
+                    if pd.notna(c_id):
+                        logo_url = f"https://tmssl.akamaized.net/images/wappen/tiny/{int(c_id)}.png"
+                        fig_mv.add_layout_image(
+                            dict(
+                                source=logo_url,
+                                xref="x",
+                                yref="y",
+                                x=v_row['date'],
+                                y=v_row['market_value_in_eur'],
+                                sizex=20 * 24 * 60 * 60 * 1000, # ~20 days in ms
+                                sizey=v_row['market_value_in_eur'] * 0.15 if v_row['market_value_in_eur'] > 0 else 500000,
+                                xanchor="center",
+                                yanchor="middle",
+                                opacity=1.0,
+                                layer="above"
+                            )
+                        )
+
+            st.plotly_chart(fig_mv, use_container_width=True)
+
+            # 2. Injury-Value-Delta (Schwerste Verletzung)
+            if not p_injuries.empty:
+                st.divider()
+                st.subheader("⚠️ Finanzieller Verletzungs-Impact (Delta)")
+                
+                # Find most severe injury
+                major_injury = p_injuries.sort_values('Days', ascending=False).iloc[0]
+                start_date = major_injury['injury_from_parsed']
+                end_date = major_injury['injury_until_parsed']
+                
+                # Market value BEFORE injury
+                val_before = p_valuations[p_valuations['date'] <= start_date]
+                # Market value DURING or AFTER injury
+                val_after = p_valuations[p_valuations['date'] >= start_date] # We look from start onwards
+                
+                if not val_before.empty and not val_after.empty:
+                    v_before = val_before.iloc[-1]['market_value_in_eur']
+                    
+                    # For val_after, we look for the first value recorded after the injury ended or nearing the end
+                    val_after_end = p_valuations[p_valuations['date'] >= end_date]
+                    if not val_after_end.empty:
+                        v_after = val_after_end.iloc[0]['market_value_in_eur']
+                    else:
+                        v_after = val_after.iloc[-1]['market_value_in_eur']
+                    
+                    delta_pct = ((v_after - v_before) / v_before) * 100
+                    delta_abs = v_after - v_before
+                    
+                    m1, m2 = st.columns(2)
+                    m1.metric("Schwerste Verletzung", major_injury['Injury'])
+                    m2.metric("Dauer", f"{major_injury['Days']} Tage")
+
+                    m3, m4, m5 = st.columns(3)
+                    m3.metric("Marktwert (Vorher)", f"€{v_before:,.0f}".replace(",", "."))
+                    m4.metric("Marktwert (Nachher)", f"€{v_after:,.0f}".replace(",", "."))
+                    
+                    delta_color = "inverse" if delta_pct < 0 else "normal"
+                    m5.metric("Veränderung (Delta)", f"{delta_pct:.1f}%", delta_color=delta_color)
+                    
+                    if delta_pct < 0:
+                        st.error(f"Der Spieler hat während/nach dieser Verletzung **€{abs(delta_abs):,.0f}** ({abs(delta_pct):.1f}%) seines Marktwertes verloren.".replace(",", "."))
+                    else:
+                        st.success(f"Trotz der Verletzung konnte der Spieler seinen Marktwert halten oder steigern (+€{delta_abs:,.0f} / +{delta_pct:.1f}%).".replace(",", "."))
+                
+                # 3. Detailed Per-Injury Delta Analysis Table
+                st.divider()
+                st.subheader("📊 Detaillierte Analyse pro Verletzung")
+                st.markdown("Diese Tabelle zeigt den Marktwert-Impact für jede individuelle Verletzungsphase des Spielers.")
+                
+                delta_records = []
+                for _, row in p_injuries.sort_values('injury_from_parsed', ascending=False).iterrows():
+                    i_start = row['injury_from_parsed']
+                    i_end = row['injury_until_parsed']
+                    
+                    # Find closest valuation before
+                    val_before_row = p_valuations[p_valuations['date'] <= i_start]
+                    if not val_before_row.empty:
+                        v_pre = val_before_row.iloc[-1]['market_value_in_eur']
+                    else:
+                        v_pre = p_valuations.iloc[0]['market_value_in_eur'] # Fallback
+                        
+                    # Find first valuation after or nearing end
+                    val_after_row = p_valuations[p_valuations['date'] >= i_end]
+                    if not val_after_row.empty:
+                        v_post = val_after_row.iloc[0]['market_value_in_eur']
+                    else:
+                        v_post = p_valuations.iloc[-1]['market_value_in_eur'] # Fallback
+                        
+                    diff_abs = v_post - v_pre
+                    diff_pct = (diff_abs / v_pre * 100) if v_pre > 0 else 0
+                    
+                    delta_records.append({
+                        "Verletzung": row['Injury'],
+                        "Datum": i_start.strftime('%d.%m.%Y'),
+                        "Dauer": f"{int(row['Days'])} Tage",
+                        "Marktwert Vorher": f"€{v_pre:,.0f}".replace(",", "."),
+                        "Marktwert Nachher": f"€{v_post:,.0f}".replace(",", "."),
+                        "Delta (%)": f"{diff_pct:+.1f}%"
+                    })
+                
+                if delta_records:
+                    delta_analysis_df = pd.DataFrame(delta_records)
+                    st.dataframe(
+                        delta_analysis_df,
+                        use_container_width=True,
+                        hide_index=True
+                    )
+                else:
+                    st.info("Keine ausreichenden Daten für eine detaillierte Delta-Analyse vorhanden.")
+                
+                st.divider()
+        else:
+            st.warning(f"Keine Marktwert-Historie für '{p_name}' gefunden. Eventuell weicht der Name in der Transfermarkt-Datenbank leicht ab.")
+    else:
+        st.info("Wähle links in der Sidebar einen Spieler aus, um die detaillierte Marktwert-Risiko-Analyse zu sehen.")
+        
+        # Squad-Level Overview (Fallack)
+        st.subheader("Globales Marktwert-Risiko (Top 10 Kader-Werte)")
+        squad_mv = df.groupby('player_name')['market_value_in_eur'].first().sort_values(ascending=False).head(10).reset_index()
+        fig_squad = px.bar(
+            squad_mv,
+            x='player_name',
+            y='market_value_in_eur',
+            title="Die 10 wertvollsten Spieler im aktiven Kader",
+            labels={'player_name': 'Spieler', 'market_value_in_eur': 'Marktwert (EUR)'},
+            color='market_value_in_eur',
+            color_continuous_scale='Blues'
+        )
+        st.plotly_chart(fig_squad, use_container_width=True)
