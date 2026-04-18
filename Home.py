@@ -19,7 +19,7 @@ st.markdown("---")
 
 st.markdown("### Projekt-Dokumentation")
 st.write("In der Dokumentation findest du die ausführliche Beschreibung der BINA-Fallstudie sowie die Umsetzung der vier Schritte der CPA Management Accounting Guideline.")
-st.page_link("pages/1_Dokumentation.py", label="Zur Dokumentation öffnen")
+st.page_link("pages/1_Dokumentation.py", label="Dokumentation öffnen")
 
 st.markdown("---")
 
