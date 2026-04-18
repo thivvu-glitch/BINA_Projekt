@@ -66,5 +66,8 @@ Vor der Analyse wurden die Daten bereinigt und standardisiert:
 """)
 
 st.markdown("## 3. Daten analysieren")  # engl. Analyzing data
+'''
+
+'''
 
 st.markdown("## 4. Informationen präsentieren")  # engl. Presenting information
