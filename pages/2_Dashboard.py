@@ -185,7 +185,8 @@ col4.metric("Ø Verpasste Spiele", f"{filtered_df['Games missed'].mean():.1f}".r
 if filtered_df.empty:
     st.warning("Keine Daten für die gewählten Filter. Bitte passe Liga, Saison oder Spieler an.")
 
-tab_overview, tab_injuries, tab_trends, tab_tables, tap_maps, tab_bodymap, tab_dddm, tab_market_risk = st.tabs([
+# Tab Labels
+tab_labels = [
     "Übersicht",
     "Verletzungsvergleich",
     "Zeit & Liga",
@@ -194,11 +195,32 @@ tab_overview, tab_injuries, tab_trends, tab_tables, tap_maps, tab_bodymap, tab_d
     "Bodymap",
     "DDDM Entscheidungen",
     "Marktwert & Risiko-Analyse"
-])
+]
+
+# Ensure active_tab is in session state and handle redirection
+if "tab" in st.query_params:
+    st.session_state["active_dashboard_tab"] = st.query_params["tab"]
+elif "requested_tab" in st.session_state:
+    st.session_state["active_dashboard_tab"] = st.session_state["requested_tab"]
+    del st.session_state["requested_tab"]
+
+if "active_dashboard_tab" not in st.session_state:
+    st.session_state["active_dashboard_tab"] = "Übersicht"
+
+def update_tab_url():
+    """Updates the URL query parameters when a tab is clicked."""
+    st.query_params["tab"] = st.session_state["active_dashboard_tab"]
+
+tab_overview, tab_injuries, tab_trends, tab_tables, tap_maps, tab_bodymap, tab_dddm, tab_market_risk = st.tabs(
+    tab_labels, 
+    key="active_dashboard_tab",
+    on_change=update_tab_url
+)
+
 
 with tab_overview:
     st.markdown("""
-    ### 📊 Für wen ist dieser Dashboard?
+    ### 📊 Für wen ist dieses Dashboard?
     **Zielgruppe:** Analytiker, Trainer, Sport-Manager, Klub-Führung
     
     **Was sieht man?**
@@ -471,7 +493,7 @@ with tap_maps:
     **Zielgruppe:** Trainer, Athletik-Trainer, Positionscoaches, Scouts
     
     **Was sieht man?**
-    - Interaktive Feldpositionen-Visualisierung (virtueller Fußballplatz)
+    - Interaktive Feldpositionen-Visualisierung (virtueller Fussballplatz)
     - Verletzungshäufigkeit nach Spielerposition
     - Positions-spezifische Verletzungsmuster
     - Betroffene Spieler pro Position
@@ -761,14 +783,14 @@ with tab_bodymap:
                 line=body_line, fillcolor="#F8FAFC", layer="below"
             ),
 
-            # Fuß links
+            # Fuss links
             dict(
                 type="path",
                 path="M 38 20 L 50 20 L 50 10 L 36 10 L 36 16 Q 36 20 38 20 Z",
                 line=body_line, fillcolor="#DCE3EA", layer="below"
             ),
 
-            # Fuß rechts
+            # Fuss rechts
             dict(
                 type="path",
                 path="M 50 20 L 62 20 Q 64 20 64 18 L 64 10 L 50 10 Z",
@@ -950,7 +972,7 @@ with tab_dddm:
 
         - **Gesamtausfalltage** = Summe aller `Days` des Spielers in der gewählten Filterung.
         - **Anzahl Verletzungen** = Anzahl der Verletzungsereignisse.
-        - **Marktwert** = `market_value_in_eur` als finanzielle Basisgröße.
+        - **Marktwert** = `market_value_in_eur` als finanzielle Basisgrösse.
 
         **Finanzielle Übersetzung:**
         - Es wird ein 5-Jahres-Horizont angenommen (`career_years = 5`).
@@ -965,10 +987,10 @@ with tab_dddm:
         **B) Budget-/Präventionsanalyse (Medical Budget)**
 
         - Verletzungstypen werden nach **Total_Days** aggregiert.
-        - Die höchsten Total_Days markieren die größten produktiven und finanziellen Belastungstreiber.
+        - Die höchsten Total_Days markieren die grössten produktiven und finanziellen Belastungstreiber.
 
         **Warum sinnvoll?**
-        - Präventionsbudget fließt zuerst in Verletzungstypen mit dem höchsten erwarteten ROI.
+        - Präventionsbudget fliesst zuerst in Verletzungstypen mit dem höchsten erwarteten ROI.
 
         **C) Kader-Wertanalyse / Squad Vulnerability (ohne aktive Spielersuche)**
 
@@ -991,8 +1013,8 @@ with tab_dddm:
 
         - **Vertrag:** Je höher Financial_Risk_EUR und Risk_Percentage, desto defensiver Vertragsstruktur (Laufzeit, Bonuslogik, Absicherung).
         - **Kaderplanung:** Bei hoher Hochrisikospieler-Quote Backups/Rotation gezielt ausbauen.
-        - **Budget:** Prävention dort priorisieren, wo der größte Risikoabbau pro investiertem Euro erwartet wird.
-        - **Risikotragfähigkeit:** Gesamtrisikoquote des Kaders als Steuergröße für Transfer- und Versicherungsstrategie nutzen.
+        - **Budget:** Prävention dort priorisieren, wo der grösste Risikoabbau pro investiertem Euro erwartet wird.
+        - **Risikotragfähigkeit:** Gesamtrisikoquote des Kaders als Steuergrösse für Transfer- und Versicherungsstrategie nutzen.
         """)
     st.divider()
     
@@ -1302,11 +1324,20 @@ with tab_market_risk:
                     st.write(f"**Nationalität:** {p_data['country_of_citizenship']}")
                     st.write(f"**Geburtsdatum:** {pd.to_datetime(p_data['date_of_birth']).strftime('%d.%m.%Y') if pd.notna(p_data['date_of_birth']) else 'Unbekannt'}")
                     st.write(f"**Position:** {p_data['position']}")
-                    st.write(f"**Starker Fuß:** {p_data['foot'].capitalize() if pd.notna(p_data['foot']) else 'Unbekannt'}")
+                    st.write(f"**Starker Fuss:** {p_data['foot'].capitalize() if pd.notna(p_data['foot']) else 'Unbekannt'}")
+                    
+                    # Current Club moved here (directly under Starker Fuss)
+                    c_name = p_data['current_club_name']
+                    c_id = p_data['current_club_id']
+                    if pd.notna(c_id):
+                        logo_url = f"https://tmssl.akamaized.net/images/wappen/medium/{int(c_id)}.png"
+                        st.markdown(f"**Aktueller Club:** {c_name}")
+                        st.image(logo_url, width=60)
+                    else:
+                        st.write(f"**Aktueller Club:** {c_name}")
                 
                 with stat_col2:
-                    st.write(f"**Größe:** {int(p_data['height_in_cm'])} cm" if pd.notna(p_data['height_in_cm']) else "**Größe:** Unbekannt")
-                    st.write(f"**Aktueller Club:** {p_data['current_club_name']}")
+                    st.write(f"**Grösse:** {int(p_data['height_in_cm'])} cm" if pd.notna(p_data['height_in_cm']) else "**Grösse:** Unbekannt")
                     st.write(f"**Länderspiele:** {int(p_data['international_caps'])}" if pd.notna(p_data['international_caps']) else "**Länderspiele:** 0")
                     st.write(f"**Länderspieltore:** {int(p_data['international_goals'])}" if pd.notna(p_data['international_goals']) else "**Länderspieltore:** 0")
 
@@ -1355,7 +1386,8 @@ with tab_market_risk:
                 mode='lines',
                 name='Marktwert (EUR)',
                 line=dict(color='#2563EB', width=3),
-                hovertemplate='<b>Datum:</b> %{x|%d.%m.%Y}<br><b>Marktwert:</b> €%{y:,.0f}<extra></extra>'
+                customdata=p_valuations[['current_club_name']],
+                hovertemplate='<b>Datum:</b> %{x|%d.%m.%Y}<br><b>Marktwert:</b> €%{y:,.0f}<br><b>Club:</b> %{customdata[0]}<extra></extra>'
             ))
 
             # Add Injury vrects
@@ -1388,8 +1420,9 @@ with tab_market_risk:
 
             # Add Club Logos for every data point
             if 'current_club_id' in p_valuations.columns:
-                # To prevent overloading with logos if data is very dense, 
-                # we could filter, but user asked for "everywhere".
+                # Dynamic sizing based on the max market value of the visible chart
+                max_mv = p_valuations['market_value_in_eur'].max()
+                
                 for _, v_row in p_valuations.iterrows():
                     c_id = v_row['current_club_id']
                     if pd.notna(c_id):
@@ -1401,8 +1434,8 @@ with tab_market_risk:
                                 yref="y",
                                 x=v_row['date'],
                                 y=v_row['market_value_in_eur'],
-                                sizex=20 * 24 * 60 * 60 * 1000, # ~20 days in ms
-                                sizey=v_row['market_value_in_eur'] * 0.15 if v_row['market_value_in_eur'] > 0 else 500000,
+                                sizex=30 * 24 * 60 * 60 * 1000, # Balanced to ~30 days
+                                sizey=max_mv * 0.12 if max_mv > 0 else 500000, # Balanced based on max value
                                 xanchor="center",
                                 yanchor="middle",
                                 opacity=1.0,
