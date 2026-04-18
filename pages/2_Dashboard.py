@@ -275,7 +275,7 @@ with tab_overview:
 
 with tab_injuries:
     st.markdown("""
-    ### 🏥 Für wen ist dieser Dashboard?
+    ### 🏥 Für wen ist dieses Dashboard?
     **Zielgruppe:** Medizinisches Personal, Verletzungs-Spezialisten, Trainer, Ligen-Verbände
     
     **Was sieht man?**
@@ -373,7 +373,7 @@ with tab_injuries:
 
 with tab_trends:
     st.markdown("""
-    ### 📈 Für wen ist dieser Dashboard?
+    ### 📈 Für wen ist dieses Dashboard?
     **Zielgruppe:** Strategische Planer, Team-Manager, Athletik-Trainer, Forscher
     
     **Was sieht man?**
@@ -438,7 +438,7 @@ with tab_trends:
 
 with tab_tables:
     st.markdown("""
-    ### 📋 Für wen ist dieser Dashboard?
+    ### 📋 Für wen ist dieses Dashboard?
     **Zielgruppe:** Datenanalytiker, Forscher, Klub-Administrator, Medizinische Teams
     
     **Was sieht man?**
@@ -489,7 +489,7 @@ with tab_tables:
 
 with tap_maps:
     st.markdown("""
-    ### ⚽ Für wen ist dieser Dashboard?
+    ### ⚽ Für wen ist dieses Dashboard?
     **Zielgruppe:** Trainer, Athletik-Trainer, Positionscoaches, Scouts
     
     **Was sieht man?**
@@ -634,7 +634,7 @@ with tap_maps:
 
 with tab_bodymap:
     st.markdown("""
-    ### 🏥 Für wen ist dieser Dashboard?
+    ### 🏥 Für wen ist dieses Dashboard?
     **Zielgruppe:** Medizinisches Personal, Physiotherapeuten, Sportmediziner, Forscher
     
     **Was sieht man?**
@@ -942,7 +942,7 @@ with tab_dddm:
             , icon="⚠️")
         
     st.markdown("""
-    ### 💼 Für wen ist dieser Dashboard?
+    ### 💼 Für wen ist dieses Dashboard?
     **Zielgruppe:** Club-Führung, Geschäftsführer, Sportdirektor, CFO, Contract Manager
     
     **Was sieht man?**
