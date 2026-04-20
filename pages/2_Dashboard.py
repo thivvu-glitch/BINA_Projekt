@@ -552,16 +552,35 @@ with tap_maps:
 
         injury_counts = injury_counts.merge(details, on="player_position", how="left")
 
-        # Bubble-size
-        injury_counts['bubble_size'] = injury_counts['injury_count']
-
         fig = go.Figure()
 
         fig.update_layout(
+            height=720,
             plot_bgcolor="#6aa84f",
             paper_bgcolor="white",
-            height=700,
-            margin=dict(l=20, r=20, t=20, b=20)
+            margin=dict(l=10, r=10, t=40, b=20),
+            title=dict(
+                text=f"Spielerpositionen mit Verletzungshäufung – {selected_club_global}",
+                x=0.5,
+                xanchor="center",
+                font=dict(size=22, color="#0F172A")
+            ),
+            font=dict(
+                family="Arial, sans-serif",
+                color="#334155"
+            ),
+            xaxis=dict(
+                visible=False,
+                range=[0, 100],
+                fixedrange=True
+            ),
+            yaxis=dict(
+                visible=False,
+                range=[0, 140],
+                scaleanchor="x",
+                scaleratio=1,
+                fixedrange=True
+            )
         )
 
         shapes = [
@@ -590,6 +609,10 @@ with tap_maps:
 
         fig.update_layout(shapes=shapes)
 
+        # Marker-Styling
+        min_count = injury_counts["injury_count"].min()
+        max_count = injury_counts["injury_count"].max()
+
         fig.add_trace(go.Scatter(
             x=injury_counts['x'],
             y=injury_counts['y'],
@@ -601,10 +624,30 @@ with tap_maps:
                 size=16
             ),
             marker=dict(
-                size=injury_counts['bubble_size'],
-                color="red",
-                opacity=0.75,
-                line=dict(color="black", width=2)
+                size=36,
+                color=injury_counts["injury_count"],
+                colorscale=[
+                    [0.0, "#FEE2E2"],
+                    [0.25, "#FCA5A5"],
+                    [0.5, "#F87171"],
+                    [0.75, "#DC2626"],
+                    [1.0, "#7F1D1D"]
+                ],
+                cmin=min_count,
+                cmax=max_count,
+                line=dict(color="#FFFFFF", width=2.5),
+                showscale=True,
+                colorbar=dict(
+                    title="Anzahl",
+                    thickness=12,
+                    len=0.42,
+                    y=0.28,
+                    x=1.02,
+                    outlinewidth=0,
+                #  tickfont=dict(size=11, color="#475569"),
+                #  titlefont=dict(size=12, color="#334155")
+                ),
+                opacity=0.97
             ),
             customdata=injury_counts[['player_position', 'injury_count', 'player_name', 'Injury']],
             hovertemplate=(
