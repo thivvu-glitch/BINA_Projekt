@@ -1135,6 +1135,54 @@ with tab_dddm:
         st.info("Keine Daten für die Budgetanalyse verfügbar.")
 
     st.divider()
+    st.subheader("📈 DDDM: Verletzungsverlauf 2020–2025")
+    st.markdown(
+        "Diese Ansicht zeigt die Anzahl der Verletzungsfälle pro Saison. Wähle eine Verletzungsart, um den Verlauf gezielt zu analysieren."
+    )
+
+    trend_df = df[(df['league'].isin(selected_leagues)) & (df['Season'].isin(selected_seasons))]
+    if selected_club_global != "Alle Clubs":
+        trend_df = trend_df[trend_df['club'] == selected_club_global]
+
+    if trend_df.empty:
+        st.info("Keine Daten für den Verletzungsverlauf mit der aktuellen Filterauswahl.")
+    else:
+        injury_options = sorted(trend_df['Injury'].dropna().unique().tolist())
+        selected_injury = st.selectbox(
+            "Verletzungsart auswählen",
+            ["Alle Verletzungen"] + injury_options,
+            index=0
+        )
+
+        if selected_injury != "Alle Verletzungen":
+            trend_df = trend_df[trend_df['Injury'] == selected_injury]
+
+        counts = trend_df.groupby('Season').size().reset_index(name='Anzahl')
+
+        if counts.empty:
+            st.info("Für die gewählte Verletzungsart sind keine Daten vorhanden.")
+        else:
+            fig_trend = px.line(
+                counts,
+                x='Season',
+                y='Anzahl',
+                markers=True,
+                title=(
+                    "Verletzungsanzahl pro Saison"
+                    if selected_injury == "Alle Verletzungen"
+                    else f"Verlauf: {selected_injury.title()}"
+                ),
+                labels={'Season': 'Saison', 'Anzahl': 'Anzahl Verletzungen'}
+            )
+            fig_trend.update_layout(
+                yaxis_title="Anzahl Verletzungen",
+                xaxis_title="Saison",
+                template="plotly_white",
+                legend_title_text="Verletzungsart"
+            )
+            st.plotly_chart(fig_trend, use_container_width=True, config={"displayModeBar": False})
+
+    st.divider()
     st.subheader("🎯 DDDM: Kader-Wertanalyse & Squad Vulnerability Assessment")
     st.markdown("""
     **Anwendungsfall:** Welche Spieler im Kader stellen ein hohes finanzielles Risiko dar?
