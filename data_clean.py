@@ -69,57 +69,83 @@ dfInjuries['Injury'] = dfInjuries['Injury'].str.lower()
 # 8. Kategorisierung der Verletzungen
 injury_map = {
 
-    # ---------------- MUSCLE ----------------
-    "torn muscle fiber": "Muscle",
-    "torn muscle bundle": "Muscle",
-    "muscle injury": "Muscle",
-    "muscular problems": "Muscle",
-    "hamstring injury": "Muscle",
-    "hamstring strain": "Muscle",
-    "hamstring muscle injury": "Muscle",
-    "muscle strain": "Muscle",
-    "muscle tear": "Muscle",
-    "partial muscle tear": "Muscle",
-    "torn thigh muscle": "Muscle",
-    "muscle contusion": "Muscle",
-    "calf injury": "Muscle",
-    "calf strain": "Muscle",
-    "calf muscle tear": "Muscle",
-    "calf problems": "Muscle",
-    "adductor pain": "Muscle",
-    "adductor injury": "Muscle",
-    "adductor strain": "Muscle",
-    "thigh problems": "Muscle",
-    "dead leg": "Muscle",
-    "muscle stiffness": "Muscle",
-    "muscle fatigue": "Muscle",
-    "sore muscles": "Muscle",
-    "leg injury": "Muscle",
-    "strain": "Muscle",
+    # ---------------- HEAD / NECK ----------------
+    "concussion": "Head",
+    "head injury": "Head",
+    "eye injury": "Head",
+    "facial injury": "Head",
+    "broken nose bone": "Head",
+    "neck injury": "Neck",
+    "neck problems": "Neck",
 
+    # ---------------- SHOULDER ----------------
+    "shoulder injury": "Shoulder",
+    "shoulder problems": "Shoulder",
 
-    # ---------------- LIGAMENT / TENDON ----------------
-    "ligament injury": "Ligament",
-    "ligament tear": "Ligament",
-    "torn ligaments": "Ligament",
-    "cruciate ligament tear": "Ligament",
-    "cruciate ligament injury": "Ligament",
-    "cruciate ligament strain": "Ligament",
-    "inner ligament injury": "Ligament",
-    "inner ligament tear": "Ligament",
-    "collateral ligament tear": "Ligament",
-    "collateral ligament injury": "Ligament",
-    "ankle ligament tear": "Ligament",
-    "torn ankle ligaments": "Ligament",
-    "syndesmosis ligament tear": "Ligament",
-    "syndesmotic ligament tear": "Ligament",
-    "ligament stretching": "Ligament",
-    "groin injury": "Ligament",
-    "groin problems": "Ligament",
-    "achilles tendon injury": "Ligament",
-    "pubalgia": "Ligament",
-    "achilles tendon problems": "Ligament",
-    "achilles tendon rupture": "Ligament",
+    # ---------------- CHEST / RIBS ----------------
+    "rib fracture": "Chest/Ribs",
+    "bruised ribs": "Chest/Ribs",
+    "chest injury": "Chest/Ribs",
+
+    # ---------------- BACK / SPINE ----------------
+    "back problems": "Back/Spine",
+    "back injury": "Back/Spine",
+    "herniated disc": "Back/Spine",
+    "lumbago": "Back/Spine",
+    "cervical spine injury": "Back/Spine",
+    "compression of the spine": "Back/Spine",
+    "lumbar vertebra fracture": "Back/Spine",
+
+    # ---------------- ABDOMEN / CORE ----------------
+    "abdominal problems": "Abdomen/Core",
+    "abdominal injury": "Abdomen/Core",
+    "stomach problems": "Abdomen/Core",
+
+    # ---------------- HIP / GROIN ----------------
+    "groin injury": "Hip/Groin",
+    "groin problems": "Hip/Groin",
+    "pubalgia": "Hip/Groin",
+    "groin surgery": "Hip/Groin",
+    "hip injury": "Hip/Groin",
+    "hip problems": "Hip/Groin",
+    "adductor pain": "Hip/Groin",
+    "adductor injury": "Hip/Groin",
+    "adductor strain": "Hip/Groin",
+    "inflammation of pubic bone": "Hip/Groin",
+
+    # ---------------- UPPER ARM ----------------
+    "upper arm injury": "Upper Arm",
+    "arm injury": "Upper Arm",
+    "broken arm": "Upper Arm",
+
+    # ---------------- ELBOW ----------------
+    "elbow injury": "Elbow",
+    "elbow problems": "Elbow",
+
+    # ---------------- FOREARM ----------------
+    "forearm fracture": "Forearm",
+    "forearm injury": "Forearm",
+
+    # ---------------- HAND / FINGER ----------------
+    "hand injury": "Hand/Finger",
+    "broken hand": "Hand/Finger",
+    "broken finger": "Hand/Finger",
+
+    # ---------------- THIGH ----------------
+    "torn muscle fiber": "Thigh",
+    "torn muscle bundle": "Thigh",
+    "hamstring injury": "Thigh",
+    "hamstring strain": "Thigh",
+    "hamstring muscle injury": "Thigh",
+    "muscle strain": "Thigh",
+    "muscle tear": "Thigh",
+    "partial muscle tear": "Thigh",
+    "torn thigh muscle": "Thigh",
+    "muscle contusion": "Thigh",
+    "thigh problems": "Thigh",
+    "dead leg": "Thigh",
+    "leg injury": "Thigh",
+    "strain": "Thigh",
 
     # ---------------- KNEE ----------------
     "knee injury": "Knee",
@@ -135,46 +161,71 @@ injury_map = {
     "patellar tendon tear": "Knee",
     "patellar tendinopathy syndrome": "Knee",
     "knee bruise": "Knee",
+    "cruciate ligament tear": "Knee",
+    "cruciate ligament injury": "Knee",
+    "cruciate ligament strain": "Knee",
+    "inner ligament injury": "Knee",
+    "inner ligament tear": "Knee",
+    "collateral ligament tear": "Knee",
+    "collateral ligament injury": "Knee",
 
-    # ---------------- ANKLE / FOOT ----------------
-    "ankle injury": "Ankle/Foot",
-    "ankle problems": "Ankle/Foot",
-    "ankle sprain": "Ankle/Foot",
-    "foot injury": "Ankle/Foot",
-    "metatarsal fracture": "Ankle/Foot",
-    "broken toe": "Ankle/Foot",
-    "toe injury": "Ankle/Foot",
-    "heel problems": "Ankle/Foot",
-    "heel injury": "Ankle/Foot",
-    "injury to the ankle": "Ankle/Foot",
+    # ---------------- LOWER LEG ----------------
+    "calf injury": "Lower Leg",
+    "calf strain": "Lower Leg",
+    "calf muscle tear": "Lower Leg",
+    "calf problems": "Lower Leg",
+    "achilles tendon injury": "Lower Leg",
+    "achilles tendon problems": "Lower Leg",
+    "achilles tendon rupture": "Lower Leg",
+    "broken fibula": "Lower Leg",
+    "broken leg": "Lower Leg",
 
-    # ---------------- BONE / FRACTURE ----------------
-    "broken fibula": "Fracture",
-    "broken ankle": "Fracture",
-    "broken arm": "Fracture",
-    "broken hand": "Fracture",
-    "broken finger": "Fracture",
-    "broken leg": "Fracture",
-    "broken foot": "Fracture",
-    "rib fracture": "Fracture",
-    "skull fracture": "Fracture",
-    "forearm fracture": "Fracture",
-    "lumbar vertebra fracture": "Fracture",
-    "fracture": "Fracture",
-    "hairline crack in foot": "Fracture",
-    "fatigue fracture": "Fracture",
-    "hip injury": "Fracture",
-    "hip problems": "Fracture",
+    # ---------------- ANKLE ----------------
+    "ankle injury": "Ankle",
+    "ankle problems": "Ankle",
+    "ankle sprain": "Ankle",
+    "injury to the ankle": "Ankle",
+    "ankle ligament tear": "Ankle",
+    "torn ankle ligaments": "Ankle",
+    "syndesmosis ligament tear": "Ankle",
+    "syndesmotic ligament tear": "Ankle",
+    "ligament stretching": "Ankle",
+    "broken ankle": "Ankle",
+    "ankle surgery": "Ankle",
 
-    # ---------------- BACK / SPINE ----------------
-    "back problems": "Back/Spine",
-    "back injury": "Back/Spine",
-    "herniated disc": "Back/Spine",
-    "lumbago": "Back/Spine",
-    "cervical spine injury": "Back/Spine",
-    "compression of the spine": "Back/Spine",
+    # ---------------- FOOT / TOE ----------------
+    "foot injury": "Foot/Toe",
+    "broken foot": "Foot/Toe",
+    "metatarsal fracture": "Foot/Toe",
+    "broken toe": "Foot/Toe",
+    "toe injury": "Foot/Toe",
+    "heel problems": "Foot/Toe",
+    "heel injury": "Foot/Toe",
+    "hairline crack in foot": "Foot/Toe",
+    "fatigue fracture": "Foot/Toe",
+    "foot surgery": "Foot/Toe",
 
-    # ---------------- ILLNESS / VIRUS ----------------
+    # ---------------- GENERIC MUSCLE ----------------
+    "muscle injury": "Muscle",
+    "muscular problems": "Muscle",
+    "muscle stiffness": "Muscle",
+    "muscle fatigue": "Muscle",
+    "sore muscles": "Muscle",
+
+    # ---------------- GENERIC FRACTURE ----------------
+    "fracture": "Bone",
+    
+    # ---------------- GENERIC LIGAMENT ----------------
+    "ligament injury": "Ligament",
+    "ligament tear": "Ligament",
+    "torn ligaments": "Ligament",
+    
+    # ---------------- SURGERY ----------------
+    "surgery": "Surgery",
+    "dental surgery": "Surgery",
+    "arthroscopy": "Surgery",
+    
+    # ---------------- ILLNESS ----------------
     "corona virus": "Illness",
     "virus": "Illness",
     "cold": "Illness",
@@ -187,42 +238,19 @@ injury_map = {
     "stomach flu": "Illness",
     "intestinal virus": "Illness",
     "tonsillitis": "Illness",
-    "ill": "Illness",
-
-    # ---------------- HEAD ----------------
-    "concussion": "Head",
-    "head injury": "Head",
-    "eye injury": "Head",
-    "facial injury": "Head",
-    "broken nose bone": "Head",
-
-    # ---------------- SHOULDER ----------------
-    "shoulder injury": "Shoulder",
-    "shoulder problems": "Shoulder",
-
-    # ---------------- SURGERY ----------------
-    "surgery": "Surgery",
-    "ankle surgery": "Surgery",
-    "foot surgery": "Surgery",
-    "dental surgery": "Surgery",
-    "arthroscopy": "Surgery",
-    "groin surgery": "Surgery",
+    "ill": "Illness", 
+    
+    # ---------------- MINOR / GENERIC ----------------
+    "minor knock": "Minor",
+    "knock": "Minor",
+    "bruise": "Minor",
+    "bone bruise": "Minor",
+    "inflammation": "Minor",
 
     # ---------------- NON-INJURY ----------------
     "fitness": "Non-injury",
     "rest": "Non-injury",
     "quarantine": "Non-injury",
-
-    # ---------------- MINOR ----------------
-    "minor knock": "Minor",
-    "knock": "Minor",
-    "bruise": "Minor",
-    "bruised ribs": "Minor",
-    "bone bruise": "Minor",
-    "inflammation of pubic bone": "Minor",
-    "inflammation": "Minor",
-    "stomach problems": "Minor",
-    "hand injury": "Minor",
 
 }
 
