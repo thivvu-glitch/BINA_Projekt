@@ -839,39 +839,6 @@ with tab_bodymap:
                 lambda value: get_text_color(value, min_count, max_count)
             )
 
-        fig = go.Figure()
-
-        # -----------------------
-        # Layout
-        # -----------------------
-        fig.update_layout(
-            height=820,
-            paper_bgcolor="#F8FAFC",
-            plot_bgcolor="#F8FAFC",
-            margin=dict(l=30, r=170, t=40, b=30),
-            title=dict(
-                text=title,
-                x=0.5,
-                xanchor="center",
-                font=dict(size=22, color="#0F172A")
-            ),
-            font=dict(
-                family="Arial, sans-serif",
-                color="#334155"
-            ),
-            xaxis=dict(
-                visible=False,
-                range=[0, 100],
-                fixedrange=True
-            ),
-            yaxis=dict(
-                visible=False,
-                range=[0, 140],
-                scaleanchor="x",
-                scaleratio=1,
-                fixedrange=True
-            )
-        )
             fig = go.Figure()
 
             
@@ -1081,7 +1048,6 @@ with tab_bodymap:
 
             st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
-with tab_dddm:
 with tab_dddm:
     def season_start_year(season: str) -> int:
         try:
