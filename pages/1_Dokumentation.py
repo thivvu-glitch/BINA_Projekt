@@ -168,8 +168,53 @@ Diese Schritte stellen sicher, dass die Daten in einer einheitlichen Struktur vo
 """)
 
 st.markdown("## 3. Daten analysieren")  # engl. Analyzing data
-'''
 
-'''
+st.write('''
+Die Datenanalyse erfolgt mithilfe der Anwendung des Dashboards und des DDDM-Tools in der Applikation. Einige Forschungs-
+fragen wurden im Schritt 2 bereits angeschnitten:
+         
+* Verteilung und Verletzungen nach **Körperregionen**
+* Zusammenhang zwischen **Spielerposition und Verletzungsanfälligkeit**
+* Analyse von **Ausfallzeiten und deren Ursachen**
+* Unterschiede zwischen **Ligen, Vereinen und Altersgruppen**
+* Einfluss von Verletzungen auf die **Marktwertentwicklung**
+         
+Die Top 5 der am häufigsten verletzten Körperregionen über alle Saisons und Ligen sind:
+1) Muskelverletzungen (Muscle injuries) mit 6538 Fällen
+2) Fussverletzungen mit 1499 Fällen
+3) Knieverletzungen (Knee injuries) mit 1272 Fällen
+4) Rückenverletzungen mit 317 Fällen
+5) Schulterverletzungen mit 254 Fällen
+
+Top 5 Verletzungen pro Saison und pro Liga:
+    20/21:
+    
+         Bundesliga:
+            1) Cruciate Ligament tear mit 7003 Ausfalltagen
+            2) Knee Surgery mit 1823 Ausfalltagen
+            3) Torn muscle fibre mit 1623 Ausfalltagen
+            4) Corona Virus mit 1336 Ausfalltagen
+            5) Ankle injury mit 1220 Ausfalltagen
+         
+         La Liga:
+            1) Muscle injury mit 3362 Ausfalltagen
+            2) Cruciate Ligament tear mit 1813 Ausfalltagen
+            3) Knee injury mit 1434 Ausfalltagen
+            4) Corona Virus mit 1330 Ausfalltagen
+            5) Ankle injury mit 542 Ausfalltagen
+       
+         Ligue 1:
+            1) Cruciate Ligament tear mit 3029 Ausfalltagen
+            2) Knee injury mit 1519 Ausfalltagen
+            3) Corona Virus mit 1150 Ausfalltagen
+            4) Muscle injury mit 597 Ausfalltagen
+            5) Knee Surgery mit 534 Ausfalltagen
+         
+       
+
+Es zeigt sich, dass sich die Verletzungsgefahr zwischend en Spielerpositionen stark unterscheidet.
+
+
+''')
 
 st.markdown("## 4. Informationen präsentieren")  # engl. Presenting information
