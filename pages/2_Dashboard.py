@@ -504,8 +504,9 @@ with tap_maps:
     st.subheader("Interaktive Karten")
     st.markdown("Analysiere die Verletzungen der Spieler nach Position in den einzelnen Clubs.")
 
-    club_df = filtered_df.copy()
-    if not club_df.empty:
+    def create_soccer_map(data_df, title):
+        if data_df.empty:
+            return None
 
         position_coords = {
             "Goalkeeper": (5, 40),
@@ -529,7 +530,10 @@ with tap_maps:
             "Forward": (105, 40)
         }
 
-        club_df = club_df[club_df['player_position'].isin(position_coords.keys())].copy()
+        club_df = data_df[data_df['player_position'].isin(position_coords.keys())].copy()
+
+        if club_df.empty:
+            return None
 
         injury_counts = (
             club_df.groupby("player_position")
@@ -560,7 +564,7 @@ with tap_maps:
             paper_bgcolor="white",
             margin=dict(l=10, r=10, t=40, b=20),
             title=dict(
-                text=f"Spielerpositionen mit Verletzungshäufung – {selected_club_global}",
+                text=title,
                 x=0.5,
                 xanchor="center",
                 font=dict(size=22, color="#0F172A")
@@ -669,9 +673,42 @@ with tap_maps:
         fig.update_xaxes(visible=False, range=[0, 120])
         fig.update_yaxes(visible=False, range=[0, 80], scaleanchor="x", scaleratio=1)
 
-        st.plotly_chart(fig, use_container_width=True)
+        return fig
+
+    if len(selected_leagues) == 1:
+        # Single league - show one soccer map
+        league = selected_leagues[0]
+        title = f"Spielerpositionen mit Verletzungshäufung – {league}"
+        if selected_club_global != "Alle Clubs":
+            title += f" ({selected_club_global})"
+        
+        fig = create_soccer_map(filtered_df, title)
+        if fig:
+            st.plotly_chart(fig, use_container_width=True)
+        else:
+            st.info("Keine Daten für die aktuelle Auswahl in der Kartenansicht verfügbar.")
+    
     else:
-        st.info("Keine Daten für die aktuelle Club-/Liga-/Saison-Auswahl in der Kartenansicht verfügbar.")
+        # Multiple leagues - show one soccer map per league, max 2 per row
+        st.markdown("**Vergleich der Ligen:** Jede Karte zeigt die Verletzungsmuster nach Position einer Liga.")
+        
+        # Group leagues into pairs for display
+        league_pairs = [selected_leagues[i:i+2] for i in range(0, len(selected_leagues), 2)]
+        
+        for pair in league_pairs:
+            cols = st.columns(len(pair))
+            for idx, league in enumerate(pair):
+                with cols[idx]:
+                    league_df = filtered_df[filtered_df['league'] == league]
+                    title = f"Spielerpositionen – {league}"
+                    if selected_club_global != "Alle Clubs":
+                        title += f" ({selected_club_global})"
+                    
+                    fig = create_soccer_map(league_df, title)
+                    if fig:
+                        st.plotly_chart(fig, use_container_width=True)
+                    else:
+                        st.info(f"Keine Daten für {league} verfügbar.")
 
 with tab_bodymap:
     import pandas as pd
