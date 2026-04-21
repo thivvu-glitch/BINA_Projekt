@@ -644,8 +644,6 @@ with tap_maps:
                     y=0.28,
                     x=1.02,
                     outlinewidth=0,
-                #  tickfont=dict(size=11, color="#475569"),
-                #  titlefont=dict(size=12, color="#334155")
                 ),
                 opacity=0.97
             ),
@@ -676,6 +674,9 @@ with tap_maps:
         st.info("Keine Daten für die aktuelle Club-/Liga-/Saison-Auswahl in der Kartenansicht verfügbar.")
 
 with tab_bodymap:
+    import pandas as pd
+    import plotly.graph_objects as go
+
     st.markdown("""
     ### 🏥 Für wen ist dieses Dashboard?
     **Zielgruppe:** Medizinisches Personal, Physiotherapeuten, Sportmediziner, Forscher
@@ -713,30 +714,49 @@ with tab_bodymap:
             "Thigh": (44.5, 56),
             "Knee": (44.5, 43.5),
             "Lower Leg": (44.5, 30),
-            "Ankle": (50, 15),
+            "Ankle": (50, 14),
             "Foot/Toe": (40.5, 15),
+        }
+
+        bodypart_display_mapping = {
+            "Head": "Kopf",
+            "Neck": "Nacken",
+            "Shoulder": "Schulter",
+            "Chest/Ribs": "Brust / Rippen",
+            "Back/Spine": "Rücken / Wirbelsäule",
+            "Abdomen/Core": "Bauch / Rumpf",
+            "Hip/Groin": "Hüfte / Leiste",
+            "Upper Arm": "Oberarm",
+            "Elbow": "Ellbogen",
+            "Forearm": "Unterarm",
+            "Hand/Finger": "Hand / Finger",
+            "Thigh": "Oberschenkel",
+            "Knee": "Knie",
+            "Lower Leg": "Unterschenkel",
+            "Ankle": "Knöchel",
+            "Foot/Toe": "Fuss / Zehen",
         }
 
         legend_category_mapping = {
             "Muskeln": "Muscle",
             "Knochen": "Bone",
             "Bänder": "Ligament",
-            "Surgery": "Surgery",
-            "Illness": "Illness",
-            "Minor": "Minor",
-            "Non-Injury": "Non-injury",
+            "Operation": "Surgery",
+            "Krankheit": "Illness",
+            "Leichte Verletzung": "Minor",
+            "Nicht verletzungsbedingt": "Non-injury",
         }
 
         legend_items = [
             "Muskeln",
             "Knochen",
             "Bänder",
-            "Surgery",
-            "Illness",
-            "Minor",
-            "Non-Injury",
+            "Operation",
+            "Krankheit",
+            "Leichte Verletzung",
+            "Nicht verletzungsbedingt",
         ]
-        
+
         category_colors = {
             "Muskeln": "#DC2626",
             "Knochen": "#7C3AED",
@@ -777,6 +797,30 @@ with tab_bodymap:
             threshold = vmin + (vmax - vmin) * 0.55
             return "#FFFFFF" if value >= threshold else "#111827"
 
+        def translate_bodypart(category: str) -> str:
+            return bodypart_display_mapping.get(category, category)
+
+        def format_hover_list_limited(value: str, items_per_line: int = 3, max_items: int = 8) -> str:
+            if not value:
+                return "Keine Angaben"
+
+            items = [item.strip() for item in str(value).split(",") if item.strip()]
+            if not items:
+                return "Keine Angaben"
+
+            shown_items = items[:max_items]
+            lines = []
+
+            for i in range(0, len(shown_items), items_per_line):
+                lines.append(", ".join(shown_items[i:i + items_per_line]))
+
+            result = "<br>".join(lines)
+
+            if len(items) > max_items:
+                result += f"<br><i>… und {len(items) - max_items} weitere</i>"
+
+            return result
+
         # -----------------------
         # Daten für Körperkarte
         # -----------------------
@@ -788,12 +832,29 @@ with tab_bodymap:
         else:
             body_counts["x"] = body_counts["injury_category"].map(lambda cat: position_coords[cat][0])
             body_counts["y"] = body_counts["injury_category"].map(lambda cat: position_coords[cat][1])
+            body_counts["display_category"] = body_counts["injury_category"].apply(translate_bodypart)
+            body_counts["player_name_hover"] = body_counts["player_name"].apply(
+                lambda x: format_hover_list_limited(x, items_per_line=3, max_items=8)
+            )
+            body_counts["injury_type_hover"] = body_counts["injury_type"].apply(
+                lambda x: format_hover_list_limited(x, items_per_line=2, max_items=6)
+            )
 
             # -----------------------
             # Daten für Legende
             # -----------------------
             legend_df = filtered_df[filtered_df["injury_category"].isin(legend_categories)].copy()
             legend_counts = aggregate_injuries(legend_df)
+
+            legend_counts["display_category"] = legend_counts["injury_category"].apply(
+                lambda x: next((k for k, v in legend_category_mapping.items() if v == x), x)
+            )
+            legend_counts["player_name_hover"] = legend_counts["player_name"].apply(
+                lambda x: format_hover_list_limited(x, items_per_line=3, max_items=8)
+            )
+            legend_counts["injury_type_hover"] = legend_counts["injury_type"].apply(
+                lambda x: format_hover_list_limited(x, items_per_line=2, max_items=6)
+            )
 
             min_count = int(body_counts["injury_count"].min())
             max_count = int(body_counts["injury_count"].max())
@@ -804,7 +865,6 @@ with tab_bodymap:
 
             fig = go.Figure()
 
-            
             # -----------------------
             # Layout
             # -----------------------
@@ -814,7 +874,7 @@ with tab_bodymap:
                 plot_bgcolor="#F8FAFC",
                 margin=dict(l=20, r=220, t=70, b=40),
                 title=dict(
-                    text="<b>Verletzungshotspots nach Körperzone</b><br><sup>Grössere und dunklere Marker zeigen häufiger betroffene Regionen</sup>",
+                    text="<b>Verletzungshotspots nach Körperzone</b><br><sup>Dunklere Marker zeigen häufiger betroffene Regionen</sup>",
                     x=0.5,
                     xanchor="center",
                     font=dict(size=22, color="#0F172A")
@@ -824,10 +884,14 @@ with tab_bodymap:
                     color="#334155"
                 ),
                 hoverlabel=dict(
-                    bgcolor="#0F172A",
-                    font_color="#FFFFFF",
-                    font_size=12,
-                    font_family="Arial, sans-serif"
+                    bgcolor="#FFFFFF",
+                    bordercolor="#CBD5E1",
+                    font=dict(
+                        color="#0F172A",
+                        size=13,
+                        family="Arial, sans-serif"
+                    ),
+                    align="left"
                 ),
                 xaxis=dict(
                     visible=False,
@@ -851,28 +915,47 @@ with tab_bodymap:
             joint_fill = "#F8FAFC"
 
             shapes = [
+                # Kopf (Head)
                 dict(type="circle", x0=40, y0=114, x1=60, y1=134, line=body_line, fillcolor=joint_fill, layer="below"),
+
+                # Hals (Neck)
                 dict(type="rect", x0=46, y0=109, x1=54, y1=114, line=dict(color="rgba(0,0,0,0)"), fillcolor=body_fill, layer="below"),
-                dict(type="path", path="M 35 108 Q 34 92 35 72 L 65 72 Q 66 92 65 108 Q 58 114 50 114 Q 42 114 35 108 Z",
-                     line=body_line, fillcolor=body_fill, layer="below"),
-                dict(type="path", path="M 35 108 Q 29 101 28 94 L 28 60 Q 28 57 31 57 L 35 57 L 35 106 Z",
-                     line=body_line, fillcolor="#F1F5F9", layer="below"),
-                dict(type="path", path="M 65 108 Q 71 101 72 94 L 72 60 Q 72 57 69 57 L 65 57 L 65 106 Z",
-                     line=body_line, fillcolor="#F1F5F9", layer="below"),
+
+                # Oberkörper / Torso (Chest, Ribs, Back, Abdomen)
+                dict(type="path", path="M 35 108 Q 34 92 35 72 L 65 72 Q 66 92 65 108 Q 58 114 50 114 Q 42 114 35 108 Z", line=body_line, fillcolor=body_fill, layer="below"),
+
+                # Arm links (Shoulder → Upper Arm → Forearm → Hand)
+                dict(type="path", path="M 35 108 Q 29 101 28 94 L 28 60 Q 28 57 31 57 L 35 57 L 35 106 Z", line=body_line, fillcolor="#F1F5F9", layer="below"),
+
+                # Arm rechts (Shoulder → Upper Arm → Forearm → Hand)
+                dict(type="path", path="M 65 108 Q 71 101 72 94 L 72 60 Q 72 57 69 57 L 65 57 L 65 106 Z", line=body_line, fillcolor="#F1F5F9", layer="below"),
+
+                # Ellenbogen links (Elbow)
                 dict(type="circle", x0=28, y0=77, x1=35, y1=86, line=body_line, fillcolor=joint_fill, layer="below"),
+
+                # Ellenbogen rechts (Elbow)
                 dict(type="circle", x0=65, y0=77, x1=72, y1=86, line=body_line, fillcolor=joint_fill, layer="below"),
-                dict(type="path", path="M 40 72 L 60 72 L 58 64 L 42 64 Z",
-                     line=body_line, fillcolor="#D7DEE8", layer="below"),
-                dict(type="path", path="M 42 64 L 49 64 L 49 20 L 40 20 L 40 58 Q 40 62 42 64 Z",
-                     line=body_line, fillcolor="#F1F5F9", layer="below"),
-                dict(type="path", path="M 51 64 L 58 64 L 60 58 L 60 20 L 51 20 Z",
-                     line=body_line, fillcolor="#F1F5F9", layer="below"),
+
+                # Hüfte / Becken (Hip / Groin)
+                dict(type="path", path="M 40 72 L 60 72 L 58 64 L 42 64 Z", line=body_line, fillcolor="#D7DEE8", layer="below"),
+
+                # Bein links (Thigh → Knee → Lower Leg)
+                dict(type="path", path="M 42 64 L 49 64 L 49 20 L 40 20 L 40 58 Q 40 62 42 64 Z", line=body_line, fillcolor="#F1F5F9", layer="below"),
+
+                # Bein rechts (Thigh → Knee → Lower Leg)
+                dict(type="path", path="M 51 64 L 58 64 L 60 58 L 60 20 L 51 20 Z", line=body_line, fillcolor="#F1F5F9", layer="below"),
+
+                # Knie links (Knee)
                 dict(type="circle", x0=40, y0=39, x1=49, y1=48, line=body_line, fillcolor=joint_fill, layer="below"),
+
+                # Knie rechts (Knee)
                 dict(type="circle", x0=51, y0=39, x1=60, y1=48, line=body_line, fillcolor=joint_fill, layer="below"),
-                dict(type="path", path="M 38 20 L 50 20 L 50 10 L 36 10 L 36 16 Q 36 20 38 20 Z",
-                     line=body_line, fillcolor="#E2E8F0", layer="below"),
-                dict(type="path", path="M 50 20 L 62 20 Q 64 20 64 18 L 64 10 L 50 10 Z",
-                     line=body_line, fillcolor="#E2E8F0", layer="below"),
+
+                # Fuss links (Foot / Toe)
+                dict(type="path", path="M 38 20 L 49 20 L 49 10 L 36 10 L 36 16 Q 36 20 38 20 Z", line=body_line, fillcolor="#E2E8F0", layer="below"),
+
+                # Fuss rechts (Foot / Toe)
+                dict(type="path", path="M 51 20 L 62 20 Q 64 20 64 18 L 64 10 L 51 10 Z", line=body_line, fillcolor="#E2E8F0", layer="below"),
             ]
 
             fig.update_layout(shapes=shapes)
@@ -909,11 +992,11 @@ with tab_bodymap:
                 y = legend_y_start - visible_index * gap
                 visible_index += 1
 
-                player_name = row.iloc[0]["player_name"]
-                injury_type = row.iloc[0]["injury_type"]
+                player_name_hover = row.iloc[0]["player_name_hover"]
+                injury_type_hover = row.iloc[0]["injury_type_hover"]
                 text_color = get_text_color(count, min_count, max_count)
 
-                customdata = [[label, count, player_name, injury_type]]
+                customdata = [[label, count, player_name_hover, injury_type_hover]]
 
                 fig.add_trace(go.Scatter(
                     x=[legend_x + 2],
@@ -924,9 +1007,10 @@ with tab_bodymap:
                     customdata=customdata,
                     hovertemplate=(
                         "<b>%{customdata[0]}</b><br>"
-                        "Anzahl: %{customdata[1]}<br>"
-                        "Spieler: %{customdata[2]}<br>"
-                        "Typ: %{customdata[3]}<extra></extra>"
+                        "Anzahl: %{customdata[1]}<br><br>"
+                        "<b>Spieler</b><br>%{customdata[2]}<br><br>"
+                        "<b>Verletzungstypen</b><br>%{customdata[3]}"
+                        "<extra></extra>"
                     ),
                     marker=dict(
                         size=36,
@@ -959,7 +1043,12 @@ with tab_bodymap:
             # -----------------------
             # Body-Map Marker
             # -----------------------
-            hover_custom = body_counts[["injury_category", "injury_count", "player_name", "injury_type"]]
+            hover_custom = body_counts[[
+                "display_category",
+                "injury_count",
+                "player_name_hover",
+                "injury_type_hover"
+            ]]
 
             fig.add_trace(go.Scatter(
                 x=body_counts["x"],
@@ -970,12 +1059,13 @@ with tab_bodymap:
                 customdata=hover_custom,
                 hovertemplate=(
                     "<b>%{customdata[0]}</b><br>"
-                    "Anzahl: %{customdata[1]}<br>"
-                    "Spieler: %{customdata[2]}<br>"
-                    "Typ: %{customdata[3]}<extra></extra>"
+                    "Anzahl: %{customdata[1]}<br><br>"
+                    "<b>Spieler</b><br>%{customdata[2]}<br><br>"
+                    "<b>Verletzungstypen</b><br>%{customdata[3]}"
+                    "<extra></extra>"
                 ),
                 marker=dict(
-                    size=36,
+                    size=36,                    
                     color=body_counts["injury_count"],
                     colorscale=colorscale,
                     cmin=min_count,
@@ -1006,11 +1096,12 @@ with tab_bodymap:
                 text="Dunklere Marker zeigen häufiger registrierte Verletzungen pro Körperzone",
                 showarrow=False,
                 font=dict(size=12, color="#64748B"),
-                xanchor="center"
+                xanchor="center",
             )
 
             st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
-
+            
+            
 with tab_dddm:
     def season_start_year(season: str) -> int:
         try:
