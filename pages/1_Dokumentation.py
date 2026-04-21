@@ -39,7 +39,7 @@ Mehrheitlich handelt es sich hier um quantitative Daten, ergänzt durch kategori
 ### Beschreibung der Datensätze
 Im Folgenden werden die verwendeten Datensätze sowie deren Spalten beschrieben:
 
-**Datenset "full_dataset_thesis - 1.csv"**
+**Datenset «full_dataset_thesis - 1.csv»**
 
 Quelle: European Football Injuries (2020-2025)
 
@@ -58,7 +58,7 @@ Quelle: European Football Injuries (2020-2025)
 | league                | Liga                                              |
 
 
-**Datenset "players.csv"**
+**Datenset «players.csv»**
 
 Quelle: Football Data from Transfermarkt
 
@@ -92,7 +92,7 @@ Quelle: Football Data from Transfermarkt
 | highest_market_value_in_eur            | Höchster erreichter Marktwert in Euro   |
 
 
-**Datenset "player_valuations.csv"**
+**Datenset «player_valuations.csv»**
 
 Quelle: Football Data from Transfermarkt
 
@@ -106,7 +106,7 @@ Quelle: Football Data from Transfermarkt
 | player_club_domestic_competition_id   | ID des nationalen Wettbewerbs                |
 
 
-**Datenset "clubs.csv"**
+**Datenset «clubs.csv»**
 
 Quelle: Football Data from Transfermarkt
 
@@ -157,7 +157,7 @@ Die verwendeteten Datensätze weisen unterschiedliche zeitliche Dimensionen auf:
 ### Datenaufbereitung und Datenstandardisierung
 Im Rahmen der Datenaufbereitung wurden die Datensätze bereinigt und standardisiert, um eine konsistente und analysierbare Datenbasis zu gewährleisten.
 
-Am Beispiel des Datensatzes "full_dataset_thesis - 1.csv" wurden folgende Schritte durchgeführt:
+Am Beispiel des Datensatzes «full_dataset_thesis - 1.csv» wurden folgende Schritte durchgeführt:
 * Bereinigung alphanumerische Werte (z. B. «10 days» → «10»)
 * Anpassung von Datenformaten und Entfernen von Leerzeichen (nach dem Text)
 * Korrektur von Kodierungsfehlern bei Umlauten (z. B. «Ã©»)
@@ -170,8 +170,7 @@ Diese Schritte stellen sicher, dass die Daten in einer einheitlichen Struktur vo
 st.markdown("## 3. Daten analysieren")  # engl. Analyzing data
 
 st.write('''
-Die Datenanalyse erfolgt mithilfe der Anwendung des Dashboards und des DDDM-Tools in der Applikation. Einige Forschungs-
-fragen wurden im Schritt 2 bereits angeschnitten:
+Die Datenanalyse erfolgt mithilfe der Anwendung des Dashboards und des DDDM-Tools in der Applikation. Einige Forschungsfragen wurden im Schritt 2 bereits angeschnitten:
          
 * Verteilung und Verletzungen nach **Körperregionen**
 * Zusammenhang zwischen **Spielerposition und Verletzungsanfälligkeit**
@@ -212,7 +211,7 @@ Top 5 Verletzungen pro Saison und pro Liga:
          
        
 
-Es zeigt sich, dass sich die Verletzungsgefahr zwischend en Spielerpositionen stark unterscheidet.
+Es zeigt sich, dass sich die Verletzungsgefahr zwischen den Spielerpositionen stark unterscheidet.
 
 
 ''')
