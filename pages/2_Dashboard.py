@@ -62,25 +62,25 @@ def load_tournament_players():
         games_path = os.path.join(script_dir, "../Data/games.csv")
         players_path = os.path.join(script_dir, "../Data/players.csv")
 
-        df_events = pd.read_csv(events_path)
-        df_games = pd.read_csv(games_path, usecols=["game_id", "competition_id"])
-        df_players = pd.read_csv(players_path, usecols=["player_id", "name"])
+        df_events = pd.read_csv(events_path, usecols=['game_id', 'player_id'])
+        df_games = pd.read_csv(games_path, usecols=['game_id', 'competition_id', 'season'])
+        df_players = pd.read_csv(players_path, usecols=['player_id', 'name'])
 
-        em_games = df_games[df_games["competition_id"] == "EURO"]["game_id"].unique()
-        wm_games = df_games[df_games["competition_id"] == "FIWC"]["game_id"].unique()
+        euro2020_games = df_games[(df_games['competition_id'] == 'EURO') & (df_games['season'] == 2020)]['game_id'].unique()
+        wm2022_games = df_games[df_games['competition_id'] == 'FIWC']['game_id'].unique()
+        euro2024_games = df_games[(df_games['competition_id'] == 'EURO') & (df_games['season'] == 2023)]['game_id'].unique()
 
-        em_ev = df_events[df_events["game_id"].isin(em_games)]
-        wm_ev = df_events[df_events["game_id"].isin(wm_games)]
+        euro2020_pids = df_events[df_events['game_id'].isin(euro2020_games)]['player_id'].dropna().unique()
+        wm2022_pids = df_events[df_events['game_id'].isin(wm2022_games)]['player_id'].dropna().unique()
+        euro2024_pids = df_events[df_events['game_id'].isin(euro2024_games)]['player_id'].dropna().unique()
 
-        em_player_ids = em_ev["player_id"].dropna().unique()
-        wm_player_ids = wm_ev["player_id"].dropna().unique()
+        euro2020_names = set(df_players[df_players['player_id'].isin(euro2020_pids)]['name'].unique())
+        wm2022_names = set(df_players[df_players['player_id'].isin(wm2022_pids)]['name'].unique())
+        euro2024_names = set(df_players[df_players['player_id'].isin(euro2024_pids)]['name'].unique())
 
-        em_names = set(df_players[df_players["player_id"].isin(em_player_ids)]["name"].unique())
-        wm_names = set(df_players[df_players["player_id"].isin(wm_player_ids)]["name"].unique())
-
-        return em_names, wm_names
+        return euro2020_names, wm2022_names, euro2024_names
     except Exception as e:
-        return set(), set()
+        return set(), set(), set()
 
 def get_injury_color(category, injury_name):
     cat = str(category).lower()
@@ -117,6 +117,14 @@ clubs_info_df = load_clubs()
 DEFAULT_SEASON = "24/25"
 club_options = ["Alle Clubs"] + sorted(df['club'].dropna().unique().tolist())
 season_options = sorted(df['Season'].dropna().unique().tolist())
+TOURNAMENT_OPTIONS = [
+    "Alle Spieler (Kein Filter)", 
+    "EURO 2020 (11.06. - 11.07.2021)", 
+    "WM 2022 (20.11. - 18.12.2022)", 
+    "EURO 2024 (14.06. - 14.07.2024)", 
+    "WM und EM (Alle 3 Turniere)", 
+    "Keine Turnierteilnahme"
+]
 
 # --- Initialize Session State ---
 if 'filter_club' not in st.session_state:
@@ -129,24 +137,28 @@ if 'filter_players' not in st.session_state:
     st.session_state['filter_players'] = []
 
 # --- Global Filter UI ---
-with st.expander("🌍 Globale Filter (Club & Saison)", expanded=False):
-    col1, col2 = st.columns(2)
-    with col1:
-        selected_club_global = st.selectbox(
-            "Club auswählen",
-            club_options,
-            key='filter_club',
-            help="Dieser globale Filter gilt für alle Dashboards."
-        )
-    with col2:
-        selected_seasons = st.multiselect(
-            "Saisons auswählen", 
-            season_options, 
-            key='filter_seasons'
-        )
-        if not selected_seasons:
-            selected_seasons = [DEFAULT_SEASON] if DEFAULT_SEASON in season_options else season_options
-            st.session_state['filter_seasons'] = selected_seasons
+# Globale Filter auskommentiert laut Anforderung
+# with st.expander("🌍 Globale Filter (Club & Saison)", expanded=False):
+#     col1, col2 = st.columns(2)
+#     with col1:
+#         selected_club_global = st.selectbox(
+#             "Club auswählen",
+#             club_options,
+#             key='filter_club',
+#             help="Dieser globale Filter gilt für alle Dashboards."
+#         )
+#     with col2:
+#         selected_seasons = st.multiselect(
+#             "Saisons auswählen", 
+#             season_options, 
+#             key='filter_seasons'
+#         )
+#         if not selected_seasons:
+#             selected_seasons = [DEFAULT_SEASON] if DEFAULT_SEASON in season_options else season_options
+#             st.session_state['filter_seasons'] = selected_seasons
+
+selected_club_global = "Alle Clubs"
+selected_seasons = season_options
 
 # League Filter (depends on selected club)
 if selected_club_global == "Alle Clubs":
@@ -206,15 +218,17 @@ if isinstance(date_range, tuple) and len(date_range) == 2:
     ]
 
 if tournament_filter != "Alle Spieler (Kein Filter)":
-    em_players, wm_players = load_tournament_players()
-    if tournament_filter == "Europameisterschaft (EM)":
-        player_source_df = player_source_df[player_source_df['player_name'].isin(em_players)]
-    elif tournament_filter == "Weltmeisterschaft (WM)":
-        player_source_df = player_source_df[player_source_df['player_name'].isin(wm_players)]
-    elif tournament_filter == "WM und EM":
-        player_source_df = player_source_df[player_source_df['player_name'].isin(em_players.union(wm_players))]
-    elif tournament_filter == "Keine Turnierteilnahme":
-        all_tournament_players = em_players.union(wm_players)
+    e20, w22, e24 = load_tournament_players()
+    if "EURO 2020" in tournament_filter:
+        player_source_df = player_source_df[player_source_df['player_name'].isin(e20)]
+    elif "WM 2022" in tournament_filter:
+        player_source_df = player_source_df[player_source_df['player_name'].isin(w22)]
+    elif "EURO 2024" in tournament_filter:
+        player_source_df = player_source_df[player_source_df['player_name'].isin(e24)]
+    elif "WM und EM" in tournament_filter:
+        player_source_df = player_source_df[player_source_df['player_name'].isin(e20.union(w22).union(e24))]
+    elif "Keine Turnierteilnahme" in tournament_filter:
+        all_tournament_players = e20.union(w22).union(e24)
         player_source_df = player_source_df[~player_source_df['player_name'].isin(all_tournament_players)]
 
 player_options = sorted(player_source_df['player_name'].dropna().unique().tolist())
@@ -256,15 +270,17 @@ if player_search:
     filtered_df = filtered_df[filtered_df['player_name'].str.contains(player_search, case=False, na=False)]
 
 if tournament_filter != "Alle Spieler (Kein Filter)":
-    em_players, wm_players = load_tournament_players()
-    if tournament_filter == "Europameisterschaft (EM)":
-        filtered_df = filtered_df[filtered_df['player_name'].isin(em_players)]
-    elif tournament_filter == "Weltmeisterschaft (WM)":
-        filtered_df = filtered_df[filtered_df['player_name'].isin(wm_players)]
-    elif tournament_filter == "WM und EM":
-        filtered_df = filtered_df[filtered_df['player_name'].isin(em_players.union(wm_players))]
-    elif tournament_filter == "Keine Turnierteilnahme":
-        all_tournament_players = em_players.union(wm_players)
+    e20, w22, e24 = load_tournament_players()
+    if "EURO 2020" in tournament_filter:
+        filtered_df = filtered_df[filtered_df['player_name'].isin(e20)]
+    elif "WM 2022" in tournament_filter:
+        filtered_df = filtered_df[filtered_df['player_name'].isin(w22)]
+    elif "EURO 2024" in tournament_filter:
+        filtered_df = filtered_df[filtered_df['player_name'].isin(e24)]
+    elif "WM und EM" in tournament_filter:
+        filtered_df = filtered_df[filtered_df['player_name'].isin(e20.union(w22).union(e24))]
+    elif "Keine Turnierteilnahme" in tournament_filter:
+        all_tournament_players = e20.union(w22).union(e24)
         filtered_df = filtered_df[~filtered_df['player_name'].isin(all_tournament_players)]
 
 # KPIs
@@ -482,93 +498,152 @@ with tab_trends:
     st.divider()
     
     # --- New Comparison Logic ---
-    st.subheader("🏆 Turnier- & Gruppenvergleich")
+    st.subheader("🏆 Verletzungsverlauf")
     st.markdown("Vergleiche Turnierteilnehmer (WM/EM) mit Kontrollgruppen oder anderen Turnieren.")
     
     with st.expander("⚙️ Vergleichskonfiguration (Vergleich vs. Kontrolle)", expanded=True):
         c1, c2 = st.columns(2)
         
+        league_options_all = sorted(df['league'].dropna().unique().tolist())
+        
         with c1:
             st.markdown("**1. Vergleichswerte (Gruppe A)**")
             v_tournament = st.selectbox(
-                "Turnier auswählen (A)",
-                options=["Alle Spieler", "Europameisterschaft (EM)", "Weltmeisterschaft (WM)", "WM und EM", "Keine Turnierteilnahme"],
+                "Turnierfilter (A)",
+                options=TOURNAMENT_OPTIONS,
                 index=2, # Default to WM
                 key="v_group_tournament"
             )
+            v_leagues = st.multiselect("Ligen (A)", league_options_all, default=league_options_all, key="v_group_leagues")
             v_season = st.multiselect("Saison (A)", season_options, default=season_options, key="v_group_season")
             
         with c2:
             st.markdown("**2. Kontrollwerte (Gruppe B)**")
             k_tournament = st.selectbox(
-                "Turnier auswählen (B)",
-                options=["Alle Spieler", "Europameisterschaft (EM)", "Weltmeisterschaft (WM)", "WM und EM", "Keine Turnierteilnahme"],
-                index=4, # Default to Keine Turnierteilnahme
+                "Turnierfilter (B)",
+                options=TOURNAMENT_OPTIONS,
+                index=5, # Default to Keine Turnierteilnahme
                 key="k_group_tournament"
             )
+            k_leagues = st.multiselect("Ligen (B)", league_options_all, default=league_options_all, key="k_group_leagues")
             k_season = st.multiselect("Saison (B)", season_options, default=season_options, key="k_group_season")
 
         st.markdown("---")
         use_randomizer = st.checkbox(
-            "🎲 Randomizer aktivieren: Kontrollgruppe (B) zufällig auf die gleiche Anzahl verletzter Spieler wie Gruppe A reduzieren", 
+            "🎲 Äquivalenzgruppe (Stratified Matching): Kontrollgruppe B an Liga und Position von Gruppe A spiegeln", 
             value=True,
-            help="Zieht zufällig die exakt gleiche Anzahl an verletzten Spielern für Gruppe B, damit die absoluten Verletzungszahlen direkt verglichen werden können."
+            help="Zieht für Gruppe B exakt dieselbe Anzahl an Spielern mit der gleichen Ligen- und Positions-Verteilung wie in Gruppe A."
         )
 
-    # Helper function to filter by tournament
-    def filter_by_tournament(data, t_filter):
-        if t_filter == "Alle Spieler":
-            return data
-        em_p, wm_p = load_tournament_players()
-        if t_filter == "Europameisterschaft (EM)":
-            return data[data['player_name'].isin(em_p)]
-        elif t_filter == "Weltmeisterschaft (WM)":
-            return data[data['player_name'].isin(wm_p)]
-        elif t_filter == "WM und EM":
-            return data[data['player_name'].isin(em_p.union(wm_p))]
-        elif t_filter == "Keine Turnierteilnahme":
-            all_t = em_p.union(wm_p)
-            return data[~data['player_name'].isin(all_t)]
-        return data
+    # Helper function to get the base players
+    def get_tournament_players(t_filter, all_players):
+        if "Alle Spieler" in t_filter:
+            return set(all_players)
+        e20, w22, e24 = load_tournament_players()
+        if "EURO 2020" in t_filter:
+            return e20.intersection(all_players)
+        elif "WM 2022" in t_filter:
+            return w22.intersection(all_players)
+        elif "EURO 2024" in t_filter:
+            return e24.intersection(all_players)
+        elif "WM und EM" in t_filter:
+            return e20.union(w22).union(e24).intersection(all_players)
+        elif "Keine Turnierteilnahme" in t_filter:
+            all_t = e20.union(w22).union(e24)
+            return set(all_players) - all_t
+        return set(all_players)
 
     import random
+    all_players_base = players_info_df['name'].dropna().unique()
+    
+    players_a = list(get_tournament_players(v_tournament, all_players_base))
+    players_b_pool = list(get_tournament_players(k_tournament, all_players_base))
+    players_b = players_b_pool.copy()
 
-    # Construct Comparison Data
-    df_a = df.copy()
-    if v_season: df_a = df_a[df_a['Season'].isin(v_season)]
-    df_a = filter_by_tournament(df_a, v_tournament)
-    df_a['Label'] = f"A: {v_tournament} ({', '.join(v_season) if len(v_season) < len(season_options) else 'Alle Saisons'})"
-    
-    df_b = df.copy()
-    if k_season: df_b = df_b[df_b['Season'].isin(k_season)]
-    df_b = filter_by_tournament(df_b, k_tournament)
-    
-    # Apply Randomizer
-    n_a = df_a['player_name'].nunique()
+    # Apply Stratified Matching Randomizer
+    n_a = len(players_a)
     if use_randomizer and n_a > 0:
-        b_players = df_b['player_name'].unique()
-        if len(b_players) > n_a:
-            # Deterministic seed based on selections
+        if len(players_b_pool) > n_a:
             seed_str = f"{v_tournament}_{k_tournament}_{''.join(v_season)}_{''.join(k_season)}"
             random.seed(hash(seed_str))
-            sampled_b = random.sample(list(b_players), n_a)
-            df_b = df_b[df_b['player_name'].isin(sampled_b)]
+            
+            # DataFrame representation for Stratified Sampling
+            df_a_info = players_info_df[players_info_df['name'].isin(players_a)].copy()
+            df_b_info = players_info_df[players_info_df['name'].isin(players_b_pool)].copy()
+            
+            # Remove duplicate names to ensure exact counts
+            df_a_info = df_a_info.drop_duplicates(subset=['name'])
+            df_b_info = df_b_info.drop_duplicates(subset=['name'])
+            
+            # Fill NA to avoid grouping issues
+            df_a_info['current_club_domestic_competition_id'] = df_a_info['current_club_domestic_competition_id'].fillna('Unknown')
+            df_a_info['position'] = df_a_info['position'].fillna('Unknown')
+            df_b_info['current_club_domestic_competition_id'] = df_b_info['current_club_domestic_competition_id'].fillna('Unknown')
+            df_b_info['position'] = df_b_info['position'].fillna('Unknown')
+            
+            # Calculate strata distribution in A
+            strata_counts = df_a_info.groupby(['current_club_domestic_competition_id', 'position']).size().to_dict()
+            
+            sampled_b_names = []
+            
+            # Sample for each stratum
+            for (league, pos), count in strata_counts.items():
+                pool_for_stratum = df_b_info[(df_b_info['current_club_domestic_competition_id'] == league) & (df_b_info['position'] == pos)]['name'].tolist()
+                
+                if len(pool_for_stratum) >= count:
+                    sampled_b_names.extend(random.sample(pool_for_stratum, count))
+                else:
+                    sampled_b_names.extend(pool_for_stratum)
+                    
+            # Fallback if we didn't reach n_a
+            remaining_needed = n_a - len(sampled_b_names)
+            if remaining_needed > 0:
+                remaining_pool = list(set(players_b_pool) - set(sampled_b_names))
+                if len(remaining_pool) >= remaining_needed:
+                    sampled_b_names.extend(random.sample(remaining_pool, remaining_needed))
+                else:
+                    sampled_b_names.extend(remaining_pool)
+                    
+            players_b = sampled_b_names
 
-    df_b['Label'] = f"B: {k_tournament} ({', '.join(k_season) if len(k_season) < len(season_options) else 'Alle Saisons'})"
+    # Construct Comparison Data (Filtering the injuries dataframe based on the player populations)
+    df_a = df[df['player_name'].isin(players_a)].copy()
+    if v_leagues: df_a = df_a[df_a['league'].isin(v_leagues)]
+    if v_season: df_a = df_a[df_a['Season'].isin(v_season)]
+    league_str_a = f" ({', '.join(v_leagues)})" if v_leagues and len(v_leagues) < len(league_options_all) else ""
+    df_a['Label'] = f"A: {v_tournament.split(' (')[0]}{league_str_a}"
+    
+    df_b = df[df['player_name'].isin(players_b)].copy()
+    if k_leagues: df_b = df_b[df_b['league'].isin(k_leagues)]
+    if k_season: df_b = df_b[df_b['Season'].isin(k_season)]
+    
+    league_str_b = f" ({', '.join(k_leagues)})" if k_leagues and len(k_leagues) < len(league_options_all) else ""
+    df_b['Label'] = f"B: {k_tournament.split(' (')[0]}{league_str_b}"
     
     # Show Summary Metrics
     c_m1, c_m2 = st.columns(2)
-    c_m1.metric(f"Gruppe A", f"{len(df_a)} Verletzungen", f"von {df_a['player_name'].nunique()} verletzten Spielern", delta_color="off")
-    c_m2.metric(f"Gruppe B", f"{len(df_b)} Verletzungen", f"von {df_b['player_name'].nunique()} verletzten Spielern", delta_color="off")
+    c_m1.metric(f"Gruppe A: Spielerbasis", f"{len(players_a)} Spieler", f"-> {len(df_a)} Verletzungen", delta_color="off")
+    c_m2.metric(f"Gruppe B: Spielerbasis", f"{len(players_b)} Spieler", f"-> {len(df_b)} Verletzungen", delta_color="off")
 
     compare_df = pd.concat([df_a, df_b])
     color_map = {df_a['Label'].iloc[0]: "red", df_b['Label'].iloc[0]: "blue"} if not compare_df.empty else {}
     
-    if compare_df.empty:
-        st.warning("Keine Daten für diesen Vergleich verfügbar.")
-    
     if not compare_df.empty:
-        monthly = compare_df.groupby(['Month_Num', 'Month', 'Label']).size().reset_index(name='Anzahl').sort_values('Month_Num')
+        monthly = compare_df.groupby(['Month_Num', 'Month', 'Label']).size().reset_index(name='Anzahl')
+        
+        # Determine X-Axis shift based on tournament A
+        start_month_num = 7 # Default July
+        if "EURO 2020" in v_tournament or "EURO 2024" in v_tournament:
+            start_month_num = 6 # June
+        elif "WM 2022" in v_tournament:
+            start_month_num = 11 # November
+            
+        def get_display_order(m):
+            return ((m - start_month_num) % 12) + 1
+            
+        monthly['Display_Order'] = monthly['Month_Num'].apply(get_display_order)
+        monthly = monthly.sort_values(['Display_Order'])
+        
         fig_month = px.line(
             monthly,
             x='Month',
@@ -579,6 +654,15 @@ with tab_trends:
             title="Verletzungen im Jahresverlauf (Vergleich)",
             labels={'Month': 'Monat', 'Anzahl': 'Anzahl Verletzungen', 'Label': 'Auswahl'}
         )
+        
+        # Add VRECT for Tournament Duration
+        if "WM 2022" in v_tournament:
+            fig_month.add_vrect(x0="November", x1="Dezember", fillcolor="yellow", opacity=0.3, line_width=0, annotation_text="WM 2022")
+        elif "EURO 2020" in v_tournament:
+            fig_month.add_vrect(x0="Juni", x1="Juli", fillcolor="blue", opacity=0.3, line_width=0, annotation_text="EURO 2020")
+        elif "EURO 2024" in v_tournament:
+            fig_month.add_vrect(x0="Juni", x1="Juli", fillcolor="green", opacity=0.3, line_width=0, annotation_text="EURO 2024")
+
         st.plotly_chart(fig_month, use_container_width=True)
     else:
         st.info("Keine Daten für diesen Vergleich verfügbar.")
@@ -586,11 +670,11 @@ with tab_trends:
     st.subheader("Verletzungsentwicklung über die Saisons")
     st.markdown("Diese Grafiken zeigen die zeitliche Entwicklung über die verfügbaren Saisons. Im ersten Diagramm ist die **absolute Anzahl der Verletzungen** pro Saison und Liga dargestellt. Im zweiten Diagramm sehen Sie die **gesamten Ausfalltage**, die durch diese Verletzungen verursacht wurden. So lässt sich nicht nur erkennen, ob Verletzungen häufiger geworden sind, sondern auch, ob deren Schweregrad (anhand der Ausfalltage) zu- oder abgenommen hat.")
     
-    season_counts = filtered_df.groupby(['Season', 'league']).size().reset_index(name='Anzahl')
+    season_counts = compare_df.groupby(['Season', 'Label']).size().reset_index(name='Anzahl')
     if not season_counts.empty:
         # Sortieren für chronologische Differenz-Berechnung
-        season_counts = season_counts.sort_values(['league', 'Season'])
-        season_counts['Diff'] = season_counts.groupby('league')['Anzahl'].diff()
+        season_counts = season_counts.sort_values(['Label', 'Season'])
+        season_counts['Diff'] = season_counts.groupby('Label')['Anzahl'].diff()
         
         def format_diff(val):
             if pd.isna(val):
@@ -609,29 +693,31 @@ with tab_trends:
             season_counts,
             x='Season',
             y='Anzahl',
-            color='league',
+            color='Label',
+            color_discrete_map=color_map,
             barmode='group',
             text='Text',
-            labels={'Season': 'Saison', 'Anzahl': 'Anzahl Verletzungen', 'league': 'Liga'}
+            labels={'Season': 'Saison', 'Anzahl': 'Anzahl Verletzungen', 'Label': 'Gruppe'}
         )
         fig_season.update_traces(textposition='outside', textfont_size=11)
         fig_season.update_layout(margin=dict(t=50))
         st.plotly_chart(fig_season, use_container_width=True)
         
         st.markdown("**2. Gesamte Ausfalltage pro Saison** *(Zahl = Gesamtwert, in Klammern = Veränderung zur Vorsaison)*")
-        season_days = filtered_df.groupby(['Season', 'league'])['Days'].sum().reset_index(name='Ausfalltage')
-        season_days = season_days.sort_values(['league', 'Season'])
-        season_days['Diff'] = season_days.groupby('league')['Ausfalltage'].diff()
+        season_days = compare_df.groupby(['Season', 'Label'])['Days'].sum().reset_index(name='Ausfalltage')
+        season_days = season_days.sort_values(['Label', 'Season'])
+        season_days['Diff'] = season_days.groupby('Label')['Ausfalltage'].diff()
         season_days['Text'] = season_days['Ausfalltage'].astype(int).astype(str) + season_days['Diff'].apply(format_diff)
         
         fig_days = px.bar(
             season_days,
             x='Season',
             y='Ausfalltage',
-            color='league',
+            color='Label',
+            color_discrete_map=color_map,
             barmode='group',
             text='Text',
-            labels={'Season': 'Saison', 'Ausfalltage': 'Gesamte Ausfalltage', 'league': 'Liga'}
+            labels={'Season': 'Saison', 'Ausfalltage': 'Gesamte Ausfalltage', 'Label': 'Gruppe'}
         )
         fig_days.update_traces(textposition='outside', textfont_size=11)
         fig_days.update_layout(margin=dict(t=50))
@@ -1862,8 +1948,8 @@ with tab_market_risk:
         with f_col2:
             st.session_state['tournament_filter'] = st.radio(
                 "Turnier-Teilnahme Filter",
-                options=["Alle Spieler (Kein Filter)", "Europameisterschaft (EM)", "Weltmeisterschaft (WM)", "WM und EM", "Keine Turnierteilnahme"],
-                index=["Alle Spieler (Kein Filter)", "Europameisterschaft (EM)", "Weltmeisterschaft (WM)", "WM und EM", "Keine Turnierteilnahme"].index(st.session_state['tournament_filter']),
+                options=TOURNAMENT_OPTIONS,
+                index=TOURNAMENT_OPTIONS.index(st.session_state.get('tournament_filter', "Alle Spieler (Kein Filter)")) if st.session_state.get('tournament_filter') in TOURNAMENT_OPTIONS else 0,
                 horizontal=True
             )
             tournament_filter = st.session_state['tournament_filter']
