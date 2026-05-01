@@ -501,6 +501,8 @@ with tab_trends:
     st.subheader("🏆 Verletzungsverlauf")
     st.markdown("Vergleiche Turnierteilnehmer (WM/EM) mit Kontrollgruppen oder anderen Turnieren.")
     
+    st.info("💡 **Kurzanleitung:** Hier kannst du zwei Szenarien vergleichen: Wähle in Gruppe A ein Turnier (z. B. WM 2022) und in Gruppe B 'Keine Turnierteilnahme' – der Randomizer erstellt dann automatisch eine statistisch faire Äquivalenzgruppe. Alternativ kannst du in beiden Gruppen 'Alle Spieler' wählen, um direkt Ligen oder Saisons miteinander zu vergleichen (deaktiviere in diesem Fall den Randomizer). So siehst du präzise, wie sich Verletzungsmuster zwischen Wettbewerben oder Zeiträumen unterscheiden.")
+    
     with st.expander("⚙️ Vergleichskonfiguration (Vergleich vs. Kontrolle)", expanded=True):
         c1, c2 = st.columns(2)
         
@@ -800,6 +802,35 @@ if False:
                         display_df = display_df.sort_values('Ausfalltage', ascending=False)
                         st.dataframe(display_df, use_container_width=True, hide_index=True)
 
+def render_local_filters(tab_prefix):
+    st.info("💡 **Kurzanleitung:** Nutze den Turnierfilter, um gezielt die Verletzungen einer WM/EM-Kohorte (z. B. WM 2022) zu analysieren oder wähle 'Alle Spieler' für eine allgemeine Liga-Übersicht. Über den Saison-Filter kannst du den Zeitraum anpassen, um z. B. die Belastung während einer Turniersaison im Vergleich zu anderen Jahren zu untersuchen. Alle Grafiken passen sich sofort deiner Auswahl an.")
+    with st.expander("⚙️ Filter (Turnier & Saison)", expanded=True):
+        col1, col2 = st.columns(2)
+        with col1:
+            t_filter = st.selectbox("Turnierfilter", TOURNAMENT_OPTIONS, index=0, key=f"{tab_prefix}_tournament")
+        with col2:
+            s_filter = st.multiselect("Saisons", season_options, default=season_options, key=f"{tab_prefix}_seasons")
+            
+    local_df = df.copy()
+    if s_filter:
+        local_df = local_df[local_df['Season'].isin(s_filter)]
+        
+    if "Alle Spieler" not in t_filter:
+        e20, w22, e24 = load_tournament_players()
+        if "EURO 2020" in t_filter:
+            local_df = local_df[local_df['player_name'].isin(e20)]
+        elif "WM 2022" in t_filter:
+            local_df = local_df[local_df['player_name'].isin(w22)]
+        elif "EURO 2024" in t_filter:
+            local_df = local_df[local_df['player_name'].isin(e24)]
+        elif "WM und EM" in t_filter:
+            local_df = local_df[local_df['player_name'].isin(e20.union(w22).union(e24))]
+        elif "Keine Turnierteilnahme" in t_filter:
+            all_t = e20.union(w22).union(e24)
+            local_df = local_df[~local_df['player_name'].isin(all_t)]
+            
+    return local_df
+
 with tap_maps:
     st.markdown("""
     ### ⚽ Für wen ist dieses Dashboard?
@@ -816,6 +847,8 @@ with tap_maps:
     
     st.subheader("Interaktive Karten")
     st.markdown("Analysiere die Verletzungen der Spieler nach Position in den einzelnen Clubs.")
+    
+    maps_df = render_local_filters("maps")
 
     def create_soccer_map(data_df, global_min, global_max):
         if data_df.empty:
@@ -983,7 +1016,7 @@ with tap_maps:
         "Midfielder", "Left Midfield", "Right Midfield", 
         "Left Winger", "Right Winger", "Second Striker", "Forward"
     ]
-    global_counts = filtered_df[filtered_df['player_position'].isin(position_coords_keys)].groupby(['league', 'player_position']).size().reset_index(name='count')
+    global_counts = maps_df[maps_df['player_position'].isin(position_coords_keys)].groupby(['league', 'player_position']).size().reset_index(name='count')
     if global_counts.empty:
         global_min, global_max = 0, 1
     else:
@@ -1033,7 +1066,7 @@ with tap_maps:
             title += f" ({selected_club_global})"
         
         st.markdown(f"**{title}**")
-        fig = create_soccer_map(filtered_df, global_min, global_max)
+        fig = create_soccer_map(maps_df, global_min, global_max)
         if fig:
             st.plotly_chart(fig, use_container_width=True)
         else:
@@ -1050,7 +1083,7 @@ with tap_maps:
             cols = st.columns(2)
             for idx, league in enumerate(pair):
                 with cols[idx]:
-                    league_df = filtered_df[filtered_df['league'] == league]
+                    league_df = maps_df[maps_df['league'] == league]
                     title = f"Spielerpositionen – {league}"
                     if selected_club_global != "Alle Clubs":
                         title += f" ({selected_club_global})"
@@ -1082,7 +1115,9 @@ with tab_bodymap:
     st.subheader("Interaktive Körperkarte")
     st.markdown("Analysiere die Verletzungen der Spieler durch ihre körperliche Position.")
 
-    if filtered_df.empty:
+    body_df = render_local_filters("bodymap")
+
+    if body_df.empty:
         st.info("Keine Daten für die aktuelle Club-/Liga-/Saison-Auswahl in der Körperkarte verfügbar.")
     else:
         # -----------------------
@@ -1443,9 +1478,8 @@ with tab_bodymap:
         )
         return fig
 
-    if not filtered_df.empty:
-        # Compute global min and max for the bodymaps
-        league_body_df = filtered_df[filtered_df["injury_category"].isin(body_categories)].copy()
+    if not body_df.empty:
+        league_body_df = body_df[body_df["injury_category"].isin(body_categories)].copy()
         if league_body_df.empty:
             global_min, global_max = 0, 1
         else:
@@ -1490,7 +1524,7 @@ with tab_bodymap:
             if selected_club_global != "Alle Clubs":
                 title += f" ({selected_club_global})"
             st.markdown(f"**{title}**")
-            fig = create_bodymap(filtered_df, global_min, global_max)
+            fig = create_bodymap(body_df, global_min, global_max)
             if fig:
                 st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
             else:
@@ -1502,7 +1536,7 @@ with tab_bodymap:
                 cols = st.columns(2)
                 for idx, league in enumerate(pair):
                     with cols[idx]:
-                        league_df = filtered_df[filtered_df['league'] == league]
+                        league_df = body_df[body_df['league'] == league]
                         title = f"Verletzungshotspots – {league}"
                         if selected_club_global != "Alle Clubs":
                             title += f" ({selected_club_global})"
