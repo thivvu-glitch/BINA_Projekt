@@ -53,6 +53,35 @@ def load_players_full():
     players_df = pd.read_csv(players_path)
     return players_df
 
+@st.cache_data(show_spinner=False)
+def load_tournament_players():
+    try:
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        
+        events_path = os.path.join(script_dir, "../Data/game_events.csv")
+        games_path = os.path.join(script_dir, "../Data/games.csv")
+        players_path = os.path.join(script_dir, "../Data/players.csv")
+
+        df_events = pd.read_csv(events_path)
+        df_games = pd.read_csv(games_path, usecols=["game_id", "competition_id"])
+        df_players = pd.read_csv(players_path, usecols=["player_id", "name"])
+
+        em_games = df_games[df_games["competition_id"] == "EURO"]["game_id"].unique()
+        wm_games = df_games[df_games["competition_id"] == "FIWC"]["game_id"].unique()
+
+        em_ev = df_events[df_events["game_id"].isin(em_games)]
+        wm_ev = df_events[df_events["game_id"].isin(wm_games)]
+
+        em_player_ids = em_ev["player_id"].dropna().unique()
+        wm_player_ids = wm_ev["player_id"].dropna().unique()
+
+        em_names = set(df_players[df_players["player_id"].isin(em_player_ids)]["name"].unique())
+        wm_names = set(df_players[df_players["player_id"].isin(wm_player_ids)]["name"].unique())
+
+        return em_names, wm_names
+    except Exception as e:
+        return set(), set()
+
 def get_injury_color(category, injury_name):
     cat = str(category).lower()
     inj = str(injury_name).lower()
@@ -85,39 +114,39 @@ val_df = load_valuation_data()
 players_info_df = load_players_full()
 clubs_info_df = load_clubs()
 
-# Sidebar Filters
-st.sidebar.header("Filteroptionen")
-
-# Defaults
 DEFAULT_SEASON = "24/25"
+club_options = ["Alle Clubs"] + sorted(df['club'].dropna().unique().tolist())
+season_options = sorted(df['Season'].dropna().unique().tolist())
 
-# Club Filter (global)
-clubs = sorted(df['club'].dropna().unique().tolist())
-club_options = ["Alle Clubs"] + clubs
-
+# --- Initialize Session State ---
 if 'filter_club' not in st.session_state:
     st.session_state['filter_club'] = "Alle Clubs"
 if 'filter_leagues' not in st.session_state:
     st.session_state['filter_leagues'] = sorted(df['league'].dropna().unique().tolist())
 if 'filter_seasons' not in st.session_state:
-    st.session_state['filter_seasons'] = [DEFAULT_SEASON] if DEFAULT_SEASON in df['Season'].dropna().unique().tolist() else sorted(df['Season'].dropna().unique().tolist())
+    st.session_state['filter_seasons'] = [DEFAULT_SEASON] if DEFAULT_SEASON in season_options else season_options
 if 'filter_players' not in st.session_state:
     st.session_state['filter_players'] = []
 
-# Reset button
-if st.sidebar.button("Filter auf Default zurücksetzen"):
-    st.session_state['filter_club'] = "Alle Clubs"
-    st.session_state['filter_leagues'] = sorted(df['league'].dropna().unique().tolist())
-    st.session_state['filter_seasons'] = [DEFAULT_SEASON] if DEFAULT_SEASON in df['Season'].dropna().unique().tolist() else sorted(df['Season'].dropna().unique().tolist())
-    st.session_state['filter_players'] = []
-    st.rerun()
-
-selected_club_global = st.sidebar.selectbox(
-    "Club auswählen",
-    club_options,
-    key='filter_club',
-    help="Dieser globale Filter gilt für alle Dashboards."
-)
+# --- Global Filter UI ---
+with st.expander("🌍 Globale Filter (Club & Saison)", expanded=False):
+    col1, col2 = st.columns(2)
+    with col1:
+        selected_club_global = st.selectbox(
+            "Club auswählen",
+            club_options,
+            key='filter_club',
+            help="Dieser globale Filter gilt für alle Dashboards."
+        )
+    with col2:
+        selected_seasons = st.multiselect(
+            "Saisons auswählen", 
+            season_options, 
+            key='filter_seasons'
+        )
+        if not selected_seasons:
+            selected_seasons = [DEFAULT_SEASON] if DEFAULT_SEASON in season_options else season_options
+            st.session_state['filter_seasons'] = selected_seasons
 
 # League Filter (depends on selected club)
 if selected_club_global == "Alle Clubs":
@@ -129,17 +158,37 @@ st.session_state['filter_leagues'] = [l for l in st.session_state['filter_league
 if not st.session_state['filter_leagues']:
     st.session_state['filter_leagues'] = league_options
 
-selected_leagues = st.sidebar.multiselect("Ligen auswählen", league_options, key='filter_leagues')
-
-# Season Filter
-season_options = sorted(df['Season'].dropna().unique().tolist())
-st.session_state['filter_seasons'] = [s for s in st.session_state['filter_seasons'] if s in season_options]
-if not st.session_state['filter_seasons']:
-    st.session_state['filter_seasons'] = [DEFAULT_SEASON] if DEFAULT_SEASON in season_options else season_options
-
-selected_seasons = st.sidebar.multiselect("Saisons auswählen", season_options, key='filter_seasons')
+selected_leagues = league_options # Default to all leagues since filter is disabled
 
 # Player Search (limited to selected club and other active filters)
+st.sidebar.markdown("---")
+
+min_date = df['injury_from_parsed'].min().date()
+max_date = df['injury_from_parsed'].max().date()
+
+# date_range = st.sidebar.date_input(
+#     "Zeitraum (Verletzungsbeginn)",
+#     value=(min_date, max_date),
+#     min_value=min_date,
+#     max_value=max_date,
+#     help="Filtert Verletzungen basierend auf dem Datum, an dem sie passiert sind."
+# )
+if 'date_range' not in st.session_state:
+    st.session_state['date_range'] = (min_date, max_date)
+date_range = st.session_state['date_range']
+st.sidebar.markdown("---")
+
+# tournament_filter = st.sidebar.radio(
+#     "Turnier-Teilnahme Filter",
+#     options=["Alle Spieler (Kein Filter)", "Europameisterschaft (EM)", "Weltmeisterschaft (WM)", "WM und EM", "Keine Turnierteilnahme"],
+#     help="Filtert die Spieler anhand ihrer dokumentierten WM/EM-Teilnahme."
+# )
+if 'tournament_filter' not in st.session_state:
+    st.session_state['tournament_filter'] = "Alle Spieler (Kein Filter)"
+tournament_filter = st.session_state['tournament_filter']
+
+st.sidebar.markdown("---")
+
 player_source_df = df.copy()
 if selected_club_global != "Alle Clubs":
     player_source_df = player_source_df[player_source_df['club'] == selected_club_global]
@@ -148,17 +197,40 @@ if selected_leagues:
 if selected_seasons:
     player_source_df = player_source_df[player_source_df['Season'].isin(selected_seasons)]
 
+if isinstance(date_range, tuple) and len(date_range) == 2:
+    start_dt = pd.to_datetime(date_range[0])
+    end_dt = pd.to_datetime(date_range[1])
+    player_source_df = player_source_df[
+        (player_source_df['injury_from_parsed'] >= start_dt) & 
+        (player_source_df['injury_from_parsed'] <= end_dt)
+    ]
+
+if tournament_filter != "Alle Spieler (Kein Filter)":
+    em_players, wm_players = load_tournament_players()
+    if tournament_filter == "Europameisterschaft (EM)":
+        player_source_df = player_source_df[player_source_df['player_name'].isin(em_players)]
+    elif tournament_filter == "Weltmeisterschaft (WM)":
+        player_source_df = player_source_df[player_source_df['player_name'].isin(wm_players)]
+    elif tournament_filter == "WM und EM":
+        player_source_df = player_source_df[player_source_df['player_name'].isin(em_players.union(wm_players))]
+    elif tournament_filter == "Keine Turnierteilnahme":
+        all_tournament_players = em_players.union(wm_players)
+        player_source_df = player_source_df[~player_source_df['player_name'].isin(all_tournament_players)]
+
 player_options = sorted(player_source_df['player_name'].dropna().unique().tolist())
 st.session_state['filter_players'] = [p for p in st.session_state['filter_players'] if p in player_options]
 
-player_searchBox = st.sidebar.multiselect(
-    "Spieler suchen",
-    options=player_options,
-    key='filter_players',
-    max_selections=1,
-    help="Suche ist auf den ausgewählten Club (und aktive Liga/Saison-Filter) begrenzt."
-)
-player_search = player_searchBox[0] if player_searchBox else ""
+# player_searchBox = st.sidebar.multiselect(
+#     "Spieler suchen",
+#     options=player_options,
+#     key='filter_players',
+#     max_selections=1,
+#     help="Suche ist auf die aktiven Filter begrenzt."
+# )
+# player_search = player_searchBox[0] if player_searchBox else ""
+if 'player_search' not in st.session_state:
+    st.session_state['player_search'] = ""
+player_search = st.session_state['player_search']
 
 st.sidebar.markdown("---")
 st.sidebar.caption("Navigation erfolgt über Tabs im Hauptbereich.")
@@ -169,11 +241,31 @@ filtered_df = df[
     (df['Season'].isin(selected_seasons))
 ]
 
+if isinstance(date_range, tuple) and len(date_range) == 2:
+    start_dt = pd.to_datetime(date_range[0])
+    end_dt = pd.to_datetime(date_range[1])
+    filtered_df = filtered_df[
+        (filtered_df['injury_from_parsed'] >= start_dt) & 
+        (filtered_df['injury_from_parsed'] <= end_dt)
+    ]
+
 if selected_club_global != "Alle Clubs":
     filtered_df = filtered_df[filtered_df['club'] == selected_club_global]
 
 if player_search:
     filtered_df = filtered_df[filtered_df['player_name'].str.contains(player_search, case=False, na=False)]
+
+if tournament_filter != "Alle Spieler (Kein Filter)":
+    em_players, wm_players = load_tournament_players()
+    if tournament_filter == "Europameisterschaft (EM)":
+        filtered_df = filtered_df[filtered_df['player_name'].isin(em_players)]
+    elif tournament_filter == "Weltmeisterschaft (WM)":
+        filtered_df = filtered_df[filtered_df['player_name'].isin(wm_players)]
+    elif tournament_filter == "WM und EM":
+        filtered_df = filtered_df[filtered_df['player_name'].isin(em_players.union(wm_players))]
+    elif tournament_filter == "Keine Turnierteilnahme":
+        all_tournament_players = em_players.union(wm_players)
+        filtered_df = filtered_df[~filtered_df['player_name'].isin(all_tournament_players)]
 
 # KPIs
 col1, col2, col3, col4 = st.columns(4)
@@ -187,10 +279,10 @@ if filtered_df.empty:
 
 # Tab Labels
 tab_labels = [
-    "Übersicht",
-    "Verletzungsvergleich",
+    # "Übersicht",
+    # "Verletzungsvergleich",
     "Zeit & Liga",
-    "Tabellen",
+    # "Tabellen",
     "Karten",    
     "Bodymap",
     "DDDM Entscheidungen",
@@ -205,20 +297,23 @@ elif "requested_tab" in st.session_state:
     del st.session_state["requested_tab"]
 
 if "active_dashboard_tab" not in st.session_state:
-    st.session_state["active_dashboard_tab"] = "Übersicht"
+    st.session_state["active_dashboard_tab"] = "Zeit & Liga"
 
 def update_tab_url():
     """Updates the URL query parameters when a tab is clicked."""
     st.query_params["tab"] = st.session_state["active_dashboard_tab"]
 
-tab_overview, tab_injuries, tab_trends, tab_tables, tap_maps, tab_bodymap, tab_dddm, tab_market_risk = st.tabs(
+# tab_overview, tab_injuries, tab_trends, tab_tables, tap_maps, tab_bodymap, tab_dddm, tab_market_risk = st.tabs(
+# tab_trends, tab_tables, tap_maps, tab_bodymap, tab_dddm, tab_market_risk = st.tabs(
+tab_trends, tap_maps, tab_bodymap, tab_dddm, tab_market_risk = st.tabs(
     tab_labels, 
     key="active_dashboard_tab",
     on_change=update_tab_url
 )
 
 
-with tab_overview:
+# with tab_overview:
+if False:
     st.markdown("""
     ### 📊 Für wen ist dieses Dashboard?
     **Zielgruppe:** Analytiker, Trainer, Sport-Manager, Klub-Führung
@@ -273,7 +368,8 @@ with tab_overview:
     )
     st.plotly_chart(fig_top, use_container_width=True)
 
-with tab_injuries:
+# with tab_injuries:
+if False:
     st.markdown("""
     ### 🏥 Für wen ist dieses Dashboard?
     **Zielgruppe:** Medizinisches Personal, Verletzungs-Spezialisten, Trainer, Ligen-Verbände
@@ -291,11 +387,11 @@ with tab_injuries:
     st.markdown("Analysiere eine spezifische Verletzungsart über alle Ligen hinweg.")
 
     # Injury Selection
-    all_injuries = sorted(df['Injury'].dropna().unique().tolist())
+    all_injuries = sorted(filtered_df['Injury'].dropna().unique().tolist())
     selected_injury = st.selectbox("Verletzung auswählen", all_injuries, help="Wähle eine Verletzung aus, um den Vergleich zu starten.")
 
     if selected_injury:
-        inj_df = df[df['Injury'] == selected_injury].copy()
+        inj_df = filtered_df[filtered_df['Injury'] == selected_injury].copy()
         
         # KPIs for this injury
         i_col1, i_col2, i_col3 = st.columns(3)
@@ -385,31 +481,161 @@ with tab_trends:
     """)
     st.divider()
     
-    st.subheader("Saisonale Muster im Ligenvergleich")
-    monthly = filtered_df.groupby(['Month_Num', 'Month', 'league']).size().reset_index(name='Anzahl').sort_values('Month_Num')
-    fig_month = px.line(
-        monthly,
-        x='Month',
-        y='Anzahl',
-        color='league',
-        markers=True,
-        title="Verletzungen im Jahresverlauf nach Ligen",
-        labels={'Month': 'Monat', 'Anzahl': 'Anzahl Verletzungen', 'league': 'Liga'}
-    )
-    st.plotly_chart(fig_month, use_container_width=True)
+    # --- New Comparison Logic ---
+    st.subheader("🏆 Turnier- & Gruppenvergleich")
+    st.markdown("Vergleiche Turnierteilnehmer (WM/EM) mit Kontrollgruppen oder anderen Turnieren.")
+    
+    with st.expander("⚙️ Vergleichskonfiguration (Vergleich vs. Kontrolle)", expanded=True):
+        c1, c2 = st.columns(2)
+        
+        with c1:
+            st.markdown("**1. Vergleichswerte (Gruppe A)**")
+            v_tournament = st.selectbox(
+                "Turnier auswählen (A)",
+                options=["Alle Spieler", "Europameisterschaft (EM)", "Weltmeisterschaft (WM)", "WM und EM", "Keine Turnierteilnahme"],
+                index=2, # Default to WM
+                key="v_group_tournament"
+            )
+            v_season = st.multiselect("Saison (A)", season_options, default=season_options, key="v_group_season")
+            
+        with c2:
+            st.markdown("**2. Kontrollwerte (Gruppe B)**")
+            k_tournament = st.selectbox(
+                "Turnier auswählen (B)",
+                options=["Alle Spieler", "Europameisterschaft (EM)", "Weltmeisterschaft (WM)", "WM und EM", "Keine Turnierteilnahme"],
+                index=4, # Default to Keine Turnierteilnahme
+                key="k_group_tournament"
+            )
+            k_season = st.multiselect("Saison (B)", season_options, default=season_options, key="k_group_season")
+
+        st.markdown("---")
+        use_randomizer = st.checkbox(
+            "🎲 Randomizer aktivieren: Kontrollgruppe (B) zufällig auf die gleiche Anzahl verletzter Spieler wie Gruppe A reduzieren", 
+            value=True,
+            help="Zieht zufällig die exakt gleiche Anzahl an verletzten Spielern für Gruppe B, damit die absoluten Verletzungszahlen direkt verglichen werden können."
+        )
+
+    # Helper function to filter by tournament
+    def filter_by_tournament(data, t_filter):
+        if t_filter == "Alle Spieler":
+            return data
+        em_p, wm_p = load_tournament_players()
+        if t_filter == "Europameisterschaft (EM)":
+            return data[data['player_name'].isin(em_p)]
+        elif t_filter == "Weltmeisterschaft (WM)":
+            return data[data['player_name'].isin(wm_p)]
+        elif t_filter == "WM und EM":
+            return data[data['player_name'].isin(em_p.union(wm_p))]
+        elif t_filter == "Keine Turnierteilnahme":
+            all_t = em_p.union(wm_p)
+            return data[~data['player_name'].isin(all_t)]
+        return data
+
+    import random
+
+    # Construct Comparison Data
+    df_a = df.copy()
+    if v_season: df_a = df_a[df_a['Season'].isin(v_season)]
+    df_a = filter_by_tournament(df_a, v_tournament)
+    df_a['Label'] = f"A: {v_tournament} ({', '.join(v_season) if len(v_season) < len(season_options) else 'Alle Saisons'})"
+    
+    df_b = df.copy()
+    if k_season: df_b = df_b[df_b['Season'].isin(k_season)]
+    df_b = filter_by_tournament(df_b, k_tournament)
+    
+    # Apply Randomizer
+    n_a = df_a['player_name'].nunique()
+    if use_randomizer and n_a > 0:
+        b_players = df_b['player_name'].unique()
+        if len(b_players) > n_a:
+            # Deterministic seed based on selections
+            seed_str = f"{v_tournament}_{k_tournament}_{''.join(v_season)}_{''.join(k_season)}"
+            random.seed(hash(seed_str))
+            sampled_b = random.sample(list(b_players), n_a)
+            df_b = df_b[df_b['player_name'].isin(sampled_b)]
+
+    df_b['Label'] = f"B: {k_tournament} ({', '.join(k_season) if len(k_season) < len(season_options) else 'Alle Saisons'})"
+    
+    # Show Summary Metrics
+    c_m1, c_m2 = st.columns(2)
+    c_m1.metric(f"Gruppe A", f"{len(df_a)} Verletzungen", f"von {df_a['player_name'].nunique()} verletzten Spielern", delta_color="off")
+    c_m2.metric(f"Gruppe B", f"{len(df_b)} Verletzungen", f"von {df_b['player_name'].nunique()} verletzten Spielern", delta_color="off")
+
+    compare_df = pd.concat([df_a, df_b])
+    color_map = {df_a['Label'].iloc[0]: "red", df_b['Label'].iloc[0]: "blue"} if not compare_df.empty else {}
+    
+    if compare_df.empty:
+        st.warning("Keine Daten für diesen Vergleich verfügbar.")
+    
+    if not compare_df.empty:
+        monthly = compare_df.groupby(['Month_Num', 'Month', 'Label']).size().reset_index(name='Anzahl').sort_values('Month_Num')
+        fig_month = px.line(
+            monthly,
+            x='Month',
+            y='Anzahl',
+            color='Label',
+            color_discrete_map=color_map,
+            markers=True,
+            title="Verletzungen im Jahresverlauf (Vergleich)",
+            labels={'Month': 'Monat', 'Anzahl': 'Anzahl Verletzungen', 'Label': 'Auswahl'}
+        )
+        st.plotly_chart(fig_month, use_container_width=True)
+    else:
+        st.info("Keine Daten für diesen Vergleich verfügbar.")
 
     st.subheader("Verletzungsentwicklung über die Saisons")
+    st.markdown("Diese Grafiken zeigen die zeitliche Entwicklung über die verfügbaren Saisons. Im ersten Diagramm ist die **absolute Anzahl der Verletzungen** pro Saison und Liga dargestellt. Im zweiten Diagramm sehen Sie die **gesamten Ausfalltage**, die durch diese Verletzungen verursacht wurden. So lässt sich nicht nur erkennen, ob Verletzungen häufiger geworden sind, sondern auch, ob deren Schweregrad (anhand der Ausfalltage) zu- oder abgenommen hat.")
+    
     season_counts = filtered_df.groupby(['Season', 'league']).size().reset_index(name='Anzahl')
     if not season_counts.empty:
+        # Sortieren für chronologische Differenz-Berechnung
+        season_counts = season_counts.sort_values(['league', 'Season'])
+        season_counts['Diff'] = season_counts.groupby('league')['Anzahl'].diff()
+        
+        def format_diff(val):
+            if pd.isna(val):
+                return ""
+            elif val > 0:
+                return f"<br>(+{int(val)})"
+            elif val < 0:
+                return f"<br>({int(val)})"
+            else:
+                return "<br>(±0)"
+                
+        season_counts['Text'] = season_counts['Anzahl'].astype(str) + season_counts['Diff'].apply(format_diff)
+
+        st.markdown("**1. Anzahl der Verletzungen pro Saison** *(Zahl = Gesamtwert, in Klammern = Veränderung zur Vorsaison)*")
         fig_season = px.bar(
             season_counts,
             x='Season',
             y='Anzahl',
             color='league',
             barmode='group',
+            text='Text',
             labels={'Season': 'Saison', 'Anzahl': 'Anzahl Verletzungen', 'league': 'Liga'}
         )
+        fig_season.update_traces(textposition='outside', textfont_size=11)
+        fig_season.update_layout(margin=dict(t=50))
         st.plotly_chart(fig_season, use_container_width=True)
+        
+        st.markdown("**2. Gesamte Ausfalltage pro Saison** *(Zahl = Gesamtwert, in Klammern = Veränderung zur Vorsaison)*")
+        season_days = filtered_df.groupby(['Season', 'league'])['Days'].sum().reset_index(name='Ausfalltage')
+        season_days = season_days.sort_values(['league', 'Season'])
+        season_days['Diff'] = season_days.groupby('league')['Ausfalltage'].diff()
+        season_days['Text'] = season_days['Ausfalltage'].astype(int).astype(str) + season_days['Diff'].apply(format_diff)
+        
+        fig_days = px.bar(
+            season_days,
+            x='Season',
+            y='Ausfalltage',
+            color='league',
+            barmode='group',
+            text='Text',
+            labels={'Season': 'Saison', 'Ausfalltage': 'Gesamte Ausfalltage', 'league': 'Liga'}
+        )
+        fig_days.update_traces(textposition='outside', textfont_size=11)
+        fig_days.update_layout(margin=dict(t=50))
+        st.plotly_chart(fig_days, use_container_width=True)
     else:
         st.info("Keine Daten für diesen Vergleich verfügbar.")
 
@@ -436,7 +662,8 @@ with tab_trends:
     else:
         st.info("Keine Daten für ein Fazit vorhanden.")
 
-with tab_tables:
+# with tab_tables:
+if False:
     st.markdown("""
     ### 📋 Für wen ist dieses Dashboard?
     **Zielgruppe:** Datenanalytiker, Forscher, Klub-Administrator, Medizinische Teams
@@ -504,7 +731,7 @@ with tap_maps:
     st.subheader("Interaktive Karten")
     st.markdown("Analysiere die Verletzungen der Spieler nach Position in den einzelnen Clubs.")
 
-    def create_soccer_map(data_df, title):
+    def create_soccer_map(data_df, global_min, global_max):
         if data_df.empty:
             return None
 
@@ -549,7 +776,8 @@ with tap_maps:
             club_df.groupby("player_position")
             .agg({
                 "player_name": lambda x: ", ".join(sorted(set(map(str, x)))),
-                "Injury": lambda x: ", ".join(sorted(set(map(str, x))))
+                "Injury": lambda x: ", ".join(sorted(set(map(str, x)))),
+                "Days": "sum"
             })
             .reset_index()
         )
@@ -559,16 +787,10 @@ with tap_maps:
         fig = go.Figure()
 
         fig.update_layout(
-            height=720,
+            height=450,
             plot_bgcolor="#6aa84f",
-            paper_bgcolor="white",
-            margin=dict(l=10, r=10, t=40, b=20),
-            title=dict(
-                text=title,
-                x=0.5,
-                xanchor="center",
-                font=dict(size=22, color="#0F172A")
-            ),
+            paper_bgcolor="rgba(0,0,0,0)",
+            margin=dict(l=10, r=10, t=10, b=10),
             font=dict(
                 family="Arial, sans-serif",
                 color="#334155"
@@ -614,8 +836,8 @@ with tap_maps:
         fig.update_layout(shapes=shapes)
 
         # Marker-Styling
-        min_count = injury_counts["injury_count"].min()
-        max_count = injury_counts["injury_count"].max()
+        min_count = global_min
+        max_count = global_max
 
         fig.add_trace(go.Scatter(
             x=injury_counts['x'],
@@ -640,21 +862,14 @@ with tap_maps:
                 cmin=min_count,
                 cmax=max_count,
                 line=dict(color="#FFFFFF", width=2.5),
-                showscale=True,
-                colorbar=dict(
-                    title="Anzahl",
-                    thickness=12,
-                    len=0.42,
-                    y=0.28,
-                    x=1.02,
-                    outlinewidth=0,
-                ),
+                showscale=False,
                 opacity=0.97
             ),
-            customdata=injury_counts[['player_position', 'injury_count', 'player_name', 'Injury']],
+            customdata=injury_counts[['player_position', 'injury_count', 'player_name', 'Injury', 'Days']],
             hovertemplate=(
                 "<b>%{customdata[0]}</b><br>"
                 "Anzahl Verletzungen: %{customdata[1]}<br>"
+                "Ausfalltage insgesamt: %{customdata[4]:.0f}<br>"
                 "Spieler: %{customdata[2]}<br>"
                 "Verletzungen: %{customdata[3]}<extra></extra>"
             )
@@ -675,6 +890,55 @@ with tap_maps:
 
         return fig
 
+    # Compute global min and max for the color scale across all displayed data
+    position_coords_keys = [
+        "Goalkeeper", "Left-Back", "Centre-Back", "Right-Back", 
+        "Defensive Midfield", "Central Midfield", "Attacking Midfield", 
+        "Midfielder", "Left Midfield", "Right Midfield", 
+        "Left Winger", "Right Winger", "Second Striker", "Forward"
+    ]
+    global_counts = filtered_df[filtered_df['player_position'].isin(position_coords_keys)].groupby(['league', 'player_position']).size().reset_index(name='count')
+    if global_counts.empty:
+        global_min, global_max = 0, 1
+    else:
+        global_min, global_max = global_counts['count'].min(), global_counts['count'].max()
+
+    # Create a dummy horizontal colorbar
+    if not global_counts.empty:
+        fig_cbar = go.Figure(go.Scatter(
+            x=[0], y=[0], mode="markers",
+            marker=dict(
+                size=0,
+                color=[global_min, global_max],
+                colorscale=[
+                    [0.0, "#FEE2E2"],
+                    [0.25, "#FCA5A5"],
+                    [0.5, "#F87171"],
+                    [0.75, "#DC2626"],
+                    [1.0, "#7F1D1D"]
+                ],
+                cmin=global_min, cmax=global_max,
+                showscale=True,
+                colorbar=dict(
+                    title="Anzahl Verletzungen",
+                    orientation="h",
+                    thickness=15,
+                    yanchor="bottom", y=0,
+                    xanchor="center", x=0.5,
+                    len=0.6,
+                    outlinewidth=0,
+                )
+            ),
+            hoverinfo="none"
+        ))
+        fig_cbar.update_layout(
+            height=100, 
+            margin=dict(l=0, r=0, t=0, b=0),
+            xaxis=dict(visible=False), yaxis=dict(visible=False),
+            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)"
+        )
+        st.plotly_chart(fig_cbar, use_container_width=True)
+
     if len(selected_leagues) == 1:
         # Single league - show one soccer map
         league = selected_leagues[0]
@@ -682,7 +946,8 @@ with tap_maps:
         if selected_club_global != "Alle Clubs":
             title += f" ({selected_club_global})"
         
-        fig = create_soccer_map(filtered_df, title)
+        st.markdown(f"**{title}**")
+        fig = create_soccer_map(filtered_df, global_min, global_max)
         if fig:
             st.plotly_chart(fig, use_container_width=True)
         else:
@@ -696,7 +961,7 @@ with tap_maps:
         league_pairs = [selected_leagues[i:i+2] for i in range(0, len(selected_leagues), 2)]
         
         for pair in league_pairs:
-            cols = st.columns(len(pair))
+            cols = st.columns(2)
             for idx, league in enumerate(pair):
                 with cols[idx]:
                     league_df = filtered_df[filtered_df['league'] == league]
@@ -704,7 +969,8 @@ with tap_maps:
                     if selected_club_global != "Alle Clubs":
                         title += f" ({selected_club_global})"
                     
-                    fig = create_soccer_map(league_df, title)
+                    st.markdown(f"<div style='text-align: center;'><b>{title}</b></div>", unsafe_allow_html=True)
+                    fig = create_soccer_map(league_df, global_min, global_max)
                     if fig:
                         st.plotly_chart(fig, use_container_width=True)
                     else:
@@ -715,7 +981,7 @@ with tab_bodymap:
     import plotly.graph_objects as go
 
     st.markdown("""
-    ### 🏥 Für wen ist dieses Dashboard?
+    ### 🦵 Für wen ist dieses Dashboard?
     **Zielgruppe:** Medizinisches Personal, Physiotherapeuten, Sportmediziner, Forscher
 
     **Was sieht man?**
@@ -817,14 +1083,15 @@ with tab_bodymap:
 
         def aggregate_injuries(df: pd.DataFrame) -> pd.DataFrame:
             if df.empty:
-                return pd.DataFrame(columns=["injury_category", "injury_count", "player_name", "injury_type"])
+                return pd.DataFrame(columns=["injury_category", "injury_count", "player_name", "injury_type", "total_days"])
 
             return (
                 df.groupby("injury_category", as_index=False)
                 .agg(
                     injury_count=("injury_category", "size"),
                     player_name=("player_name", lambda x: ", ".join(sorted(set(x.dropna().astype(str))))),
-                    injury_type=("Injury", lambda x: ", ".join(sorted(set(x.dropna().astype(str)))))
+                    injury_type=("Injury", lambda x: ", ".join(sorted(set(x.dropna().astype(str))))),
+                    total_days=("Days", "sum")
                 )
             )
 
@@ -858,287 +1125,308 @@ with tab_bodymap:
 
             return result
 
-        # -----------------------
-        # Daten für Körperkarte
-        # -----------------------
-        body_df = filtered_df[filtered_df["injury_category"].isin(body_categories)].copy()
+    def create_bodymap(data_df, global_min, global_max):
+        body_df = data_df[data_df["injury_category"].isin(body_categories)].copy()
         body_counts = aggregate_injuries(body_df)
 
         if body_counts.empty:
-            st.info("Keine Daten für die aktuelle Club-/Liga-/Saison-Auswahl in der Körperkarte verfügbar.")
-        else:
-            body_counts["x"] = body_counts["injury_category"].map(lambda cat: position_coords[cat][0])
-            body_counts["y"] = body_counts["injury_category"].map(lambda cat: position_coords[cat][1])
-            body_counts["display_category"] = body_counts["injury_category"].apply(translate_bodypart)
-            body_counts["player_name_hover"] = body_counts["player_name"].apply(
-                lambda x: format_hover_list_limited(x, items_per_line=3, max_items=8)
-            )
-            body_counts["injury_type_hover"] = body_counts["injury_type"].apply(
-                lambda x: format_hover_list_limited(x, items_per_line=2, max_items=6)
-            )
+            return None
 
-            # -----------------------
-            # Daten für Legende
-            # -----------------------
-            legend_df = filtered_df[filtered_df["injury_category"].isin(legend_categories)].copy()
-            legend_counts = aggregate_injuries(legend_df)
+        body_counts["x"] = body_counts["injury_category"].map(lambda cat: position_coords[cat][0])
+        body_counts["y"] = body_counts["injury_category"].map(lambda cat: position_coords[cat][1])
+        body_counts["display_category"] = body_counts["injury_category"].apply(translate_bodypart)
+        body_counts["player_name_hover"] = body_counts["player_name"].apply(
+            lambda x: format_hover_list_limited(x, items_per_line=3, max_items=8)
+        )
+        body_counts["injury_type_hover"] = body_counts["injury_type"].apply(
+            lambda x: format_hover_list_limited(x, items_per_line=2, max_items=6)
+        )
 
-            legend_counts["display_category"] = legend_counts["injury_category"].apply(
-                lambda x: next((k for k, v in legend_category_mapping.items() if v == x), x)
-            )
-            legend_counts["player_name_hover"] = legend_counts["player_name"].apply(
-                lambda x: format_hover_list_limited(x, items_per_line=3, max_items=8)
-            )
-            legend_counts["injury_type_hover"] = legend_counts["injury_type"].apply(
-                lambda x: format_hover_list_limited(x, items_per_line=2, max_items=6)
-            )
+        legend_df = data_df[data_df["injury_category"].isin(legend_categories)].copy()
+        legend_counts = aggregate_injuries(legend_df)
 
-            min_count = int(body_counts["injury_count"].min())
-            max_count = int(body_counts["injury_count"].max())
+        legend_counts["display_category"] = legend_counts["injury_category"].apply(
+            lambda x: next((k for k, v in legend_category_mapping.items() if v == x), x)
+        )
+        legend_counts["player_name_hover"] = legend_counts["player_name"].apply(
+            lambda x: format_hover_list_limited(x, items_per_line=3, max_items=8)
+        )
+        legend_counts["injury_type_hover"] = legend_counts["injury_type"].apply(
+            lambda x: format_hover_list_limited(x, items_per_line=2, max_items=6)
+        )
 
-            body_counts["text_color"] = body_counts["injury_count"].apply(
-                lambda value: get_text_color(value, min_count, max_count)
-            )
+        min_count = global_min
+        max_count = global_max
 
-            fig = go.Figure()
+        body_counts["text_color"] = body_counts["injury_count"].apply(
+            lambda value: get_text_color(value, min_count, max_count)
+        )
 
-            # -----------------------
-            # Layout
-            # -----------------------
-            fig.update_layout(
-                height=860,
-                paper_bgcolor="#F8FAFC",
-                plot_bgcolor="#F8FAFC",
-                margin=dict(l=20, r=220, t=70, b=40),
-                title=dict(
-                    text="<b>Verletzungshotspots nach Körperzone</b><br><sup>Dunklere Marker zeigen häufiger betroffene Regionen</sup>",
-                    x=0.5,
-                    xanchor="center",
-                    font=dict(size=22, color="#0F172A")
-                ),
+        fig = go.Figure()
+
+        # Layout
+        fig.update_layout(
+            height=600,
+            paper_bgcolor="rgba(0,0,0,0)",
+            plot_bgcolor="rgba(0,0,0,0)",
+            margin=dict(l=20, r=120, t=20, b=20),
+            font=dict(
+                family="Arial, sans-serif",
+                color="#334155"
+            ),
+            hoverlabel=dict(
+                bgcolor="#FFFFFF",
+                bordercolor="#CBD5E1",
                 font=dict(
-                    family="Arial, sans-serif",
-                    color="#334155"
+                    color="#0F172A",
+                    size=13,
+                    family="Arial, sans-serif"
                 ),
-                hoverlabel=dict(
-                    bgcolor="#FFFFFF",
-                    bordercolor="#CBD5E1",
-                    font=dict(
-                        color="#0F172A",
-                        size=13,
-                        family="Arial, sans-serif"
-                    ),
-                    align="left"
-                ),
-                xaxis=dict(
-                    visible=False,
-                    range=[0, 100],
-                    fixedrange=True
-                ),
-                yaxis=dict(
-                    visible=False,
-                    range=[0, 140],
-                    scaleanchor="x",
-                    scaleratio=1,
-                    fixedrange=True
-                )
+                align="left"
+            ),
+            xaxis=dict(
+                visible=False,
+                range=[0, 100],
+                fixedrange=True
+            ),
+            yaxis=dict(
+                visible=False,
+                range=[0, 140],
+                scaleanchor="x",
+                scaleratio=1,
+                fixedrange=True
             )
+        )
 
-            # -----------------------
-            # Körper-Silhouette
-            # -----------------------
-            body_line = dict(color="#94A3B8", width=1.8)
-            body_fill = "#E9EEF5"
-            joint_fill = "#F8FAFC"
+        body_line = dict(color="#94A3B8", width=1.8)
+        body_fill = "#E9EEF5"
+        joint_fill = "#F8FAFC"
 
-            shapes = [
-                # Kopf (Head)
-                dict(type="circle", x0=40, y0=114, x1=60, y1=134, line=body_line, fillcolor=joint_fill, layer="below"),
+        shapes = [
+            dict(type="circle", x0=40, y0=114, x1=60, y1=134, line=body_line, fillcolor=joint_fill, layer="below"),
+            dict(type="rect", x0=46, y0=109, x1=54, y1=114, line=dict(color="rgba(0,0,0,0)"), fillcolor=body_fill, layer="below"),
+            dict(type="path", path="M 35 108 Q 34 92 35 72 L 65 72 Q 66 92 65 108 Q 58 114 50 114 Q 42 114 35 108 Z", line=body_line, fillcolor=body_fill, layer="below"),
+            dict(type="path", path="M 35 108 Q 29 101 28 94 L 28 60 Q 28 57 31 57 L 35 57 L 35 106 Z", line=body_line, fillcolor="#F1F5F9", layer="below"),
+            dict(type="path", path="M 65 108 Q 71 101 72 94 L 72 60 Q 72 57 69 57 L 65 57 L 65 106 Z", line=body_line, fillcolor="#F1F5F9", layer="below"),
+            dict(type="circle", x0=28, y0=77, x1=35, y1=86, line=body_line, fillcolor=joint_fill, layer="below"),
+            dict(type="circle", x0=65, y0=77, x1=72, y1=86, line=body_line, fillcolor=joint_fill, layer="below"),
+            dict(type="path", path="M 40 72 L 60 72 L 58 64 L 42 64 Z", line=body_line, fillcolor="#D7DEE8", layer="below"),
+            dict(type="path", path="M 42 64 L 49 64 L 49 20 L 40 20 L 40 58 Q 40 62 42 64 Z", line=body_line, fillcolor="#F1F5F9", layer="below"),
+            dict(type="path", path="M 51 64 L 58 64 L 60 58 L 60 20 L 51 20 Z", line=body_line, fillcolor="#F1F5F9", layer="below"),
+            dict(type="circle", x0=40, y0=39, x1=49, y1=48, line=body_line, fillcolor=joint_fill, layer="below"),
+            dict(type="circle", x0=51, y0=39, x1=60, y1=48, line=body_line, fillcolor=joint_fill, layer="below"),
+            dict(type="path", path="M 38 20 L 49 20 L 49 10 L 36 10 L 36 16 Q 36 20 38 20 Z", line=body_line, fillcolor="#E2E8F0", layer="below"),
+            dict(type="path", path="M 51 20 L 62 20 Q 64 20 64 18 L 64 10 L 51 10 Z", line=body_line, fillcolor="#E2E8F0", layer="below"),
+        ]
+        fig.update_layout(shapes=shapes)
 
-                # Hals (Neck)
-                dict(type="rect", x0=46, y0=109, x1=54, y1=114, line=dict(color="rgba(0,0,0,0)"), fillcolor=body_fill, layer="below"),
+        # Seiten-Markierungen (L/R) neben dem Strichmännchen
+        fig.add_annotation(x=25, y=50, text="<b>R</b>", showarrow=False, font=dict(size=32, color="#64748B"))
+        fig.add_annotation(x=75, y=50, text="<b>L</b>", showarrow=False, font=dict(size=32, color="#64748B"))
+        fig.add_annotation(x=25, y=43, text="Rechts", showarrow=False, font=dict(size=14, color="#94A3B8"))
+        fig.add_annotation(x=75, y=43, text="Links", showarrow=False, font=dict(size=14, color="#94A3B8"))
 
-                # Oberkörper / Torso (Chest, Ribs, Back, Abdomen)
-                dict(type="path", path="M 35 108 Q 34 92 35 72 L 65 72 Q 66 92 65 108 Q 58 114 50 114 Q 42 114 35 108 Z", line=body_line, fillcolor=body_fill, layer="below"),
+        legend_x = 85
+        legend_y_start = 112
+        gap = 10
 
-                # Arm links (Shoulder → Upper Arm → Forearm → Hand)
-                dict(type="path", path="M 35 108 Q 29 101 28 94 L 28 60 Q 28 57 31 57 L 35 57 L 35 106 Z", line=body_line, fillcolor="#F1F5F9", layer="below"),
+        fig.add_annotation(
+            x=legend_x,
+            y=legend_y_start + 10,
+            text="<b>Kategorien</b>",
+            showarrow=False,
+            xanchor="left",
+            font=dict(size=14, color="#0F172A")
+        )
 
-                # Arm rechts (Shoulder → Upper Arm → Forearm → Hand)
-                dict(type="path", path="M 65 108 Q 71 101 72 94 L 72 60 Q 72 57 69 57 L 65 57 L 65 106 Z", line=body_line, fillcolor="#F1F5F9", layer="below"),
+        visible_index = 0
 
-                # Ellenbogen links (Elbow)
-                dict(type="circle", x0=28, y0=77, x1=35, y1=86, line=body_line, fillcolor=joint_fill, layer="below"),
+        for label in legend_items:
+            mapped_category = legend_category_mapping[label]
+            row = legend_counts[legend_counts["injury_category"] == mapped_category]
 
-                # Ellenbogen rechts (Elbow)
-                dict(type="circle", x0=65, y0=77, x1=72, y1=86, line=body_line, fillcolor=joint_fill, layer="below"),
+            if row.empty:
+                continue
 
-                # Hüfte / Becken (Hip / Groin)
-                dict(type="path", path="M 40 72 L 60 72 L 58 64 L 42 64 Z", line=body_line, fillcolor="#D7DEE8", layer="below"),
+            count = int(row.iloc[0]["injury_count"])
+            if count <= 0:
+                continue
 
-                # Bein links (Thigh → Knee → Lower Leg)
-                dict(type="path", path="M 42 64 L 49 64 L 49 20 L 40 20 L 40 58 Q 40 62 42 64 Z", line=body_line, fillcolor="#F1F5F9", layer="below"),
+            y = legend_y_start - visible_index * gap
+            visible_index += 1
 
-                # Bein rechts (Thigh → Knee → Lower Leg)
-                dict(type="path", path="M 51 64 L 58 64 L 60 58 L 60 20 L 51 20 Z", line=body_line, fillcolor="#F1F5F9", layer="below"),
+            player_name_hover = row.iloc[0]["player_name_hover"]
+            injury_type_hover = row.iloc[0]["injury_type_hover"]
+            text_color = get_text_color(count, min_count, max_count)
 
-                # Knie links (Knee)
-                dict(type="circle", x0=40, y0=39, x1=49, y1=48, line=body_line, fillcolor=joint_fill, layer="below"),
+            total_days = int(row.iloc[0].get("total_days", 0))
 
-                # Knie rechts (Knee)
-                dict(type="circle", x0=51, y0=39, x1=60, y1=48, line=body_line, fillcolor=joint_fill, layer="below"),
-
-                # Fuss links (Foot / Toe)
-                dict(type="path", path="M 38 20 L 49 20 L 49 10 L 36 10 L 36 16 Q 36 20 38 20 Z", line=body_line, fillcolor="#E2E8F0", layer="below"),
-
-                # Fuss rechts (Foot / Toe)
-                dict(type="path", path="M 51 20 L 62 20 Q 64 20 64 18 L 64 10 L 51 10 Z", line=body_line, fillcolor="#E2E8F0", layer="below"),
-            ]
-
-            fig.update_layout(shapes=shapes)
-
-            # -----------------------
-            # Legende mit Bubbles
-            # -----------------------
-            legend_x = 90
-            legend_y_start = 112
-            gap = 10
-
-            fig.add_annotation(
-                x=legend_x,
-                y=legend_y_start + 10,
-                text="<b>Kategorien</b>",
-                showarrow=False,
-                xanchor="left",
-                font=dict(size=14, color="#0F172A")
-            )
-
-            visible_index = 0
-
-            for label in legend_items:
-                mapped_category = legend_category_mapping[label]
-                row = legend_counts[legend_counts["injury_category"] == mapped_category]
-
-                if row.empty:
-                    continue
-
-                count = int(row.iloc[0]["injury_count"])
-                if count <= 0:
-                    continue
-
-                y = legend_y_start - visible_index * gap
-                visible_index += 1
-
-                player_name_hover = row.iloc[0]["player_name_hover"]
-                injury_type_hover = row.iloc[0]["injury_type_hover"]
-                text_color = get_text_color(count, min_count, max_count)
-
-                customdata = [[label, count, player_name_hover, injury_type_hover]]
-
-                fig.add_trace(go.Scatter(
-                    x=[legend_x + 2],
-                    y=[y],
-                    mode="markers+text",
-                    text=[count],
-                    textposition="middle center",
-                    customdata=customdata,
-                    hovertemplate=(
-                        "<b>%{customdata[0]}</b><br>"
-                        "Anzahl: %{customdata[1]}<br><br>"
-                        "<b>Spieler</b><br>%{customdata[2]}<br><br>"
-                        "<b>Verletzungstypen</b><br>%{customdata[3]}"
-                        "<extra></extra>"
-                    ),
-                    marker=dict(
-                        size=36,
-                        color=[count],
-                        colorscale=colorscale,
-                        cmin=min_count,
-                        cmax=max_count,
-                        line=dict(color="#FFFFFF", width=2.5),
-                        opacity=0.97,
-                        showscale=False
-                    ),
-                    textfont=dict(
-                        size=13,
-                        color=text_color,
-                        family="Arial, sans-serif"
-                    ),
-                    showlegend=False
-                ))
-
-                fig.add_annotation(
-                    x=legend_x + 6,
-                    y=y,
-                    text=label,
-                    showarrow=False,
-                    xanchor="left",
-                    yanchor="middle",
-                    font=dict(size=12, color="#475569")
-                )
-
-            # -----------------------
-            # Body-Map Marker
-            # -----------------------
-            hover_custom = body_counts[[
-                "display_category",
-                "injury_count",
-                "player_name_hover",
-                "injury_type_hover"
-            ]]
+            customdata = [[label, count, player_name_hover, injury_type_hover, total_days]]
 
             fig.add_trace(go.Scatter(
-                x=body_counts["x"],
-                y=body_counts["y"],
+                x=[legend_x + 2],
+                y=[y],
                 mode="markers+text",
-                text=body_counts["injury_count"],
+                text=[count],
                 textposition="middle center",
-                customdata=hover_custom,
+                customdata=customdata,
                 hovertemplate=(
                     "<b>%{customdata[0]}</b><br>"
-                    "Anzahl: %{customdata[1]}<br><br>"
+                    "Anzahl: %{customdata[1]}<br>"
+                    "Ausfalltage: %{customdata[4]}<br><br>"
                     "<b>Spieler</b><br>%{customdata[2]}<br><br>"
                     "<b>Verletzungstypen</b><br>%{customdata[3]}"
                     "<extra></extra>"
                 ),
                 marker=dict(
-                    size=36,                    
-                    color=body_counts["injury_count"],
+                    size=22,
+                    color=[count],
                     colorscale=colorscale,
                     cmin=min_count,
                     cmax=max_count,
                     line=dict(color="#FFFFFF", width=2.5),
-                    showscale=True,
-                    colorbar=dict(
-                        title="Anzahl",
-                        thickness=12,
-                        len=0.42,
-                        y=0.28,
-                        x=1.02,
-                        outlinewidth=0
-                    ),
-                    opacity=0.97
+                    opacity=0.97,
+                    showscale=False
                 ),
                 textfont=dict(
-                    size=15,
-                    color=body_counts["text_color"],
+                    size=12,
+                    color="#000000",
                     family="Arial, sans-serif"
                 ),
                 showlegend=False
             ))
 
             fig.add_annotation(
-                x=50,
-                y=2.5,
-                text="Dunklere Marker zeigen häufiger registrierte Verletzungen pro Körperzone",
+                x=legend_x + 6,
+                y=y,
+                text=label,
                 showarrow=False,
-                font=dict(size=12, color="#64748B"),
-                xanchor="center",
+                xanchor="left",
+                yanchor="middle",
+                font=dict(size=12, color="#475569")
             )
 
-            st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
-            
-            
+        hover_custom = body_counts[[
+            "display_category",
+            "injury_count",
+            "player_name_hover",
+            "injury_type_hover",
+            "total_days"
+        ]]
+
+        fig.add_trace(go.Scatter(
+            x=body_counts["x"],
+            y=body_counts["y"],
+            mode="markers+text",
+            text=body_counts["injury_count"],
+            textposition="middle center",
+            customdata=hover_custom,
+            hovertemplate=(
+                "<b>%{customdata[0]}</b><br>"
+                "Anzahl: %{customdata[1]}<br>"
+                "Ausfalltage insgesamt: %{customdata[4]:.0f}<br><br>"
+                "<b>Spieler</b><br>%{customdata[2]}<br><br>"
+                "<b>Verletzungstypen</b><br>%{customdata[3]}"
+                "<extra></extra>"
+            ),
+            marker=dict(
+                size=22,                    
+                color=body_counts["injury_count"],
+                colorscale=colorscale,
+                cmin=min_count,
+                cmax=max_count,
+                line=dict(color="#FFFFFF", width=2.5),
+                showscale=False,
+                opacity=0.97
+            ),
+            textfont=dict(
+                size=12,
+                color="#000000",
+                family="Arial, sans-serif"
+            ),
+            showlegend=False
+        ))
+
+        fig.add_annotation(
+            x=50,
+            y=2.5,
+            text="Dunklere Marker zeigen häufiger registrierte Verletzungen",
+            showarrow=False,
+            font=dict(size=12, color="#64748B"),
+            xanchor="center",
+        )
+        return fig
+
+    if not filtered_df.empty:
+        # Compute global min and max for the bodymaps
+        league_body_df = filtered_df[filtered_df["injury_category"].isin(body_categories)].copy()
+        if league_body_df.empty:
+            global_min, global_max = 0, 1
+        else:
+            league_cat_counts = league_body_df.groupby(['league', 'injury_category']).size().reset_index(name='count')
+            if league_cat_counts.empty:
+                global_min, global_max = 0, 1
+            else:
+                global_min, global_max = league_cat_counts['count'].min(), league_cat_counts['count'].max()
+    
+        if not league_body_df.empty:
+            fig_cbar = go.Figure(go.Scatter(
+                x=[0], y=[0], mode="markers",
+                marker=dict(
+                    size=0,
+                    color=[global_min, global_max],
+                    colorscale=colorscale,
+                    cmin=global_min, cmax=global_max,
+                    showscale=True,
+                    colorbar=dict(
+                        title="Anzahl Verletzungen",
+                        orientation="h",
+                        thickness=15,
+                        yanchor="bottom", y=0,
+                        xanchor="center", x=0.5,
+                        len=0.6,
+                        outlinewidth=0,
+                    )
+                ),
+                hoverinfo="none"
+            ))
+            fig_cbar.update_layout(
+                height=100, 
+                margin=dict(l=0, r=0, t=0, b=0),
+                xaxis=dict(visible=False), yaxis=dict(visible=False),
+                paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)"
+            )
+            st.plotly_chart(fig_cbar, use_container_width=True)
+    
+        if len(selected_leagues) == 1:
+            league = selected_leagues[0]
+            title = f"Verletzungshotspots nach Körperzone – {league}"
+            if selected_club_global != "Alle Clubs":
+                title += f" ({selected_club_global})"
+            st.markdown(f"**{title}**")
+            fig = create_bodymap(filtered_df, global_min, global_max)
+            if fig:
+                st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+            else:
+                st.info("Keine Daten für die aktuelle Auswahl in der Körperkarte verfügbar.")
+        else:
+            st.markdown("**Vergleich der Ligen:** Jede Karte zeigt die Verletzungsmuster nach Körperzone einer Liga.")
+            league_pairs = [selected_leagues[i:i+2] for i in range(0, len(selected_leagues), 2)]
+            for pair in league_pairs:
+                cols = st.columns(2)
+                for idx, league in enumerate(pair):
+                    with cols[idx]:
+                        league_df = filtered_df[filtered_df['league'] == league]
+                        title = f"Verletzungshotspots – {league}"
+                        if selected_club_global != "Alle Clubs":
+                            title += f" ({selected_club_global})"
+                        st.markdown(f"<div style='text-align: center;'><b>{title}</b></div>", unsafe_allow_html=True)
+                        fig = create_bodymap(league_df, global_min, global_max)
+                        if fig:
+                            st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+                        else:
+                            st.info(f"Keine Daten für {league} verfügbar.")
+
 with tab_dddm:
     def season_start_year(season: str) -> int:
         try:
@@ -1352,9 +1640,7 @@ with tab_dddm:
         "Diese Ansicht zeigt die Anzahl der Verletzungsfälle pro Saison. Wähle eine Verletzungsart, um den Verlauf gezielt zu analysieren."
     )
 
-    trend_df = df[(df['league'].isin(selected_leagues)) & (df['Season'].isin(selected_seasons))]
-    if selected_club_global != "Alle Clubs":
-        trend_df = trend_df[trend_df['club'] == selected_club_global]
+    trend_df = filtered_df.copy()
 
     if trend_df.empty:
         st.info("Keine Daten für den Verletzungsverlauf mit der aktuellen Filterauswahl.")
@@ -1545,6 +1831,7 @@ with tab_dddm:
     st.markdown("---")
 
 with tab_market_risk:
+
     st.markdown("""
     ### 📉 Marktwert-Risiko & Verletzungskorrelation
     **Zielgruppe:** Sportliche Leitung, Scouts, Finanzabteilung
@@ -1554,6 +1841,33 @@ with tab_market_risk:
     - Finanzieller Impact: Wertverlust durch schwere Verletzungen.
     - Zeitliche Einordnung von Verletzungen in die Karriere-Wertkurve.
     """)
+    st.divider()
+    
+    # --- Local Filters for Marktdaten ---
+    with st.expander("🔍 Filter für Marktdaten & Suche", expanded=True):
+        f_col1, f_col2 = st.columns(2)
+        with f_col1:
+            # Re-calculating player options based on current global filters
+            player_options_local = sorted(df['player_name'].dropna().unique().tolist())
+            st.session_state['player_search_val'] = st.multiselect(
+                "Spieler suchen",
+                options=player_options_local,
+                default=[st.session_state['player_search']] if st.session_state['player_search'] else [],
+                max_selections=1,
+                help="Suche nach einem spezifischen Spieler."
+            )
+            st.session_state['player_search'] = st.session_state['player_search_val'][0] if st.session_state['player_search_val'] else ""
+            player_search = st.session_state['player_search']
+
+        with f_col2:
+            st.session_state['tournament_filter'] = st.radio(
+                "Turnier-Teilnahme Filter",
+                options=["Alle Spieler (Kein Filter)", "Europameisterschaft (EM)", "Weltmeisterschaft (WM)", "WM und EM", "Keine Turnierteilnahme"],
+                index=["Alle Spieler (Kein Filter)", "Europameisterschaft (EM)", "Weltmeisterschaft (WM)", "WM und EM", "Keine Turnierteilnahme"].index(st.session_state['tournament_filter']),
+                horizontal=True
+            )
+            tournament_filter = st.session_state['tournament_filter']
+    
     st.divider()
 
     if player_search:
@@ -1610,7 +1924,7 @@ with tab_market_risk:
             st.divider()
 
         # 1. Filter data for the selected player
-        p_injuries = df[df['player_name'].str.contains(p_name, case=False, na=False)].copy()
+        p_injuries = filtered_df[filtered_df['player_name'].str.contains(p_name, case=False, na=False)].copy()
         p_valuations = val_df[val_df['name'].str.contains(p_name, case=False, na=False)].sort_values('date').copy()
 
         if not p_valuations.empty:
@@ -1814,3 +2128,5 @@ with tab_market_risk:
             color_continuous_scale='Blues'
         )
         st.plotly_chart(fig_squad, use_container_width=True)
+
+     
