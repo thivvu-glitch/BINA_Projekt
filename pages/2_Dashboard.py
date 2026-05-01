@@ -135,6 +135,10 @@ if 'filter_seasons' not in st.session_state:
     st.session_state['filter_seasons'] = [DEFAULT_SEASON] if DEFAULT_SEASON in season_options else season_options
 if 'filter_players' not in st.session_state:
     st.session_state['filter_players'] = []
+if 'risk_display_count' not in st.session_state:
+    st.session_state['risk_display_count'] = 50
+if 'risk_selected_player' not in st.session_state:
+    st.session_state['risk_selected_player'] = None
 
 # --- Global Filter UI ---
 # Globale Filter auskommentiert laut Anforderung
@@ -173,7 +177,7 @@ if not st.session_state['filter_leagues']:
 selected_leagues = league_options # Default to all leagues since filter is disabled
 
 # Player Search (limited to selected club and other active filters)
-st.sidebar.markdown("---")
+
 
 min_date = df['injury_from_parsed'].min().date()
 max_date = df['injury_from_parsed'].max().date()
@@ -188,7 +192,7 @@ max_date = df['injury_from_parsed'].max().date()
 if 'date_range' not in st.session_state:
     st.session_state['date_range'] = (min_date, max_date)
 date_range = st.session_state['date_range']
-st.sidebar.markdown("---")
+
 
 # tournament_filter = st.sidebar.radio(
 #     "Turnier-Teilnahme Filter",
@@ -199,7 +203,7 @@ if 'tournament_filter' not in st.session_state:
     st.session_state['tournament_filter'] = "Alle Spieler (Kein Filter)"
 tournament_filter = st.session_state['tournament_filter']
 
-st.sidebar.markdown("---")
+
 
 player_source_df = df.copy()
 if selected_club_global != "Alle Clubs":
@@ -246,8 +250,7 @@ if 'player_search' not in st.session_state:
     st.session_state['player_search'] = ""
 player_search = st.session_state['player_search']
 
-st.sidebar.markdown("---")
-st.sidebar.caption("Navigation erfolgt über Tabs im Hauptbereich.")
+
 
 # Filter Data
 filtered_df = df[
@@ -503,7 +506,8 @@ with tab_trends:
     
     st.info("💡 **Kurzanleitung:** Hier kannst du zwei Szenarien vergleichen: Wähle in Gruppe A ein Turnier (z. B. WM 2022) und in Gruppe B 'Keine Turnierteilnahme' – der Randomizer erstellt dann automatisch eine statistisch faire Äquivalenzgruppe. Alternativ kannst du in beiden Gruppen 'Alle Spieler' wählen, um direkt Ligen oder Saisons miteinander zu vergleichen (deaktiviere in diesem Fall den Randomizer). So siehst du präzise, wie sich Verletzungsmuster zwischen Wettbewerben oder Zeiträumen unterscheiden.")
     
-    with st.expander("⚙️ Vergleichskonfiguration (Vergleich vs. Kontrolle)", expanded=True):
+    st.markdown("### ⚙️ Vergleichskonfiguration (Vergleich vs. Kontrolle)")
+    with st.container():
         c1, c2 = st.columns(2)
         
         league_options_all = sorted(df['league'].dropna().unique().tolist())
@@ -804,7 +808,8 @@ if False:
 
 def render_local_filters(tab_prefix):
     st.info("💡 **Kurzanleitung:** Nutze den Turnierfilter, um gezielt die Verletzungen einer WM/EM-Kohorte (z. B. WM 2022) zu analysieren oder wähle 'Alle Spieler' für eine allgemeine Liga-Übersicht. Über den Saison-Filter kannst du den Zeitraum anpassen, um z. B. die Belastung während einer Turniersaison im Vergleich zu anderen Jahren zu untersuchen. Alle Grafiken passen sich sofort deiner Auswahl an.")
-    with st.expander("⚙️ Filter (Turnier & Saison)", expanded=True):
+    st.markdown("### ⚙️ Filter (Turnier & Saison)")
+    with st.container():
         col1, col2 = st.columns(2)
         with col1:
             t_filter = st.selectbox("Turnierfilter", TOURNAMENT_OPTIONS, index=0, key=f"{tab_prefix}_tournament")
@@ -1963,36 +1968,40 @@ with tab_market_risk:
     """)
     st.divider()
     
-    # --- Local Filters for Marktdaten ---
-    with st.expander("🔍 Filter für Marktdaten & Suche", expanded=True):
-        f_col1, f_col2 = st.columns(2)
-        with f_col1:
-            # Re-calculating player options based on current global filters
-            player_options_local = sorted(df['player_name'].dropna().unique().tolist())
-            st.session_state['player_search_val'] = st.multiselect(
-                "Spieler suchen",
-                options=player_options_local,
-                default=[st.session_state['player_search']] if st.session_state['player_search'] else [],
-                max_selections=1,
-                help="Suche nach einem spezifischen Spieler."
-            )
-            st.session_state['player_search'] = st.session_state['player_search_val'][0] if st.session_state['player_search_val'] else ""
-            player_search = st.session_state['player_search']
+    # --- New Unified Search Area ---
+    st.markdown("### 🔍 Suche & Analyse")
+    sc1, sc2 = st.columns(2)
+    with sc1:
+        player_options_local = sorted(df['player_name'].dropna().unique().tolist())
+        sel_p = st.multiselect(
+            "👤 Spieler suchen",
+            options=player_options_local,
+            default=[st.session_state['risk_selected_player']] if st.session_state['risk_selected_player'] else [],
+            max_selections=1,
+            help="Wähle einen Spieler aus, um seinen detaillierten Steckbrief zu sehen."
+        )
+        st.session_state['risk_selected_player'] = sel_p[0] if sel_p else None
+        
+    with sc2:
+        injury_options = ["Alle Verletzungen"] + sorted(df['Injury'].dropna().unique().tolist())
+        selected_injury_risk = st.selectbox(
+            "🩹 Verletzung suchen",
+            options=injury_options,
+            index=0,
+            help="Filtere den Katalog nach einer bestimmten Verletzungsart."
+        )
 
-        with f_col2:
-            st.session_state['tournament_filter'] = st.radio(
-                "Turnier-Teilnahme Filter",
-                options=TOURNAMENT_OPTIONS,
-                index=TOURNAMENT_OPTIONS.index(st.session_state.get('tournament_filter', "Alle Spieler (Kein Filter)")) if st.session_state.get('tournament_filter') in TOURNAMENT_OPTIONS else 0,
-                horizontal=True
-            )
-            tournament_filter = st.session_state['tournament_filter']
-    
     st.divider()
 
-    if player_search:
+    if st.session_state['risk_selected_player']:
+        p_name = st.session_state['risk_selected_player']
+        
+        # Back Button
+        if st.button("⬅️ Zurück zum Katalog"):
+            st.session_state['risk_selected_player'] = None
+            st.rerun()
+
         # 1. Fetch player details for the "Steckbrief"
-        p_name = player_search
         p_info = players_info_df[players_info_df['name'].str.contains(p_name, case=False, na=False)]
         
         if not p_info.empty:
@@ -2232,21 +2241,158 @@ with tab_market_risk:
                 st.divider()
         else:
             st.warning(f"Keine Marktwert-Historie für '{p_name}' gefunden. Eventuell weicht der Name in der Transfermarkt-Datenbank leicht ab.")
-    else:
-        st.info("Wähle links in der Sidebar einen Spieler aus, um die detaillierte Marktwert-Risiko-Analyse zu sehen.")
+    elif selected_injury_risk != "Alle Verletzungen":
+        st.subheader(f"🩹 Katalog: {selected_injury_risk}")
         
-        # Squad-Level Overview (Fallack)
-        st.subheader("Globales Marktwert-Risiko (Top 10 Kader-Werte)")
-        squad_mv = df.groupby('player_name')['market_value_in_eur'].first().sort_values(ascending=False).head(10).reset_index()
-        fig_squad = px.bar(
-            squad_mv,
-            x='player_name',
-            y='market_value_in_eur',
-            title="Die 10 wertvollsten Spieler im aktiven Kader",
-            labels={'player_name': 'Spieler', 'market_value_in_eur': 'Marktwert (EUR)'},
-            color='market_value_in_eur',
-            color_continuous_scale='Blues'
-        )
-        st.plotly_chart(fig_squad, use_container_width=True)
+        # Filter players with this injury and merge with full player info for images
+        injury_players = df[df['Injury'] == selected_injury_risk].copy()
+        
+        if not injury_players.copy().empty:
+            # Join with players_info_df to get image_url
+            injury_players = pd.merge(
+                injury_players, 
+                players_info_df[['name', 'image_url']], 
+                left_on='player_name', 
+                right_on='name', 
+                how='left'
+            )
+            
+            # Sort Option
+            sort_by = st.radio("Katalog sortieren nach:", ["Höchster Marktwert", "Meiste Ausfalltage"], horizontal=True)
+            
+            # Group by player to get metadata
+            catalog_df = injury_players.groupby('player_name').agg({
+                'market_value_in_eur': 'first',
+                'club': 'first',
+                'league': 'first',
+                'Days': 'max', # Use max for sorting to see the worst instance
+                'image_url': 'first'
+            }).reset_index()
+            
+            if "Marktwert" in sort_by:
+                catalog_df = catalog_df.sort_values('market_value_in_eur', ascending=False)
+            else:
+                catalog_df = catalog_df.sort_values('Days', ascending=False)
+            
+            # --- Advanced Insight: Market Impact Trend ---
+            # We take a sample of the top 20 players to estimate the impact trend
+            sample_players = catalog_df.head(20)['player_name'].tolist()
+            sample_deltas = []
+            
+            # This is a bit simplified to avoid heavy computation
+            for sp in sample_players:
+                p_inj = df[(df['player_name'] == sp) & (df['Injury'] == selected_injury_risk)].sort_values('Days', ascending=False)
+                if not p_inj.empty:
+                    row = p_inj.iloc[0]
+                    p_vals = val_df[val_df['name'] == sp].sort_values('date')
+                    if not p_vals.empty:
+                        # Value before
+                        v_pre_df = p_vals[p_vals['date'] <= row['injury_from_parsed']]
+                        v_post_df = p_vals[p_vals['date'] >= row['injury_until_parsed']]
+                        if not v_pre_df.empty and not v_post_df.empty:
+                            v_pre = v_pre_df.iloc[-1]['market_value_in_eur']
+                            v_post = v_post_df.iloc[0]['market_value_in_eur']
+                            if v_pre > 0:
+                                sample_deltas.append((v_post - v_pre) / v_pre)
+
+            avg_impact = (sum(sample_deltas) / len(sample_deltas) * 100) if sample_deltas else None
+            
+            avg_days = catalog_df['Days'].mean()
+            total_players = len(catalog_df)
+            
+            # Display metrics
+            m_col1, m_col2, m_col3 = st.columns(3)
+            m_col1.metric("Betroffene Spieler", total_players)
+            m_col2.metric("Ø Ausfalldauer", f"{avg_days:.1f} Tage")
+            if avg_impact is not None:
+                m_col3.metric("Ø Marktwert-Trend", f"{avg_impact:+.1f}%", delta=f"{avg_impact:.1f}%", delta_color="normal" if avg_impact >= 0 else "inverse")
+            else:
+                m_col3.metric("Ø Marktwert-Trend", "N/A")
+
+            if avg_impact is not None:
+                if avg_impact < -5:
+                    st.error(f"⚠️ **Finanzielles Risiko:** Diese Verletzung korreliert bei den Top-Spielern mit einem deutlichen Marktwertverlust von durchschnittlich **{abs(avg_impact):.1f}%**.")
+                elif avg_impact > 5:
+                    st.success(f"📈 **Resilienz:** Erstaunlicherweise zeigt die Datenlage bei dieser Verletzung einen positiven Marktwert-Trend (+{avg_impact:.1f}%). Dies deutet darauf hin, dass Spieler oft stärker zurückkommen oder die Verletzung in eine Phase des Marktwert-Wachstums fällt.")
+                else:
+                    st.info(f"⚖️ **Neutraler Impact:** Der Marktwert bleibt nach dieser Verletzung im Durchschnitt stabil ({avg_impact:+.1f}%).")
+
+            st.divider()
+            
+            # Display grid
+            display_limit = st.session_state['risk_display_count']
+            display_df = catalog_df.head(display_limit)
+            
+            for i in range(0, len(display_df), 2):
+                cols = st.columns(2)
+                for j in range(2):
+                    if i + j < len(display_df):
+                        player = display_df.iloc[i + j]
+                        p_name = player['player_name']
+                        
+                        # --- Calculate Individual Impact for this player and injury ---
+                        # Find the longest instance of this injury for this player
+                        p_inj = df[(df['player_name'] == p_name) & (df['Injury'] == selected_injury_risk)].sort_values('Days', ascending=False)
+                        
+                        impact_data = None
+                        if not p_inj.empty:
+                            row = p_inj.iloc[0]
+                            p_vals = val_df[val_df['name'] == p_name].sort_values('date')
+                            if not p_vals.empty:
+                                val_before_df = p_vals[p_vals['date'] <= row['injury_from_parsed']]
+                                val_after_df = p_vals[p_vals['date'] >= row['injury_until_parsed']]
+                                
+                                if not val_before_df.empty and not val_after_df.empty:
+                                    v_pre = val_before_df.iloc[-1]['market_value_in_eur']
+                                    v_post = val_after_df.iloc[0]['market_value_in_eur']
+                                    diff_pct = ((v_post - v_pre) / v_pre * 100) if v_pre > 0 else 0
+                                    impact_data = {
+                                        'pre': v_pre,
+                                        'post': v_post,
+                                        'pct': diff_pct,
+                                        'days': row['Days'],
+                                        'date': row['injury_from_parsed'].strftime('%d.%m.%y'),
+                                        'end_date': row['injury_until_parsed'].strftime('%d.%m.%y') if pd.notna(row['injury_until_parsed']) else "?"
+                                    }
+
+                        with cols[j]:
+                            with st.container(border=True):
+                                c1, c2 = st.columns([1, 2])
+                                with c1:
+                                    if pd.notna(player['image_url']):
+                                        st.image(player['image_url'], use_container_width=True)
+                                    else:
+                                        st.write("👤")
+                                with c2:
+                                    st.markdown(f"**{p_name}**")
+                                    st.write(f"{player['club']} ({player['league']})")
+                                    
+                                    if impact_data:
+                                        # Display Impact
+                                        color = "red" if impact_data['pct'] < -2 else "green" if impact_data['pct'] > 2 else "gray"
+                                        st.markdown(f"""
+                                        <div style="font-size: 0.85rem; background: #F8FAFC; padding: 8px; border-radius: 5px; border-left: 4px solid {color}; color: #0F172A;">
+                                            <b style="color: #0F172A;">Impact:</b> <span style="color: {color}; font-weight: bold;">{impact_data['pct']:+.1f}%</span><br>
+                                            <span style="color: #475569;">€{impact_data['pre']/1e6:.1f}M &rarr; €{impact_data['post']/1e6:.1f}M</span><br>
+                                            <span style="font-size: 0.75rem; color: #64748B;">📅 {impact_data['date']} - {impact_data['end_date']} <b>({int(impact_data['days'])} Tage)</b></span>
+                                        </div>
+                                        """, unsafe_allow_html=True)
+                                    else:
+                                        st.write(f"Marktwert: €{player['market_value_in_eur']:,.0f}".replace(",", "."))
+                                    
+                                    st.write("") # Spacer
+                                    if st.button(f"Profil: {p_name}", key=f"risk_{p_name}"):
+                                        st.session_state['risk_selected_player'] = p_name
+                                        st.rerun()
+            
+            if len(catalog_df) > display_limit:
+                if st.button("Weitere 50 Spieler laden"):
+                    st.session_state['risk_display_count'] += 50
+                    st.rerun()
+        else:
+            st.info("Keine Daten für diese Verletzung gefunden.")
+            
+    else:
+        st.info("💡 Wähle eine Verletzung aus, um den Marktwert-Katalog zu sehen, oder suche direkt nach einem Spieler.")
 
      
