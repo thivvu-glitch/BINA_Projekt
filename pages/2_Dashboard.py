@@ -300,7 +300,7 @@ if filtered_df.empty:
 tab_labels = [
     # "Übersicht",
     # "Verletzungsvergleich",
-    "Zeit & Liga",
+    "Zeitvergleich & Trends",
     # "Tabellen",
     "Karten",    
     "Bodymap",
@@ -316,7 +316,7 @@ elif "requested_tab" in st.session_state:
     del st.session_state["requested_tab"]
 
 if "active_dashboard_tab" not in st.session_state:
-    st.session_state["active_dashboard_tab"] = "Zeit & Liga"
+    st.session_state["active_dashboard_tab"] = "Zeitvergleich & Trends"
 
 def update_tab_url():
     """Updates the URL query parameters when a tab is clicked."""
@@ -488,32 +488,30 @@ if False:
 
 with tab_trends:
     st.markdown("""
-    ### 📈 Für wen ist dieses Dashboard?
-    **Zielgruppe:** Strategische Planer, Team-Manager, Athletik-Trainer, Forscher
-    
-    **Was sieht man?**
-    - Saisonale und monatliche Verletzungsmuster
-    - Vergleich von Verletzungstrends zwischen verschiedenen Ligen
-    - Jahresüber-Vergleiche und historische Entwicklungen
-    - Identifikation von Peak-Monaten für Verletzungen
-    - Planung von Präventions- und Trainingsprogrammen basierend auf Saisonalität
+    ### 📈 Strategische Trend-Analyse & Belastungssteuerung
+    **Für wen?** Sportdirektoren, Trainer und medizinische Abteilungen. 
+    **Warum?** Um zu verstehen, ob Großturniere (WM/EM) das Verletzungsrisiko erhöhen und wie sich die Ausfallzeiten über die Saisons entwickeln, um Kader-Ressourcen besser zu planen.
     """)
     st.divider()
     
     # --- New Comparison Logic ---
-    st.subheader("🏆 Verletzungsverlauf")
-    st.markdown("Vergleiche Turnierteilnehmer (WM/EM) mit Kontrollgruppen oder anderen Turnieren.")
+    st.subheader("📊 Individueller Kohorten-Vergleich (Turniere, Ligen & Saisons)")
+    st.markdown("Erstelle zwei individuelle Spielergruppen (Kohorten), um deren Verletzungsmuster direkt miteinander zu vergleichen. Dies ermöglicht die Analyse von Turnier-Belastungen als auch direkte Vergleiche zwischen Ligen oder Saisons.")
     
-    st.info("💡 **Kurzanleitung:** Hier kannst du zwei Szenarien vergleichen: Wähle in Gruppe A ein Turnier (z. B. WM 2022) und in Gruppe B 'Keine Turnierteilnahme' – der Randomizer erstellt dann automatisch eine statistisch faire Äquivalenzgruppe. Alternativ kannst du in beiden Gruppen 'Alle Spieler' wählen, um direkt Ligen oder Saisons miteinander zu vergleichen (deaktiviere in diesem Fall den Randomizer). So siehst du präzise, wie sich Verletzungsmuster zwischen Wettbewerben oder Zeiträumen unterscheiden.")
+    st.info("""
+    💡 **Anleitung zur Konfiguration der Analyse-Gruppen:**
+    * **Turnier-Analyse:** Wähle in Kohorte A ein Turnier (z.B. WM 2022) und in Kohorte B 'Keine Turnierteilnahme'. Aktiviere das 'Stratified Matching', um eine statistisch faire Vergleichsgruppe (gleiche Ligen & Positionen) zu generieren.
+    * **Ligen- oder Saison-Vergleich:** Wähle bei beiden Kohorten im Turnierfilter **'Alle Spieler'**. Konfiguriere dann die Ligen und Saisons nach Belieben (z.B. Kohorte A: Premier League, Kohorte B: Bundesliga). *Wichtig: Deaktiviere in diesem Fall das 'Stratified Matching', da du alle Spieler der gewählten Liga sehen willst.*
+    """)
     
-    st.markdown("### ⚙️ Vergleichskonfiguration (Vergleich vs. Kontrolle)")
+    st.markdown("### ⚙️ Setup für Kohorten-Vergleich")
     with st.container():
         c1, c2 = st.columns(2)
         
         league_options_all = sorted(df['league'].dropna().unique().tolist())
         
         with c1:
-            st.markdown("**1. Vergleichswerte (Gruppe A)**")
+            st.markdown("**1. Analyse-Kohorte A (Fokusgruppe)**")
             v_tournament = st.selectbox(
                 "Turnierfilter (A)",
                 options=TOURNAMENT_OPTIONS,
@@ -524,7 +522,7 @@ with tab_trends:
             v_season = st.multiselect("Saison (A)", season_options, default=season_options, key="v_group_season")
             
         with c2:
-            st.markdown("**2. Kontrollwerte (Gruppe B)**")
+            st.markdown("**2. Analyse-Kohorte B (Vergleichsgruppe)**")
             k_tournament = st.selectbox(
                 "Turnierfilter (B)",
                 options=TOURNAMENT_OPTIONS,
@@ -1521,7 +1519,7 @@ with tab_bodymap:
                 xaxis=dict(visible=False), yaxis=dict(visible=False),
                 paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)"
             )
-            st.plotly_chart(fig_cbar, use_container_width=True)
+            st.plotly_chart(fig_cbar, use_container_width=True, key="bodymap_colorbar")
     
         if len(selected_leagues) == 1:
             league = selected_leagues[0]
@@ -1531,7 +1529,7 @@ with tab_bodymap:
             st.markdown(f"**{title}**")
             fig = create_bodymap(body_df, global_min, global_max)
             if fig:
-                st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+                st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False}, key=f"bodymap_single_{league}")
             else:
                 st.info("Keine Daten für die aktuelle Auswahl in der Körperkarte verfügbar.")
         else:
@@ -1548,7 +1546,7 @@ with tab_bodymap:
                         st.markdown(f"<div style='text-align: center;'><b>{title}</b></div>", unsafe_allow_html=True)
                         fig = create_bodymap(league_df, global_min, global_max)
                         if fig:
-                            st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+                            st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False}, key=f"bodymap_multi_{league}")
                         else:
                             st.info(f"Keine Daten für {league} verfügbar.")
 
