@@ -139,6 +139,14 @@ if 'risk_display_count' not in st.session_state:
     st.session_state['risk_display_count'] = 50
 if 'risk_selected_player' not in st.session_state:
     st.session_state['risk_selected_player'] = None
+if 'dddm_selected_player' not in st.session_state:
+    st.session_state['dddm_selected_player'] = None
+if 'dddm_filter_club' not in st.session_state:
+    st.session_state['dddm_filter_club'] = "Alle Clubs"
+if 'dddm_filter_seasons' not in st.session_state:
+    st.session_state['dddm_filter_seasons'] = [DEFAULT_SEASON] if DEFAULT_SEASON in season_options else season_options
+if 'dddm_filter_leagues' not in st.session_state:
+    st.session_state['dddm_filter_leagues'] = sorted(df['league'].dropna().unique().tolist())
 
 # --- Global Filter UI ---
 # Globale Filter auskommentiert laut Anforderung
@@ -1557,8 +1565,9 @@ with tab_dddm:
         except (ValueError, IndexError):
             return 9999
 
-    def checkSeason():
-        if any(season_start_year(season) < season_start_year(DEFAULT_SEASON) for season in selected_seasons):
+    def checkSeason(seasons_to_check=None):
+        seasons_to_check = seasons_to_check if seasons_to_check is not None else selected_seasons
+        if any(season_start_year(season) < season_start_year(DEFAULT_SEASON) for season in seasons_to_check):
             return st.warning(
                 "Du hast ältere Saisons als 24/25 ausgewählt. Die Kaderzusammensetzung kann dadurch vom aktuellen Kader abweichen, "
                 "weil Transfers, Abgänge und Neuzugänge nicht mehr exakt dem heutigen Team entsprechen."
@@ -1574,7 +1583,7 @@ with tab_dddm:
     - **Vertragsentscheidungen:** Investitionsrisiken für Verlängerungen
     - **Ressourcenplanung:** Budget-Allokation für Medizin und Prävention
     - **Capital Project Appraisal (CPA):** ROI von medizinischen Investitionen
-    - **Strategische HR-Entscheidungen:** Spielertransfers, Versicherung, Vertragsstrukturen
+    - **Strategische Kader-Entscheidungen:** Spielertransfers und Vertragsstrukturen
     """)
     st.divider()
 
@@ -1647,9 +1656,28 @@ with tab_dddm:
     Diese prädiktive Metrik berechnet einen Risiko-Score basierend auf historischen Ausfalltagen, um finanzielle Fehlinvestitionen zu vermeiden.
     """)
     
-    if player_search and not filtered_df.empty:
+    # --- New Unified Search Area ---
+    st.markdown("### 🔍 Suche & Analyse")
+    sc1, sc2 = st.columns(2)
+    with sc1:
+        player_options_local = sorted(df['player_name'].dropna().unique().tolist())
+        sel_p = st.multiselect(
+            "👤 Spieler suchen",
+            options=player_options_local,
+            default=[st.session_state['dddm_selected_player']] if st.session_state['dddm_selected_player'] else [],
+            max_selections=1,
+            help="Wähle einen Spieler aus, um die Risikoanalyse zu sehen."
+        )
+        st.session_state['dddm_selected_player'] = sel_p[0] if sel_p else None
+    
+    if st.session_state['dddm_selected_player'] and not filtered_df.empty:
+        dddm_player_search = st.session_state['dddm_selected_player']
+    else:
+        dddm_player_search = ""
+    
+    if dddm_player_search and not filtered_df.empty:
         checkSeason()
-        player_data = filtered_df[filtered_df['player_name'].str.contains(player_search, case=False, na=False)]
+        player_data = filtered_df[filtered_df['player_name'].str.contains(dddm_player_search, case=False, na=False)]
 
         if not player_data.empty:
             total_days_missed = player_data['Days'].sum()
@@ -1708,8 +1736,6 @@ with tab_dddm:
                 )
 
             st.dataframe(player_data[['Season', 'Injury', 'Days', 'Games missed']], use_container_width=True, hide_index=True)
-    else:
-        st.info("Gib links einen Spielernamen ein, um die Risikoanalyse zu aktivieren.")
 
     st.divider()
     st.subheader("💡 DDDM: Präskriptive Ressourcenallokation (Medical Budget)")
@@ -1718,9 +1744,60 @@ with tab_dddm:
     Dieser Bereich aggregiert die Ausfalltage nach Verletzungsart, um die teuersten Schwachstellen im Kader zu identifizieren und Investitionsentscheidungen (Capital Project Appraisal) zu lenken.
     """)
 
-    if not filtered_df.empty:
-        checkSeason()
-        injury_cost = filtered_df.groupby('Injury').agg(
+    st.markdown("### 🔎 Filter für Ressourcenallokation")
+    dddm_filter_col1, dddm_filter_col2, dddm_filter_col3 = st.columns(3)
+
+    with dddm_filter_col1:
+        st.selectbox(
+            "Club auswählen",
+            options=club_options,
+            key='dddm_filter_club',
+            help="Begrenzt die Analyse auf einen bestimmten Club."
+        )
+
+    with dddm_filter_col2:
+        st.multiselect(
+            "Saisons auswählen",
+            options=season_options,
+            key='dddm_filter_seasons',
+            help="Analysiert nur die gewählten Saisons."
+        )
+        if not st.session_state['dddm_filter_seasons']:
+            st.session_state['dddm_filter_seasons'] = [DEFAULT_SEASON] if DEFAULT_SEASON in season_options else season_options
+
+    dddm_league_source_df = df.copy()
+    if st.session_state['dddm_filter_club'] != "Alle Clubs":
+        dddm_league_source_df = dddm_league_source_df[dddm_league_source_df['club'] == st.session_state['dddm_filter_club']]
+    dddm_league_options = sorted(dddm_league_source_df['league'].dropna().unique().tolist())
+    st.session_state['dddm_filter_leagues'] = [l for l in st.session_state['dddm_filter_leagues'] if l in dddm_league_options]
+    if not st.session_state['dddm_filter_leagues']:
+        st.session_state['dddm_filter_leagues'] = dddm_league_options
+
+    with dddm_filter_col3:
+        st.multiselect(
+            "Liga auswählen",
+            options=dddm_league_options,
+            key='dddm_filter_leagues',
+            help="Analysiert nur die gewählten Ligen."
+        )
+
+    dddm_filtered_df = df.copy()
+    if st.session_state['dddm_filter_club'] != "Alle Clubs":
+        dddm_filtered_df = dddm_filtered_df[dddm_filtered_df['club'] == st.session_state['dddm_filter_club']]
+    if st.session_state['dddm_filter_seasons']:
+        dddm_filtered_df = dddm_filtered_df[dddm_filtered_df['Season'].isin(st.session_state['dddm_filter_seasons'])]
+    if st.session_state['dddm_filter_leagues']:
+        dddm_filtered_df = dddm_filtered_df[dddm_filtered_df['league'].isin(st.session_state['dddm_filter_leagues'])]
+
+    st.caption(
+        f"Aktive DDDM-Filter: Club = {st.session_state['dddm_filter_club']}, "
+        f"Saisons = {', '.join(st.session_state['dddm_filter_seasons']) if st.session_state['dddm_filter_seasons'] else 'Keine'}, "
+        f"Ligen = {', '.join(st.session_state['dddm_filter_leagues']) if st.session_state['dddm_filter_leagues'] else 'Keine'}"
+    )
+
+    if not dddm_filtered_df.empty:
+        checkSeason(st.session_state['dddm_filter_seasons'])
+        injury_cost = dddm_filtered_df.groupby('Injury').agg(
             Total_Days=('Days', 'sum'),
             Count=('Injury', 'count')
         ).reset_index().sort_values(by='Total_Days', ascending=False)
