@@ -14,8 +14,8 @@ basiert auf der **CPA Management Accounting Guideline** für datengesteuerte Ent
 """)
 
 # Hero Image
-st.image("picture/Homescreen_pic.png", use_container_width=True)
-st.caption("Quelle: KI generiert")
+# st.image("picture/Homescreen_pic.png", use_container_width=True)
+# st.caption("Quelle: KI generiert")
 
 st.markdown("---")
 

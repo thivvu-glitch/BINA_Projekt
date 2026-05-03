@@ -1960,13 +1960,17 @@ with tab_dddm:
 with tab_market_risk:
 
     st.markdown("""
-    ### 📉 Marktwert-Risiko & Verletzungskorrelation
-    **Zielgruppe:** Sportliche Leitung, Scouts, Finanzabteilung
+    ### 📉 Marktwert-Impact: Verletzungen & Finanzen
+    **Für wen?** Sportliche Leitung, Scouts, Vertragsverhandler
+    **Warum?** Um herauszufinden, inwiefern eine spezifische Verletzung eines Spielers Einfluss auf seinen Marktwert oder seine Transfersumme hatte.
+    """)
+    st.divider()
     
-    **Was sieht man?**
-    - Korrelation zwischen Marktwertentwicklung und Verletzungsphasen.
-    - Finanzieller Impact: Wertverlust durch schwere Verletzungen.
-    - Zeitliche Einordnung von Verletzungen in die Karriere-Wertkurve.
+    st.info("""
+    💡 **So nutzt du die Suche:**
+    1. **Spieler analysieren:** Suche links nach einem Spieler (z.B. Neymar). Du siehst sofort seinen Marktwert-Verlauf.
+    2. **Verletzung isolieren:** Wähle rechts im Dropdown eine seiner spezifischen Verletzungen aus. Das System blendet dann nur diese Verletzung im Chart ein, damit du exakt den Marktwert-Drop nach dieser Phase studieren kannst.
+    3. **Katalog durchsuchen:** Wenn kein Spieler gewählt ist, kannst du rechts nach einer bestimmten Verletzung suchen, um alle betroffenen Spieler im Katalog anzuzeigen.
     """)
     st.divider()
     
@@ -1985,12 +1989,21 @@ with tab_market_risk:
         st.session_state['risk_selected_player'] = sel_p[0] if sel_p else None
         
     with sc2:
-        injury_options = ["Alle Verletzungen"] + sorted(df['Injury'].dropna().unique().tolist())
+        current_p = st.session_state['risk_selected_player']
+        if current_p:
+            p_injuries = df[df['player_name'].str.contains(current_p, case=False, na=False)]
+            available_injuries = sorted(p_injuries['Injury'].dropna().unique().tolist())
+            help_text = "Filtere die Ansicht im Chart auf eine bestimmte Verletzung dieses Spielers."
+        else:
+            available_injuries = sorted(df['Injury'].dropna().unique().tolist())
+            help_text = "Filtere den Katalog nach einer bestimmten Verletzungsart."
+            
+        injury_options = ["Alle Verletzungen"] + available_injuries
         selected_injury_risk = st.selectbox(
             "🩹 Verletzung suchen",
             options=injury_options,
             index=0,
-            help="Filtere den Katalog nach einer bestimmten Verletzungsart."
+            help=help_text
         )
 
     st.divider()
@@ -2061,23 +2074,12 @@ with tab_market_risk:
         if not p_valuations.empty:
             st.subheader(f"Marktwert-Verlauf von {p_name}")
 
-            # Filter for specific injuries to show in chart
+            # Filter for specific injuries to show in chart based on the top search
             if not p_injuries.empty:
-                # Prepare display labels for multiselect
-                # Format: "Injury (X Wochen)"
-                p_injuries['display_label'] = p_injuries.apply(
-                    lambda row: f"{row['Injury']} ({int(row['Days'] // 7)} Wochen, ab {row['injury_from_parsed'].strftime('%d.%m.%y')})", 
-                    axis=1
-                )
-                
-                selected_vrects = st.multiselect(
-                    "Einzublendende Verletzungen im Chart auswählen:",
-                    options=p_injuries['display_label'].tolist(),
-                    default=p_injuries['display_label'].tolist(),
-                    help="Wähle aus, welche Verletzungsphasen als rote Flächen im Chart erscheinen sollen."
-                )
-                
-                visible_injuries = p_injuries[p_injuries['display_label'].isin(selected_vrects)]
+                if selected_injury_risk != "Alle Verletzungen":
+                    visible_injuries = p_injuries[p_injuries['Injury'] == selected_injury_risk]
+                else:
+                    visible_injuries = p_injuries
             else:
                 visible_injuries = pd.DataFrame()
 
