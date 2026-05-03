@@ -1765,14 +1765,15 @@ with tab_dddm:
         )
 
     with dddm_filter_col2:
+        if 'dddm_filter_seasons' not in st.session_state or not st.session_state['dddm_filter_seasons']:
+            st.session_state['dddm_filter_seasons'] = [DEFAULT_SEASON] if DEFAULT_SEASON in season_options else season_options
+            
         st.multiselect(
             "Saisons auswählen",
             options=season_options,
             key='dddm_filter_seasons',
             help="Analysiert nur die gewählten Saisons."
         )
-        if not st.session_state['dddm_filter_seasons']:
-            st.session_state['dddm_filter_seasons'] = [DEFAULT_SEASON] if DEFAULT_SEASON in season_options else season_options
 
     dddm_league_source_df = df.copy()
     if st.session_state['dddm_filter_club'] != "Alle Clubs":
