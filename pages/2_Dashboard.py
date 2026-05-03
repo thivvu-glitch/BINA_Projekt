@@ -1656,28 +1656,37 @@ with tab_dddm:
     Diese prädiktive Metrik berechnet einen Risiko-Score basierend auf historischen Ausfalltagen, um finanzielle Fehlinvestitionen zu vermeiden.
     """)
     
+    # --- Background Filter Logic (Tab-spezifisch) ---
+    dddm_filtered_df_bg = df.copy()
+    if st.session_state.get('dddm_filter_club', 'Alle Clubs') != "Alle Clubs":
+        dddm_filtered_df_bg = dddm_filtered_df_bg[dddm_filtered_df_bg['club'] == st.session_state['dddm_filter_club']]
+    if st.session_state.get('dddm_filter_seasons', []):
+        dddm_filtered_df_bg = dddm_filtered_df_bg[dddm_filtered_df_bg['Season'].isin(st.session_state['dddm_filter_seasons'])]
+    if st.session_state.get('dddm_filter_leagues', []):
+        dddm_filtered_df_bg = dddm_filtered_df_bg[dddm_filtered_df_bg['league'].isin(st.session_state['dddm_filter_leagues'])]
+
     # --- New Unified Search Area ---
     st.markdown("### 🔍 Suche & Analyse")
     sc1, sc2 = st.columns(2)
     with sc1:
-        player_options_local = sorted(df['player_name'].dropna().unique().tolist())
+        player_options_local = sorted(dddm_filtered_df_bg['player_name'].dropna().unique().tolist())
         sel_p = st.multiselect(
             "👤 Spieler suchen",
             options=player_options_local,
-            default=[st.session_state['dddm_selected_player']] if st.session_state['dddm_selected_player'] else [],
+            default=[st.session_state['dddm_selected_player']] if st.session_state['dddm_selected_player'] and st.session_state['dddm_selected_player'] in player_options_local else [],
             max_selections=1,
             help="Wähle einen Spieler aus, um die Risikoanalyse zu sehen."
         )
         st.session_state['dddm_selected_player'] = sel_p[0] if sel_p else None
     
-    if st.session_state['dddm_selected_player'] and not filtered_df.empty:
+    if st.session_state['dddm_selected_player'] and not dddm_filtered_df_bg.empty:
         dddm_player_search = st.session_state['dddm_selected_player']
     else:
         dddm_player_search = ""
     
-    if dddm_player_search and not filtered_df.empty:
-        checkSeason()
-        player_data = filtered_df[filtered_df['player_name'].str.contains(dddm_player_search, case=False, na=False)]
+    if dddm_player_search and not dddm_filtered_df_bg.empty:
+        checkSeason(st.session_state.get('dddm_filter_seasons', [DEFAULT_SEASON]))
+        player_data = dddm_filtered_df_bg[dddm_filtered_df_bg['player_name'].str.contains(dddm_player_search, case=False, na=False)]
 
         if not player_data.empty:
             total_days_missed = player_data['Days'].sum()
@@ -1834,51 +1843,51 @@ with tab_dddm:
     else:
         st.info("Keine Daten für die Budgetanalyse verfügbar.")
 
-    st.divider()
-    st.subheader("📈 DDDM: Verletzungsverlauf 2020–2025")
-    st.markdown(
-        "Diese Ansicht zeigt die Anzahl der Verletzungsfälle pro Saison. Wähle eine Verletzungsart, um den Verlauf gezielt zu analysieren."
-    )
-
-    trend_df = filtered_df.copy()
-
-    if trend_df.empty:
-        st.info("Keine Daten für den Verletzungsverlauf mit der aktuellen Filterauswahl.")
-    else:
-        injury_options = sorted(trend_df['Injury'].dropna().unique().tolist())
-        selected_injury = st.selectbox(
-            "Verletzungsart auswählen",
-            ["Alle Verletzungen"] + injury_options,
-            index=0
-        )
-
-        if selected_injury != "Alle Verletzungen":
-            trend_df = trend_df[trend_df['Injury'] == selected_injury]
-
-        counts = trend_df.groupby('Season').size().reset_index(name='Anzahl')
-
-        if counts.empty:
-            st.info("Für die gewählte Verletzungsart sind keine Daten vorhanden.")
-        else:
-            fig_trend = px.line(
-                counts,
-                x='Season',
-                y='Anzahl',
-                markers=True,
-                title=(
-                    "Verletzungsanzahl pro Saison"
-                    if selected_injury == "Alle Verletzungen"
-                    else f"Verlauf: {selected_injury.title()}"
-                ),
-                labels={'Season': 'Saison', 'Anzahl': 'Anzahl Verletzungen'}
-            )
-            fig_trend.update_layout(
-                yaxis_title="Anzahl Verletzungen",
-                xaxis_title="Saison",
-                template="plotly_white",
-                legend_title_text="Verletzungsart"
-            )
-            st.plotly_chart(fig_trend, use_container_width=True, config={"displayModeBar": False})
+#     st.divider()
+#     st.subheader("📈 DDDM: Verletzungsverlauf 2020–2025")
+#     st.markdown(
+#         "Diese Ansicht zeigt die Anzahl der Verletzungsfälle pro Saison. Wähle eine Verletzungsart, um den Verlauf gezielt zu analysieren."
+#     )
+# 
+#     trend_df = filtered_df.copy()
+# 
+#     if trend_df.empty:
+#         st.info("Keine Daten für den Verletzungsverlauf mit der aktuellen Filterauswahl.")
+#     else:
+#         injury_options = sorted(trend_df['Injury'].dropna().unique().tolist())
+#         selected_injury = st.selectbox(
+#             "Verletzungsart auswählen",
+#             ["Alle Verletzungen"] + injury_options,
+#             index=0
+#         )
+# 
+#         if selected_injury != "Alle Verletzungen":
+#             trend_df = trend_df[trend_df['Injury'] == selected_injury]
+# 
+#         counts = trend_df.groupby('Season').size().reset_index(name='Anzahl')
+# 
+#         if counts.empty:
+#             st.info("Für die gewählte Verletzungsart sind keine Daten vorhanden.")
+#         else:
+#             fig_trend = px.line(
+#                 counts,
+#                 x='Season',
+#                 y='Anzahl',
+#                 markers=True,
+#                 title=(
+#                     "Verletzungsanzahl pro Saison"
+#                     if selected_injury == "Alle Verletzungen"
+#                     else f"Verlauf: {selected_injury.title()}"
+#                 ),
+#                 labels={'Season': 'Saison', 'Anzahl': 'Anzahl Verletzungen'}
+#             )
+#             fig_trend.update_layout(
+#                 yaxis_title="Anzahl Verletzungen",
+#                 xaxis_title="Saison",
+#                 template="plotly_white",
+#                 legend_title_text="Verletzungsart"
+#             )
+#             st.plotly_chart(fig_trend, use_container_width=True, config={"displayModeBar": False})
 
     st.divider()
     if False:  # Temporär deaktiviert, da die Berechnung aufwändig sein kann und ggf. optimiert werden muss
@@ -1891,9 +1900,9 @@ with tab_dddm:
 
     
         # Only show squad analysis when no specific player is searched
-        if not player_search:
-            checkSeason()
-            club_filtered_df = filtered_df.copy()
+        if not dddm_player_search:
+            checkSeason(st.session_state.get('dddm_filter_seasons', [DEFAULT_SEASON]))
+            club_filtered_df = dddm_filtered_df.copy()
             
             if not club_filtered_df.empty:
                 # Group by player and calculate aggregate metrics
