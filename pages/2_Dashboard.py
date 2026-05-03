@@ -1804,155 +1804,159 @@ with tab_dddm:
             st.plotly_chart(fig_trend, use_container_width=True, config={"displayModeBar": False})
 
     st.divider()
-    st.subheader("🎯 DDDM: Kader-Wertanalyse & Squad Vulnerability Assessment")
-    st.markdown("""
-    **Anwendungsfall:** Welche Spieler im Kader stellen ein hohes finanzielles Risiko dar?
-    Diese Analyse kombiniert Marktwert mit Verletzungshistorie, um die finanzielle Anfälligkeit des Kaders zu bewerten.
-    """)
+    if False:  # Temporär deaktiviert, da die Berechnung aufwändig sein kann und ggf. optimiert werden muss
+        '''
+        st.subheader("🎯 DDDM: Kader-Wertanalyse & Squad Vulnerability Assessment")
+        st.markdown("""
+        **Anwendungsfall:** Welche Spieler im Kader stellen ein hohes finanzielles Risiko dar?
+        Diese Analyse kombiniert Marktwert mit Verletzungshistorie, um die finanzielle Anfälligkeit des Kaders zu bewerten.
+        """)
 
-    # Only show squad analysis when no specific player is searched
-    if not player_search:
-        checkSeason()
-        club_filtered_df = filtered_df.copy()
-        
-        if not club_filtered_df.empty:
-            # Group by player and calculate aggregate metrics
-            player_valuation = club_filtered_df.groupby('player_name').agg(
-                Total_Days=('Days', 'sum'),
-                Injury_Count=('player_name', 'count'),
-                Market_Value=('market_value_in_eur', 'first'),
-                League=('league', 'first'),
-                Position=('player_position', 'first')
-            ).reset_index()
-
-            # Remove players without market value
-            player_valuation = player_valuation[player_valuation['Market_Value'].notna() & (player_valuation['Market_Value'] > 0)]
+    
+        # Only show squad analysis when no specific player is searched
+        if not player_search:
+            checkSeason()
+            club_filtered_df = filtered_df.copy()
             
-            if not player_valuation.empty:
-                # Calculate risk metrics
-                career_years = 5
-                player_valuation['Daily_Opportunity_Cost'] = player_valuation['Market_Value'] / (career_years * 365)
-                player_valuation['Financial_Risk_EUR'] = player_valuation['Daily_Opportunity_Cost'] * player_valuation['Total_Days']
-                player_valuation['Risk_Percentage'] = (player_valuation['Total_Days'] / (career_years * 365) * 100).round(2)
+            if not club_filtered_df.empty:
+                # Group by player and calculate aggregate metrics
+                player_valuation = club_filtered_df.groupby('player_name').agg(
+                    Total_Days=('Days', 'sum'),
+                    Injury_Count=('player_name', 'count'),
+                    Market_Value=('market_value_in_eur', 'first'),
+                    League=('league', 'first'),
+                    Position=('player_position', 'first')
+                ).reset_index()
+
+                # Remove players without market value
+                player_valuation = player_valuation[player_valuation['Market_Value'].notna() & (player_valuation['Market_Value'] > 0)]
                 
-                # Sort by financial risk
-                player_valuation_sorted = player_valuation.sort_values('Financial_Risk_EUR', ascending=False)
                 
-                # Top 10 highest financial risk players
-                st.subheader("🚨 Die 10 finanziell riskantesten Spieler")
-                
-                top_risk = player_valuation_sorted.head(10)[['player_name', 'Market_Value', 'Total_Days', 'Injury_Count', 'Financial_Risk_EUR', 'Risk_Percentage']].copy()
-                top_risk.columns = ['Spieler', 'Marktwert (€)', 'Ausfalltage', 'Verletzungen', 'Finanz. Risiko (€)', 'Risiko %']
-                
-                # Format columns for display
-                top_risk['Marktwert (€)'] = top_risk['Marktwert (€)'].apply(lambda x: f"€{x:,.0f}".replace(",", "."))
-                top_risk['Finanz. Risiko (€)'] = top_risk['Finanz. Risiko (€)'].apply(lambda x: f"€{x:,.0f}".replace(",", "."))
-                
-                st.dataframe(top_risk, use_container_width=True, hide_index=True)
-                
-                # Scatter plot: Market Value vs Injury Risk
-                st.subheader("📈 Marktwert vs. Verletzungsrisiko (Squad-Portefeuilleansicht)")
-                
-                fig_scatter = px.scatter(
-                    player_valuation,
-                    x='Market_Value',
-                    y='Total_Days',
-                    size='Injury_Count',
-                    color='Financial_Risk_EUR',
-                    hover_data=['player_name', 'League', 'Position', 'Risk_Percentage'],
-                    labels={
-                        'Market_Value': 'Marktwert (€)',
-                        'Total_Days': 'Gesamtausfalltage',
-                        'Injury_Count': 'Anz. Verletzungen',
-                        'Financial_Risk_EUR': 'Finanzielles Risiko (€)'
-                    },
-                    title="Squad-Portfolio: Welche hochbewerteten Spieler gefährden den finanziellen Erfolg?",
-                    color_continuous_scale='Reds'
-                )
-                fig_scatter.add_hline(
-                    y=player_valuation['Total_Days'].median(),
-                    line_dash="dash",
-                    annotation_text=f"Median: {player_valuation['Total_Days'].median():.0f} Tage",
-                    annotation_position="right"
-                )
-                st.plotly_chart(fig_scatter, use_container_width=True)
-                
-                # Financial impact summary
-                st.subheader("💼 Gesamte Kader-Risikoexposition")
-                
-                total_market_value = player_valuation['Market_Value'].sum()
-                total_financial_risk = player_valuation['Financial_Risk_EUR'].sum()
-                avg_risk_per_player = player_valuation['Financial_Risk_EUR'].mean()
-                high_risk_count = len(player_valuation[player_valuation['Total_Days'] > 100])
-                
-                sum_col1, sum_col2, sum_col3, sum_col4 = st.columns(4)
-                with sum_col1:
-                    st.metric(
-                        "Gesamter Kader-Marktwert",
-                        f"€{total_market_value:,.0f}".replace(",", ".")
+                if not player_valuation.empty:
+                    # Calculate risk metrics
+                    career_years = 5
+                    player_valuation['Daily_Opportunity_Cost'] = player_valuation['Market_Value'] / (career_years * 365)
+                    player_valuation['Financial_Risk_EUR'] = player_valuation['Daily_Opportunity_Cost'] * player_valuation['Total_Days']
+                    player_valuation['Risk_Percentage'] = (player_valuation['Total_Days'] / (career_years * 365) * 100).round(2)
+                    
+                    # Sort by financial risk
+                    player_valuation_sorted = player_valuation.sort_values('Financial_Risk_EUR', ascending=False)
+                    
+                    # Top 10 highest financial risk players
+                    st.subheader("🚨 Die 10 finanziell riskantesten Spieler")
+                    
+                    top_risk = player_valuation_sorted.head(10)[['player_name', 'Market_Value', 'Total_Days', 'Injury_Count', 'Financial_Risk_EUR', 'Risk_Percentage']].copy()
+                    top_risk.columns = ['Spieler', 'Marktwert (€)', 'Ausfalltage', 'Verletzungen', 'Finanz. Risiko (€)', 'Risiko %']
+                    
+                    # Format columns for display
+                    top_risk['Marktwert (€)'] = top_risk['Marktwert (€)'].apply(lambda x: f"€{x:,.0f}".replace(",", "."))
+                    top_risk['Finanz. Risiko (€)'] = top_risk['Finanz. Risiko (€)'].apply(lambda x: f"€{x:,.0f}".replace(",", "."))
+                    
+                    st.dataframe(top_risk, use_container_width=True, hide_index=True)
+                    
+                    # Scatter plot: Market Value vs Injury Risk
+                    st.subheader("📈 Marktwert vs. Verletzungsrisiko (Squad-Portefeuilleansicht)")
+                    
+                    fig_scatter = px.scatter(
+                        player_valuation,
+                        x='Market_Value',
+                        y='Total_Days',
+                        size='Injury_Count',
+                        color='Financial_Risk_EUR',
+                        hover_data=['player_name', 'League', 'Position', 'Risk_Percentage'],
+                        labels={
+                            'Market_Value': 'Marktwert (€)',
+                            'Total_Days': 'Gesamtausfalltage',
+                            'Injury_Count': 'Anz. Verletzungen',
+                            'Financial_Risk_EUR': 'Finanzielles Risiko (€)'
+                        },
+                        title="Squad-Portfolio: Welche hochbewerteten Spieler gefährden den finanziellen Erfolg?",
+                        color_continuous_scale='Reds'
                     )
-                with sum_col2:
-                    st.metric(
-                        "Gesamtes Verletzungsrisiko",
-                        f"€{total_financial_risk:,.0f}".replace(",", "."),
-                        f"{(total_financial_risk/total_market_value*100):.1f}% des Marktwerts"
+                    fig_scatter.add_hline(
+                        y=player_valuation['Total_Days'].median(),
+                        line_dash="dash",
+                        annotation_text=f"Median: {player_valuation['Total_Days'].median():.0f} Tage",
+                        annotation_position="right"
                     )
-                with sum_col3:
-                    st.metric(
-                        "Ø Risiko pro Spieler",
-                        f"€{avg_risk_per_player:,.0f}".replace(",", ".")
-                    )
-                with sum_col4:
-                    st.metric(
-                        "Hochrisikospieler (>100 Tage)",
-                        high_risk_count
-                    )
-                
-                # Strategic Insights
-                st.divider()
-                st.subheader("🎲 Strategische Einsichten für das Management")
-                
-                left_insight, right_insight = st.columns(2)
-                
-                with left_insight:
-                    st.markdown("**Squad-Diversifikation:**")
-                    if high_risk_count / len(player_valuation) > 0.3:
-                        st.warning(f"""
-                        ⚠️ **{(high_risk_count/len(player_valuation)*100):.0f}%** des Kaders sind Hochrisikoträger.
-                        
-                        **Handlung:** Wertvolle Backups für diese Positionen nachdenken über Verstärkung.
-                        """)
-                    else:
-                        st.success(f"""
-                        ✓ Gutes Risiko-Management ({(high_risk_count/len(player_valuation)*100):.0f}% Hochrisikoträger).
-                        """)
-                
-                with right_insight:
-                    st.markdown("**Finanzielle Resilienz:**")
-                    risk_ratio = (total_financial_risk / total_market_value * 100)
-                    if risk_ratio > 15:
-                        st.error(f"""
-                        🔴 **{risk_ratio:.1f}%** des Marktwerts ist durch Verletzungsrisiko gefährdet.
-                        
-                        **Handlung:** Versicherungen, Belastungsmanagement oder Vertragsbewertung überprüfen.
-                        """)
-                    elif risk_ratio > 8:
-                        st.warning(f"""
-                        🟡 **{risk_ratio:.1f}%** Risiko-Quote. Moderates Expositionsniveau.
-                        """)
-                    else:
-                        st.success(f"""
-                        🟢 **{risk_ratio:.1f}%** Risiko-Quote. Niedriges Expositionsniveau.
-                        """)
+                    st.plotly_chart(fig_scatter, use_container_width=True)
+                    
+                    # Financial impact summary
+                    st.subheader("💼 Gesamte Kader-Risikoexposition")
+                    
+                    total_market_value = player_valuation['Market_Value'].sum()
+                    total_financial_risk = player_valuation['Financial_Risk_EUR'].sum()
+                    avg_risk_per_player = player_valuation['Financial_Risk_EUR'].mean()
+                    high_risk_count = len(player_valuation[player_valuation['Total_Days'] > 100])
+                    
+                    sum_col1, sum_col2, sum_col3, sum_col4 = st.columns(4)
+                    with sum_col1:
+                        st.metric(
+                            "Gesamter Kader-Marktwert",
+                            f"€{total_market_value:,.0f}".replace(",", ".")
+                        )
+                    with sum_col2:
+                        st.metric(
+                            "Gesamtes Verletzungsrisiko",
+                            f"€{total_financial_risk:,.0f}".replace(",", "."),
+                            f"{(total_financial_risk/total_market_value*100):.1f}% des Marktwerts"
+                        )
+                    with sum_col3:
+                        st.metric(
+                            "Ø Risiko pro Spieler",
+                            f"€{avg_risk_per_player:,.0f}".replace(",", ".")
+                        )
+                    with sum_col4:
+                        st.metric(
+                            "Hochrisikospieler (>100 Tage)",
+                            high_risk_count
+                        )
+                    
+                    # Strategic Insights
+                    st.divider()
+                    st.subheader("🎲 Strategische Einsichten für das Management")
+                    
+                    left_insight, right_insight = st.columns(2)
+                    
+                    with left_insight:
+                        st.markdown("**Squad-Diversifikation:**")
+                        if high_risk_count / len(player_valuation) > 0.3:
+                            st.warning(f"""
+                            ⚠️ **{(high_risk_count/len(player_valuation)*100):.0f}%** des Kaders sind Hochrisikoträger.
+                            
+                            **Handlung:** Wertvolle Backups für diese Positionen nachdenken über Verstärkung.
+                            """)
+                        else:
+                            st.success(f"""
+                            ✓ Gutes Risiko-Management ({(high_risk_count/len(player_valuation)*100):.0f}% Hochrisikoträger).
+                            """)
+                    
+                    with right_insight:
+                        st.markdown("**Finanzielle Resilienz:**")
+                        risk_ratio = (total_financial_risk / total_market_value * 100)
+                        if risk_ratio > 15:
+                            st.error(f"""
+                            🔴 **{risk_ratio:.1f}%** des Marktwerts ist durch Verletzungsrisiko gefährdet.
+                            
+                            **Handlung:** Versicherungen, Belastungsmanagement oder Vertragsbewertung überprüfen.
+                            """)
+                        elif risk_ratio > 8:
+                            st.warning(f"""
+                            🟡 **{risk_ratio:.1f}%** Risiko-Quote. Moderates Expositionsniveau.
+                            """)
+                        else:
+                            st.success(f"""
+                            🟢 **{risk_ratio:.1f}%** Risiko-Quote. Niedriges Expositionsniveau.
+                            """)
+                else:
+                    st.info("Keine Marktwertdaten für die Risikoanalyse verfügbar.")
             else:
-                st.info("Keine Marktwertdaten für die Risikoanalyse verfügbar.")
+                st.info("Keine Daten für den ausgewählten Club verfügbar.")
         else:
-            st.info("Keine Daten für den ausgewählten Club verfügbar.")
-    else:
-        st.info("Die Squad-Wertanalyse ist aufgrund einer aktiven Spielersuche nicht verfügbar. Bitte leere die Suchfeld, um die Club-Kader-Analyse zu sehen.")
-
-    st.markdown("---")
-
+            st.info("Die Squad-Wertanalyse ist aufgrund einer aktiven Spielersuche nicht verfügbar. Bitte leere die Suchfeld, um die Club-Kader-Analyse zu sehen.")
+        
+        st.markdown("---")
+        '''
 with tab_market_risk:
 
     st.markdown("""
