@@ -39,11 +39,9 @@ Mehrheitlich handelt es sich hier um quantitative Daten, ergänzt durch kategori
 ### Beschreibung der Datensätze
 Im Folgenden werden die verwendeten Datensätze sowie deren Spalten beschrieben:
 
-**Datenset «full_dataset_thesis - 1.csv»**
+**Datenset «full_dataset_thesis - 1.csv»**, Quelle: European Football Injuries (2020-2025)
 
-Quelle: European Football Injuries (2020-2025)
-
-| Variable    | Beschreibung                               |
+| Variable              | Beschreibung                                      |
 |:--------------------- |:--------------------------------------------------|
 | Season                | Saison der Liga                                   |
 | Injury                | Art der Verletzung                                |
@@ -58,9 +56,7 @@ Quelle: European Football Injuries (2020-2025)
 | league                | Liga                                              |
 
 
-**Datenset «players.csv»**
-
-Quelle: Football Data from Transfermarkt
+**Datenset «players.csv»**, Quelle: Football Data from Transfermarkt
 
 | Variable                               | Beschreibung                            |
 |:-------------------------------------- |:----------------------------------------|
@@ -92,9 +88,7 @@ Quelle: Football Data from Transfermarkt
 | highest_market_value_in_eur            | Höchster erreichter Marktwert in Euro   |
 
 
-**Datenset «player_valuations.csv»**
-
-Quelle: Football Data from Transfermarkt
+**Datenset «player_valuations.csv»**, Quelle: Football Data from Transfermarkt
 
 | Variable                              | Beschreibung                                 |
 |:------------------------------------- |:---------------------------------------------|
@@ -106,9 +100,7 @@ Quelle: Football Data from Transfermarkt
 | player_club_domestic_competition_id   | ID des nationalen Wettbewerbs                |
 
 
-**Datenset «clubs.csv»**
-
-Quelle: Football Data from Transfermarkt
+**Datenset «clubs.csv»**, Quelle: Football Data from Transfermarkt
 
 | Variable                  | Beschreibung                                |
 |:------------------------- |:--------------------------------------------|
@@ -129,6 +121,68 @@ Quelle: Football Data from Transfermarkt
 | last_season               | Letzte erfasste Saison                      |
 | filename                  | Dateiname                                   |
 | url                       | Link zur Vereinsseite                       |
+
+
+**Datenset «game_events.csv»**, Quelle: Football Data from Transfermarkt
+
+| Variable                  | Beschreibung                                           |
+|:------------------------- |:-------------------------------------------------------|
+| game_event_id             | Eindeutige Spielereignis-ID                            |
+| date                      | Datum des Spiels                                       |
+| game_id                   | Eindeutige Spiel-ID                                    |
+| minute                    | Spielminute, in der das Ereignis stattgefunden hat     |
+| type                      | Art des Ereignisses (z. B. Goals, Karten)              |
+| club_id                   | Eindeutige Vereins-ID                                  |
+| club_name                 | Name des Vereins                                       |
+| player_id                 | Eindeutige Spieler-ID                                  |
+| description               | Beschreibung des Ereignisses (z. B. gelbe Karte, Foul) |
+| player_in_id              | ID des eingewechselten Spielers                        |
+| player_assist_id          | ID des Spielers, der die Vorlage gegeben hat           |
+
+
+**Datenset «game_lineups.csv»**, Quelle: Football Data from Transfermarkt
+
+| Variable                  | Beschreibungs                                                 |
+|:------------------------- |:--------------------------------------------------------------|
+| game_lineups              | Eindeutige Lineup-ID                                          |
+| date                      | Datum des Spiels                                              |
+| game_id                   | Eindeutige Spiel-ID                                           |
+| player_id                 | Eindeutige Spieler-ID                                         |
+| club_id                   | Eindeutige Vereins-ID                                         |
+| player_name               | Name des Spielers                                             |
+| type                      | Art des Einsatzes                                             |
+| position                  | Spielposition des Spielers                                    |
+| number                    | Nummer des Spielers                                           |
+| team_captain              | Kennzeichnung, ob Spieler Captain (1) oder Mannschaft (0) war |
+
+
+**Datenset «games.csv»**, Quelle: Football Data from Transfermarkt
+
+| Variable                  | Beschreibung                                                  |
+|:------------------------- |:--------------------------------------------------------------|
+| game_id                   | Eindeutige Spiel-ID                                           |
+| competition               | Name des Wettbewerbs                                          |
+| season                    | Saison, in der das Spiel stattgefunden hat                    |
+| round                     | Spieltag bzw. Runde innerhalb der Saison                      |
+| date                      | Datum des Spiels                                              |
+| home_club_id              | Eindeutige Heimmannschaft-ID                                  |
+| away_club_id              | Eindeutige Auswärtsmannschaft-ID                              |
+| home_club_goals           | Anzahl erzielter Tore der Heimmannschaft                      |
+| away_club_goals           | Anzahl erzielter Tore der Auswärtsmannschaft                  |
+| home_club_position        | Tabellenplatz der Heimmannschaft zum Zeitpunkt des Spiels     |
+| away_club_position        | Tabellenplatz der Auswärtsmannschaft zum Zeitpunkt des Spiels |
+| home_club_manager_name    | Name des Trainers der Heimmannschaft                          |
+| away_club_manager_name    | Name des Trainers der Auswärtsmannschaft                      |
+| stadium                   | Name des Stadions                                             |
+| attendance                | Zuschauerzahl beim Spiel                                      |
+| referee                   | Name des Schiedsrichters                                      |
+| url                       | Link zum Spiel                                                |
+| home_club_formation       | Startformation der Heimmannschaft                             |
+| away_club_formation       | Startformat der Auswärtsmannschaft                            |
+| home_club_name            | Name der Heimmannschaft                                       |
+| away_club_name            | Name der Auswärtsmannschaft                                   |
+| aggregate                 | Gesamtergebnis über mehrere Spiele                            |
+| competition_type          | Art des Wettbewerbs                                           |
 
 
 ### Relevanz der Datensätze
