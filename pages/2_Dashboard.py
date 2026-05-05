@@ -20,7 +20,11 @@ def load_data():
     df = pd.read_csv(path, encoding='utf8', delimiter=',')
     
     # Cleaning 'Games missed'
-    df['Games missed'] = pd.to_numeric(df['Games missed'], errors='coerce').fillna(0).astype(int)
+    if 'Games missed' in df.columns:
+        df['Games missed'] = pd.to_numeric(df['Games missed'], errors='coerce').fillna(0).astype(int)
+    else:
+        df['Games missed'] = 0
+        
     # Dates
     df['injury_from_parsed'] = pd.to_datetime(df['injury_from_parsed'], errors='coerce')
     df['injury_until_parsed'] = pd.to_datetime(df['injury_until_parsed'], errors='coerce') # Ensure this exists
