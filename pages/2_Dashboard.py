@@ -67,7 +67,7 @@ def load_tournament_players():
         df_players = pd.read_csv(players_path, usecols=['player_id', 'name'])
 
         euro2020_games = df_games[(df_games['competition_id'] == 'EURO') & (df_games['season'] == 2020)]['game_id'].unique()
-        wm2022_games = df_games[df_games['competition_id'] == 'FIWC']['game_id'].unique()
+        wm2022_games = df_games[(df_games['competition_id'] == 'FIWC') & (df_games['season'] == 2021)]['game_id'].unique()
         euro2024_games = df_games[(df_games['competition_id'] == 'EURO') & (df_games['season'] == 2023)]['game_id'].unique()
 
         euro2020_pids = df_events[df_events['game_id'].isin(euro2020_games)]['player_id'].dropna().unique()
@@ -541,11 +541,14 @@ with tab_trends:
             k_season = st.multiselect("Saison (B)", season_options, default=season_options, key="k_group_season")
 
         st.markdown("---")
-        use_randomizer = st.checkbox(
-            "🎲 Äquivalenzgruppe (Stratified Matching): Kontrollgruppe B an Liga und Position von Gruppe A spiegeln", 
-            value=True,
-            help="Zieht für Gruppe B exakt dieselbe Anzahl an Spielern mit der gleichen Ligen- und Positions-Verteilung wie in Gruppe A."
-        )
+        c_chk, c_btn = st.columns([3, 1])
+        with c_chk:
+            use_randomizer = st.checkbox(
+                "🎲 Äquivalenzgruppe (Stratified Matching): Kontrollgruppe B an Liga und Position von Gruppe A spiegeln", 
+                value=True,
+                help="Zieht für Gruppe B exakt dieselbe Anzahl an Spielern mit der gleichen Ligen- und Positions-Verteilung wie in Gruppe A."
+            )
+        btn_placeholder = c_btn.empty()
 
     # Helper function to get the base players
     def get_tournament_players(t_filter, all_players):
@@ -572,8 +575,11 @@ with tab_trends:
     players_b_pool = list(get_tournament_players(k_tournament, all_players_base))
     players_b = players_b_pool.copy()
 
-    # Apply Stratified Matching Randomizer
+    # Apply Stratified Matching Randomizer (MV Focus, without Age)
     n_a = len(players_a)
+    exact_match_count = 0
+    fallback_1_count = 0
+    
     if use_randomizer and n_a > 0:
         if len(players_b_pool) > n_a:
             seed_str = f"{v_tournament}_{k_tournament}_{''.join(v_season)}_{''.join(k_season)}"
@@ -593,21 +599,52 @@ with tab_trends:
             df_b_info['current_club_domestic_competition_id'] = df_b_info['current_club_domestic_competition_id'].fillna('Unknown')
             df_b_info['position'] = df_b_info['position'].fillna('Unknown')
             
-            # Calculate strata distribution in A
-            strata_counts = df_a_info.groupby(['current_club_domestic_competition_id', 'position']).size().to_dict()
+            def get_mv_tier(val):
+                if pd.isna(val): return 'Unknown'
+                if val >= 40000000: return 'Tier 1 (>40M)'
+                elif val >= 10000000: return 'Tier 2 (10M-40M)'
+                else: return 'Tier 3 (<10M)'
+
+            df_a_info['mv_tier'] = df_a_info['market_value_in_eur'].apply(get_mv_tier)
+            df_b_info['mv_tier'] = df_b_info['market_value_in_eur'].apply(get_mv_tier)
+            
+            # Strata definieren (Liga + Position + Marktwert-Tier) - OHNE Alter
+            strata_counts = df_a_info.groupby(['current_club_domestic_competition_id', 'position', 'mv_tier']).size().to_dict()
             
             sampled_b_names = []
             
-            # Sample for each stratum
-            for (league, pos), count in strata_counts.items():
-                pool_for_stratum = df_b_info[(df_b_info['current_club_domestic_competition_id'] == league) & (df_b_info['position'] == pos)]['name'].tolist()
+            for (league, pos, mv_tier), count in strata_counts.items():
+                # Versuch 1: Exaktes Match (Liga + Position + MV-Tier)
+                exact_pool = df_b_info[
+                    (df_b_info['current_club_domestic_competition_id'] == league) & 
+                    (df_b_info['position'] == pos) & 
+                    (df_b_info['mv_tier'] == mv_tier)
+                ]['name'].tolist()
                 
-                if len(pool_for_stratum) >= count:
-                    sampled_b_names.extend(random.sample(pool_for_stratum, count))
+                if len(exact_pool) >= count:
+                    sampled_b_names.extend(random.sample(exact_pool, count))
+                    exact_match_count += count
                 else:
-                    sampled_b_names.extend(pool_for_stratum)
+                    sampled_b_names.extend(exact_pool)
+                    exact_match_count += len(exact_pool)
+                    needed_more = count - len(exact_pool)
                     
-            # Fallback if we didn't reach n_a
+                    # Fallback 1: Nur Liga und Position gleich (Marktwert egal)
+                    fallback_1_pool = df_b_info[
+                        (df_b_info['current_club_domestic_competition_id'] == league) & 
+                        (df_b_info['position'] == pos)
+                    ]['name'].tolist()
+                    
+                    available_f1 = list(set(fallback_1_pool) - set(exact_pool))
+                    
+                    if len(available_f1) >= needed_more:
+                        sampled_b_names.extend(random.sample(available_f1, needed_more))
+                        fallback_1_count += needed_more
+                    else:
+                        sampled_b_names.extend(available_f1)
+                        fallback_1_count += len(available_f1)
+            
+            # Fallback 2: Globale Auffüllung falls noch Spieler fehlen, um exakt n_a zu erreichen
             remaining_needed = n_a - len(sampled_b_names)
             if remaining_needed > 0:
                 remaining_pool = list(set(players_b_pool) - set(sampled_b_names))
@@ -617,6 +654,44 @@ with tab_trends:
                     sampled_b_names.extend(remaining_pool)
                     
             players_b = sampled_b_names
+
+    with btn_placeholder:
+        with st.popover("👥 Spielerlisten anzeigen", use_container_width=True):
+            st.markdown("**Gegenüberstellung: Fokus vs. Ersatz (Stratified nach Marktwert)**")
+            
+            total_b = len(players_b)
+            if total_b > 0 and use_randomizer:
+                exact_pct = int((exact_match_count / total_b) * 100)
+                f1_pct = int((fallback_1_count / total_b) * 100)
+                st.info(f"ℹ️ **Matching-Qualität:** {exact_pct}% Exakter Ersatz (Gleiche Liga, Position & Marktwert-Klasse), {f1_pct}% Fallback (Nur gleiche Liga & Position).")
+
+            df_a_show = players_info_df[players_info_df['name'].isin(players_a)][['name', 'market_value_in_eur']].drop_duplicates('name')
+            df_b_show = players_info_df[players_info_df['name'].isin(players_b)][['name', 'market_value_in_eur']].drop_duplicates('name')
+            
+            df_a_show = df_a_show.sort_values(by='market_value_in_eur', ascending=False, na_position='last').reset_index(drop=True)
+            df_b_show = df_b_show.sort_values(by='market_value_in_eur', ascending=False, na_position='last').reset_index(drop=True)
+            
+            max_len = max(len(df_a_show), len(df_b_show))
+            if max_len > 0:
+                a_names = df_a_show['name'].tolist() + ["-"] * (max_len - len(df_a_show))
+                a_mw = df_a_show['market_value_in_eur'].tolist() + [pd.NA] * (max_len - len(df_a_show))
+                
+                b_names = df_b_show['name'].tolist() + ["-"] * (max_len - len(df_b_show))
+                b_mw = df_b_show['market_value_in_eur'].tolist() + [pd.NA] * (max_len - len(df_b_show))
+                
+                def fmt_mw(x): return f"{x/1000000:.1f} Mio. €" if pd.notna(x) else "-"
+                
+                final_df = pd.DataFrame({
+                    'Nr.': range(1, max_len + 1),
+                    'Spieler (A)': a_names,
+                    'Marktwert (A)': [fmt_mw(x) for x in a_mw],
+                    'Ersatz-Spieler (B)': b_names,
+                    'Marktwert (B)': [fmt_mw(x) for x in b_mw]
+                })
+                
+                st.dataframe(final_df, hide_index=True, use_container_width=True)
+            else:
+                st.info("Keine Spieler in den gewählten Kohorten vorhanden.")
 
     # Construct Comparison Data (Filtering the injuries dataframe based on the player populations)
     df_a = df[df['player_name'].isin(players_a)].copy()
@@ -641,39 +716,59 @@ with tab_trends:
     color_map = {df_a['Label'].iloc[0]: "red", df_b['Label'].iloc[0]: "blue"} if not compare_df.empty else {}
     
     if not compare_df.empty:
-        monthly = compare_df.groupby(['Month_Num', 'Month', 'Label']).size().reset_index(name='Anzahl')
-        
-        # Determine X-Axis shift based on tournament A
-        start_month_num = 7 # Default July
-        if "EURO 2020" in v_tournament or "EURO 2024" in v_tournament:
-            start_month_num = 6 # June
-        elif "WM 2022" in v_tournament:
-            start_month_num = 11 # November
-            
-        def get_display_order(m):
-            return ((m - start_month_num) % 12) + 1
-            
-        monthly['Display_Order'] = monthly['Month_Num'].apply(get_display_order)
-        monthly = monthly.sort_values(['Display_Order'])
+        # Create a continuous Year-Month timeline
+        compare_df['YearMonth'] = compare_df['injury_from_parsed'].dt.to_period('M').dt.to_timestamp()
+        monthly = compare_df.groupby(['YearMonth', 'Label']).size().reset_index(name='Anzahl')
+        monthly = monthly.sort_values(['YearMonth'])
         
         fig_month = px.line(
             monthly,
-            x='Month',
+            x='YearMonth',
             y='Anzahl',
             color='Label',
             color_discrete_map=color_map,
             markers=True,
-            title="Verletzungen im Jahresverlauf (Vergleich)",
-            labels={'Month': 'Monat', 'Anzahl': 'Anzahl Verletzungen', 'Label': 'Auswahl'}
+            title="Verletzungen im zeitlichen Verlauf (Vergleich)",
+            labels={'YearMonth': 'Zeitpunkt', 'Anzahl': 'Anzahl Verletzungen', 'Label': 'Auswahl'}
+        )
+        min_date = monthly['YearMonth'].min()
+        max_date = monthly['YearMonth'].max()
+        
+        # Determine X-Axis default view range
+        season_start_year = min_date.year if min_date.month >= 8 else min_date.year - 1
+        view_start = pd.to_datetime(f"{season_start_year}-08-01")
+        
+        if "WM 2022" in v_tournament:
+            t_start = pd.to_datetime("2022-11-01")
+            if t_start <= max_date: view_start = t_start
+        elif "EURO 2020" in v_tournament:
+            t_start = pd.to_datetime("2021-06-01")
+            if t_start <= max_date: view_start = t_start
+        elif "EURO 2024" in v_tournament:
+            t_start = pd.to_datetime("2024-06-01")
+            if t_start <= max_date: view_start = t_start
+            
+        view_end = max_date + pd.DateOffset(months=1)
+        
+        fig_month.update_xaxes(
+            tickformat="%b %Y", 
+            range=[view_start.strftime("%Y-%m-%d"), view_end.strftime("%Y-%m-%d")]
         )
         
-        # Add VRECT for Tournament Duration
+        # Add VRECT for Tournament Duration using actual dates, only if within selected data range
+        
         if "WM 2022" in v_tournament:
-            fig_month.add_vrect(x0="November", x1="Dezember", fillcolor="yellow", opacity=0.3, line_width=0, annotation_text="WM 2022")
+            t_start, t_end = pd.to_datetime("2022-11-01"), pd.to_datetime("2022-12-31")
+            if (t_start <= max_date) and (t_end >= min_date):
+                fig_month.add_vrect(x0="2022-11-01", x1="2022-12-31", fillcolor="yellow", opacity=0.3, line_width=0, annotation_text="WM 2022")
         elif "EURO 2020" in v_tournament:
-            fig_month.add_vrect(x0="Juni", x1="Juli", fillcolor="blue", opacity=0.3, line_width=0, annotation_text="EURO 2020")
+            t_start, t_end = pd.to_datetime("2021-06-01"), pd.to_datetime("2021-07-31")
+            if (t_start <= max_date) and (t_end >= min_date):
+                fig_month.add_vrect(x0="2021-06-01", x1="2021-07-31", fillcolor="blue", opacity=0.3, line_width=0, annotation_text="EURO 2020")
         elif "EURO 2024" in v_tournament:
-            fig_month.add_vrect(x0="Juni", x1="Juli", fillcolor="green", opacity=0.3, line_width=0, annotation_text="EURO 2024")
+            t_start, t_end = pd.to_datetime("2024-06-01"), pd.to_datetime("2024-07-31")
+            if (t_start <= max_date) and (t_end >= min_date):
+                fig_month.add_vrect(x0="2024-06-01", x1="2024-07-31", fillcolor="green", opacity=0.3, line_width=0, annotation_text="EURO 2024")
 
         st.plotly_chart(fig_month, use_container_width=True)
     else:

@@ -9,7 +9,7 @@ def teste_turnier_filter():
 
     # Filtern der Spiele nach spezifischem Turnier (anhand der Saison in games.csv)
     euro2020_games = df_games[(df_games['competition_id'] == 'EURO') & (df_games['season'] == 2020)]['game_id'].unique()
-    wm2022_games = df_games[df_games['competition_id'] == 'FIWC']['game_id'].unique()
+    wm2022_games = df_games[(df_games['competition_id'] == 'FIWC') & (df_games['season'] == 2021)]['game_id'].unique()
     euro2024_games = df_games[(df_games['competition_id'] == 'EURO') & (df_games['season'] == 2023)]['game_id'].unique()
 
     # Spieler-IDs extrahieren

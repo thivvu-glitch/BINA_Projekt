@@ -122,7 +122,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         search_name = " ".join(sys.argv[1:])
     else:
-        search_name = "Granit Xhaka" # Default Test
-        print("Kein Spieler angegeben, teste mit 'Granit Xhaka'...\n")
+        search_name = "Jamal Musiala" # Default Test
+        print("Kein Spieler angegeben, teste mit 'Jamal Musiala'...\n")
         
     test_matching(search_name)
