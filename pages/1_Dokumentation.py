@@ -224,7 +224,7 @@ Diese Schritte stellen sicher, dass die Daten in einer einheitlichen Struktur vo
 st.markdown("## 3. Daten analysieren")  # engl. Analyzing data
 
 st.write('''
-Die Datenanalyse erfolgt mithilfe der Anwendung des Dashboards und des DDDM-Tools in der Applikation. Einige Forschungsfragen wurden im Schritt 2 bereits angeschnitten:
+Die Datenanalyse erfolgt mithilfe der Anwendung des Dashboards in der Applikation. Einige Forschungsfragen wurden im Schritt 2 bereits angeschnitten:
          
 * Verteilung und Verletzungen nach **Körperregionen**
 * Zusammenhang zwischen **Spielerposition und Verletzungsanfälligkeit**
@@ -232,36 +232,56 @@ Die Datenanalyse erfolgt mithilfe der Anwendung des Dashboards und des DDDM-Tool
 * Unterschiede zwischen **Ligen, Vereinen und Altersgruppen**
 * Einfluss von Verletzungen auf die **Marktwertentwicklung**
          
-Die Top 5 der am häufigsten verletzten Körperregionen über alle Saisons und Ligen sind:
-1) Muskelverletzungen (Muscle injuries) mit 6538 Fällen
-2) Fussverletzungen mit 1499 Fällen
-3) Knieverletzungen (Knee injuries) mit 1272 Fällen
-4) Rückenverletzungen mit 317 Fällen
-5) Schulterverletzungen mit 254 Fällen
+1) Über alle Jahre gesehen zeigt sich, dass die Verletzungshotspots am Körper je nach Liga ähnlich ausfallen. Die meisten Verletzungen
+      betreffen den Unterleib.
+   
+         In der Deutschten Bundesliga betreffen:
+         - 556 Fälle die Oberschenkel
+         - 383 Fälle die Knie
+         - 260 Fälle die Knöchel 
+     
+      Allgemein häufen sich in der Bundesliga die Fälle an Krankheiten (924) gefolgt von Muskelverletzungen (476). Zudem gibt es mit 335 Fällen
+      eine erhöhte Anzahl Fälle von Nicht-verletzungsbedingten Ausfällen (z. B. Corona Virus, Fitness, Rest- days etc.).
+        
+         In der Spanischen La Liga betreffen:
+         - 411 Fälle die Oberschenkel
+         - 228 Fälle die Knie
+         - 174 Fälle die Knöchel
 
-Top 5 Verletzungen pro Saison und pro Liga:
-    20/21:
-    
-         Bundesliga:
-            1) Cruciate Ligament tear mit 7003 Ausfalltagen
-            2) Knee Surgery mit 1823 Ausfalltagen
-            3) Torn muscle fibre mit 1623 Ausfalltagen
-            4) Corona Virus mit 1336 Ausfalltagen
-            5) Ankle injury mit 1220 Ausfalltagen
+      In der La Liga gibt es 568 Fälle an Muskelverletzungen, gefolgt 281 Fällen diverser krankheiten und 67 Fälle leichten unspezifizierten Verletzungen.
+
+         In der Französischen Ligue 1 sind:
+         - 518 Fälle die Oberschenkel
+         - 299 Fälle die Knie
+         - 235 Fälle die Knöchel
+
+      Die Ligue 1 hat 266 Fälle von Krankheiten, 192 Fälle von Muskelverletzungen und 93 Fälle von leichten unspezifizierten Verletzungen.
+
+         In der Englischen Premier League sind:
+         - 715 Fälle die Oberschenkel
+         - 385 Fälle die Knie
+         - 286 Fälle die Knöchel
+
+      In der Premier League gab es 337 Fälle von Krankheiten, 263 Fälle von leichten Verletzungen und 215 Fälle von Muskelverletzungen.
+
+          In der Italienischen Serie A sind:
+         - 646 Fälle die Oberschenkel
+         - 357 Fälle die Knie
+         - 332 Fälle die Knöchel
+
+      In der Serie A waren 905 fälle von Muskelverletzungen zu verzeichnen, gefolgt von 603 Fällen von Krankheiten und 177 Fälle von nicht verletzungsbedingten Ausfällen.
          
-         La Liga:
-            1) Muscle injury mit 3362 Ausfalltagen
-            2) Cruciate Ligament tear mit 1813 Ausfalltagen
-            3) Knee injury mit 1434 Ausfalltagen
-            4) Corona Virus mit 1330 Ausfalltagen
-            5) Ankle injury mit 542 Ausfalltagen
-       
-         Ligue 1:
-            1) Cruciate Ligament tear mit 3029 Ausfalltagen
-            2) Knee injury mit 1519 Ausfalltagen
-            3) Corona Virus mit 1150 Ausfalltagen
-            4) Muscle injury mit 597 Ausfalltagen
-            5) Knee Surgery mit 534 Ausfalltagen
+2) Die Verletzungsgefahr bei Spielerpositionen zeigt ligaübergreifend über alle Jahre hinweg ähnliche Muster.
+         
+         Am meisten Verletzungen ziehen sich die Center-Backs (Innenverteidiger) zu (Bundesliga - 838 Fälle, La Liga - 474 Fälle, Ligue 1 - 473 Fälle, 
+         Premier League - 639 Fälle, Serie A - 976 Fälle). 
+         Es folgen die Forwards (Stürmer) mit 648 Fällen in der Bundesliga, 
+         326 Fällen in der La Liga, 337 Fällen in der Ligue 1, 442 Fällen in der Premier League und 606 Fällen in der Serie A. 
+         Am wenigsten Verletzungen ziehen sich die Midfields (Mitteelfeldspieler) zu (Bundesliga - 17 Fälle Right Midfield, La Liga - 2 Fälle Left Midfield,
+         Ligue 1 - 9 Fälle bei Left Midfield,  Premier League - 5 Fälle Right Midfield, Serie A - 44 Fälle Left Midfield).
+      
+         
+
          
        
 
