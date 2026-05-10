@@ -3,6 +3,9 @@ import pandas as pd
 # 1. Daten laden
 dfInjuries = pd.read_csv('./Data/full_dataset_thesis - 1.csv', encoding='utf-8')
 dfPlayers = pd.read_csv('./Data/players.csv', encoding='utf-8')
+dfVals = pd.read_csv('./Data/player_valuations.csv', encoding='utf-8')
+dfVals['date'] = pd.to_datetime(dfVals['date'])
+dfVals = dfVals.sort_values('date')
 
 # 2. Bereinigung der 'Days'-Spalte (z. B. "10 days" -> 10, "-" -> 0)
 dfInjuries['Days'] = dfInjuries['Days'].str.replace(' days', '').str.replace('-', '0').fillna('0')
@@ -264,9 +267,91 @@ dfInjuries['injury_category'] = (
 #print(unmapped['Injury'].value_counts())
 
 
-# 9. Bereinigte Daten speichern
-df = pd.merge(dfInjuries, dfPlayers[['name', 'market_value_in_eur']], left_on='player_name', right_on='name', how='left')
-df.to_csv('./Data/cleaned_dataset_final.csv', index=False)
+# 9. Bereinigte Daten speichern - Age Validation Merge Logic
+# Füge eine temporäre ID hinzu, um Original-Verletzungen zu identifizieren
+dfInjuries['temp_inj_id'] = range(len(dfInjuries))
+
+# Führe einen Merge mit players durch, hole auch date_of_birth und player_id
+df = pd.merge(
+    dfInjuries, 
+    dfPlayers[['name', 'player_id', 'market_value_in_eur', 'date_of_birth']], 
+    left_on='player_name', 
+    right_on='name', 
+    how='left'
+)
+
+# Berechne das Geburtsjahr aus players.csv
+df['player_birth_year'] = pd.to_datetime(df['date_of_birth'], errors='coerce').dt.year
+
+# Berechne das Verletzungsjahr aus dem Datum
+df['injury_year'] = pd.to_datetime(df['injury_from_parsed'], errors='coerce').dt.year
+
+# Berechne das Geburtsjahr basierend auf dem Alter zum Zeitpunkt der Verletzung
+# df['player_age'] kann leer/NaN sein, daher füllen wir NaN-Werte mit 0 oder nutzen floats
+df['calculated_birth_year'] = df['injury_year'] - pd.to_numeric(df['player_age'], errors='coerce')
+
+# Berechne die absolute Altersdifferenz
+df['age_diff'] = (df['player_birth_year'] - df['calculated_birth_year']).abs()
+
+# Sortiere nach der temporären Verletzungs-ID und der Altersdifferenz aufsteigend.
+# So steht der Match mit der kleinsten Altersdifferenz ganz oben.
+df = df.sort_values(by=['temp_inj_id', 'age_diff'])
+
+# Behalte nur die erste Zeile für jede Original-Verletzung
+df = df.drop_duplicates(subset=['temp_inj_id'], keep='first')
+
+# 10. Vereinswechsel-Duplikate (Kategorie 2) auflösen
+# Wir nutzen player_valuations, um den echten Verein zum Zeitpunkt der Verletzung zu finden
+df['injury_from_parsed_dt'] = pd.to_datetime(df['injury_from_parsed'], errors='coerce')
+df_sorted = df.sort_values('injury_from_parsed_dt').dropna(subset=['injury_from_parsed_dt'])
+
+# Sicherstellen, dass player_id denselben Typ hat (int)
+df_sorted['player_id'] = pd.to_numeric(df_sorted['player_id'], errors='coerce').fillna(-1).astype(int)
+dfVals['player_id'] = pd.to_numeric(dfVals['player_id'], errors='coerce').fillna(-1).astype(int)
+
+# Merge_asof benötigt sortierte DataFrames
+# Dieser Merge holt uns den current_club_name, den der Spieler am nächsten am Verletzungsdatum hatte
+df_resolved = pd.merge_asof(
+    df_sorted, 
+    dfVals[['player_id', 'date', 'current_club_name']].dropna(), 
+    left_on='injury_from_parsed_dt', 
+    right_on='date', 
+    by='player_id', 
+    direction='nearest'
+)
+
+# Funktion zur Bewertung, ob der Scraping-Club mit dem echten historischen Club übereinstimmt
+def club_match(row):
+    if pd.isna(row['current_club_name']) or pd.isna(row['club']):
+        return 0
+    c1 = str(row['club']).lower().replace(' ', '')
+    c2 = str(row['current_club_name']).lower().replace(' ', '')
+    if c1 in c2 or c2 in c1:
+        return 1
+    return 0
+
+df_resolved['club_match_score'] = df_resolved.apply(club_match, axis=1)
+
+# Definition eines echten Duplikats: Selber Spieler, selbe Verletzung, selbes Startdatum
+subset_dup = ['player_name', 'Injury', 'injury_from_parsed']
+
+# Wir sortieren nach den Duplikat-Spalten und absteigend nach unserem club_match_score.
+# So steht die Zeile, bei der der Verein mit der Historie übereinstimmt, ganz oben.
+df_resolved = df_resolved.sort_values(by=subset_dup + ['club_match_score'], ascending=[True, True, True, False])
+
+# Jetzt löschen wir die Duplikate und behalten nur den echten Verein
+df_final = df_resolved.drop_duplicates(subset=subset_dup, keep='first')
+
+# Aufräumen der temporären Spalten
+cols_to_drop = [
+    'temp_inj_id', 'name', 'date_of_birth', 
+    'player_birth_year', 'injury_year', 
+    'calculated_birth_year', 'age_diff',
+    'date', 'current_club_name', 'club_match_score', 'injury_from_parsed_dt'
+]
+df_final = df_final.drop(columns=[col for col in cols_to_drop if col in df_final.columns])
+
+df_final.to_csv('./Data/cleaned_dataset_final.csv', index=False)
 
 print("Bereinigung abgeschlossen. Datei gespeichert unter: cleaned_dataset_final.csv")
 

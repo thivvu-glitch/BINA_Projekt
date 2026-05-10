@@ -26,6 +26,9 @@ def load_data():
     df['injury_until_parsed'] = pd.to_datetime(df['injury_until_parsed'], errors='coerce') # Ensure this exists
     df['Month'] = df['injury_from_parsed'].dt.month_name(locale="de_DE.UTF-8")
     df['Month_Num'] = df['injury_from_parsed'].dt.month
+    
+    # NEU: player_id als nullable Integer
+    df['player_id'] = pd.to_numeric(df['player_id'], errors='coerce').astype('Int64')
     return df
 
 @st.cache_data
@@ -70,15 +73,11 @@ def load_tournament_players():
         wm2022_games = df_games[(df_games['competition_id'] == 'FIWC') & (df_games['season'] == 2021)]['game_id'].unique()
         euro2024_games = df_games[(df_games['competition_id'] == 'EURO') & (df_games['season'] == 2023)]['game_id'].unique()
 
-        euro2020_pids = df_events[df_events['game_id'].isin(euro2020_games)]['player_id'].dropna().unique()
-        wm2022_pids = df_events[df_events['game_id'].isin(wm2022_games)]['player_id'].dropna().unique()
-        euro2024_pids = df_events[df_events['game_id'].isin(euro2024_games)]['player_id'].dropna().unique()
+        euro2020_pids = set(df_events[df_events['game_id'].isin(euro2020_games)]['player_id'].dropna().unique())
+        wm2022_pids = set(df_events[df_events['game_id'].isin(wm2022_games)]['player_id'].dropna().unique())
+        euro2024_pids = set(df_events[df_events['game_id'].isin(euro2024_games)]['player_id'].dropna().unique())
 
-        euro2020_names = set(df_players[df_players['player_id'].isin(euro2020_pids)]['name'].unique())
-        wm2022_names = set(df_players[df_players['player_id'].isin(wm2022_pids)]['name'].unique())
-        euro2024_names = set(df_players[df_players['player_id'].isin(euro2024_pids)]['name'].unique())
-
-        return euro2020_names, wm2022_names, euro2024_names
+        return euro2020_pids, wm2022_pids, euro2024_pids
     except Exception as e:
         return set(), set(), set()
 
@@ -113,6 +112,35 @@ df = load_data()
 val_df = load_valuation_data()
 players_info_df = load_players_full()
 clubs_info_df = load_clubs()
+
+@st.cache_data
+def build_player_options(source_df, players_info_subset):
+    """Erstellt eine Mapping-Tabelle: Anzeige-Label -> player_id"""
+    unique_players = (source_df.dropna(subset=['player_id'])
+                              .groupby('player_id')
+                              .agg(name=('player_name', 'first'))
+                              .reset_index())
+    
+    # Doppelte Namen erkennen und mit Geburtsjahr disambiguieren
+    name_counts = unique_players['name'].value_counts()
+    duplicate_names = name_counts[name_counts > 1].index
+    
+    # Geburtsjahr aus players_info_subset holen für Duplikate
+    options = {}
+    for _, row in unique_players.iterrows():
+        p_id = int(row['player_id'])
+        if row['name'] in duplicate_names:
+            birth = players_info_subset.loc[players_info_subset['player_id'] == p_id, 'date_of_birth']
+            year = pd.to_datetime(birth.iloc[0]).year if not birth.empty and pd.notna(birth.iloc[0]) else "?"
+            label = f"{row['name']} (*{year})"
+        else:
+            label = row['name']
+        options[label] = p_id
+    
+    return options
+
+player_options_map = build_player_options(df, players_info_df[['player_id', 'date_of_birth']])
+
 
 DEFAULT_SEASON = "24/25"
 club_options = ["Alle Clubs"] + sorted(df['club'].dropna().unique().tolist())
@@ -232,16 +260,16 @@ if isinstance(date_range, tuple) and len(date_range) == 2:
 if tournament_filter != "Alle Spieler (Kein Filter)":
     e20, w22, e24 = load_tournament_players()
     if "EURO 2020" in tournament_filter:
-        player_source_df = player_source_df[player_source_df['player_name'].isin(e20)]
+        player_source_df = player_source_df[player_source_df['player_id'].isin(e20)]
     elif "WM 2022" in tournament_filter:
-        player_source_df = player_source_df[player_source_df['player_name'].isin(w22)]
+        player_source_df = player_source_df[player_source_df['player_id'].isin(w22)]
     elif "EURO 2024" in tournament_filter:
-        player_source_df = player_source_df[player_source_df['player_name'].isin(e24)]
+        player_source_df = player_source_df[player_source_df['player_id'].isin(e24)]
     elif "WM und EM" in tournament_filter:
-        player_source_df = player_source_df[player_source_df['player_name'].isin(e20.union(w22).union(e24))]
+        player_source_df = player_source_df[player_source_df['player_id'].isin(e20.union(w22).union(e24))]
     elif "Keine Turnierteilnahme" in tournament_filter:
         all_tournament_players = e20.union(w22).union(e24)
-        player_source_df = player_source_df[~player_source_df['player_name'].isin(all_tournament_players)]
+        player_source_df = player_source_df[~player_source_df['player_id'].isin(all_tournament_players)]
 
 player_options = sorted(player_source_df['player_name'].dropna().unique().tolist())
 st.session_state['filter_players'] = [p for p in st.session_state['filter_players'] if p in player_options]
@@ -283,16 +311,16 @@ if player_search:
 if tournament_filter != "Alle Spieler (Kein Filter)":
     e20, w22, e24 = load_tournament_players()
     if "EURO 2020" in tournament_filter:
-        filtered_df = filtered_df[filtered_df['player_name'].isin(e20)]
+        filtered_df = filtered_df[filtered_df['player_id'].isin(e20)]
     elif "WM 2022" in tournament_filter:
-        filtered_df = filtered_df[filtered_df['player_name'].isin(w22)]
+        filtered_df = filtered_df[filtered_df['player_id'].isin(w22)]
     elif "EURO 2024" in tournament_filter:
-        filtered_df = filtered_df[filtered_df['player_name'].isin(e24)]
+        filtered_df = filtered_df[filtered_df['player_id'].isin(e24)]
     elif "WM und EM" in tournament_filter:
-        filtered_df = filtered_df[filtered_df['player_name'].isin(e20.union(w22).union(e24))]
+        filtered_df = filtered_df[filtered_df['player_id'].isin(e20.union(w22).union(e24))]
     elif "Keine Turnierteilnahme" in tournament_filter:
         all_tournament_players = e20.union(w22).union(e24)
-        filtered_df = filtered_df[~filtered_df['player_name'].isin(all_tournament_players)]
+        filtered_df = filtered_df[~filtered_df['player_id'].isin(all_tournament_players)]
 
 # KPIs
 col1, col2, col3, col4 = st.columns(4)
@@ -569,7 +597,7 @@ with tab_trends:
         return set(all_players)
 
     import random
-    all_players_base = players_info_df['name'].dropna().unique()
+    all_players_base = players_info_df['player_id'].dropna().astype(int).unique()
     
     players_a = list(get_tournament_players(v_tournament, all_players_base))
     players_b_pool = list(get_tournament_players(k_tournament, all_players_base))
@@ -586,12 +614,12 @@ with tab_trends:
             random.seed(hash(seed_str))
             
             # DataFrame representation for Stratified Sampling
-            df_a_info = players_info_df[players_info_df['name'].isin(players_a)].copy()
-            df_b_info = players_info_df[players_info_df['name'].isin(players_b_pool)].copy()
+            df_a_info = players_info_df[players_info_df['player_id'].isin(players_a)].copy()
+            df_b_info = players_info_df[players_info_df['player_id'].isin(players_b_pool)].copy()
             
             # Remove duplicate names to ensure exact counts
-            df_a_info = df_a_info.drop_duplicates(subset=['name'])
-            df_b_info = df_b_info.drop_duplicates(subset=['name'])
+            df_a_info = df_a_info.drop_duplicates(subset=['player_id'])
+            df_b_info = df_b_info.drop_duplicates(subset=['player_id'])
             
             # Fill NA to avoid grouping issues
             df_a_info['current_club_domestic_competition_id'] = df_a_info['current_club_domestic_competition_id'].fillna('Unknown')
@@ -611,7 +639,7 @@ with tab_trends:
             # Strata definieren (Liga + Position + Marktwert-Tier) - OHNE Alter
             strata_counts = df_a_info.groupby(['current_club_domestic_competition_id', 'position', 'mv_tier']).size().to_dict()
             
-            sampled_b_names = []
+            sampled_b_ids = []
             
             for (league, pos, mv_tier), count in strata_counts.items():
                 # Versuch 1: Exaktes Match (Liga + Position + MV-Tier)
@@ -619,13 +647,13 @@ with tab_trends:
                     (df_b_info['current_club_domestic_competition_id'] == league) & 
                     (df_b_info['position'] == pos) & 
                     (df_b_info['mv_tier'] == mv_tier)
-                ]['name'].tolist()
+                ]['player_id'].tolist()
                 
                 if len(exact_pool) >= count:
-                    sampled_b_names.extend(random.sample(exact_pool, count))
+                    sampled_b_ids.extend(random.sample(exact_pool, count))
                     exact_match_count += count
                 else:
-                    sampled_b_names.extend(exact_pool)
+                    sampled_b_ids.extend(exact_pool)
                     exact_match_count += len(exact_pool)
                     needed_more = count - len(exact_pool)
                     
@@ -633,27 +661,27 @@ with tab_trends:
                     fallback_1_pool = df_b_info[
                         (df_b_info['current_club_domestic_competition_id'] == league) & 
                         (df_b_info['position'] == pos)
-                    ]['name'].tolist()
+                    ]['player_id'].tolist()
                     
                     available_f1 = list(set(fallback_1_pool) - set(exact_pool))
                     
                     if len(available_f1) >= needed_more:
-                        sampled_b_names.extend(random.sample(available_f1, needed_more))
+                        sampled_b_ids.extend(random.sample(available_f1, needed_more))
                         fallback_1_count += needed_more
                     else:
-                        sampled_b_names.extend(available_f1)
+                        sampled_b_ids.extend(available_f1)
                         fallback_1_count += len(available_f1)
             
             # Fallback 2: Globale Auffüllung falls noch Spieler fehlen, um exakt n_a zu erreichen
-            remaining_needed = n_a - len(sampled_b_names)
+            remaining_needed = n_a - len(sampled_b_ids)
             if remaining_needed > 0:
-                remaining_pool = list(set(players_b_pool) - set(sampled_b_names))
+                remaining_pool = list(set(players_b_pool) - set(sampled_b_ids))
                 if len(remaining_pool) >= remaining_needed:
-                    sampled_b_names.extend(random.sample(remaining_pool, remaining_needed))
+                    sampled_b_ids.extend(random.sample(remaining_pool, remaining_needed))
                 else:
-                    sampled_b_names.extend(remaining_pool)
+                    sampled_b_ids.extend(remaining_pool)
                     
-            players_b = sampled_b_names
+            players_b = sampled_b_ids
 
     with btn_placeholder:
         with st.popover("👥 Spielerlisten anzeigen", use_container_width=True):
@@ -665,8 +693,8 @@ with tab_trends:
                 f1_pct = int((fallback_1_count / total_b) * 100)
                 st.info(f"ℹ️ **Matching-Qualität:** {exact_pct}% Exakter Ersatz (Gleiche Liga, Position & Marktwert-Klasse), {f1_pct}% Fallback (Nur gleiche Liga & Position).")
 
-            df_a_show = players_info_df[players_info_df['name'].isin(players_a)][['name', 'market_value_in_eur']].drop_duplicates('name')
-            df_b_show = players_info_df[players_info_df['name'].isin(players_b)][['name', 'market_value_in_eur']].drop_duplicates('name')
+            df_a_show = players_info_df[players_info_df['player_id'].isin(players_a)][['player_id', 'name', 'market_value_in_eur']].drop_duplicates('player_id')
+            df_b_show = players_info_df[players_info_df['player_id'].isin(players_b)][['player_id', 'name', 'market_value_in_eur']].drop_duplicates('player_id')
             
             df_a_show = df_a_show.sort_values(by='market_value_in_eur', ascending=False, na_position='last').reset_index(drop=True)
             df_b_show = df_b_show.sort_values(by='market_value_in_eur', ascending=False, na_position='last').reset_index(drop=True)
@@ -694,13 +722,13 @@ with tab_trends:
                 st.info("Keine Spieler in den gewählten Kohorten vorhanden.")
 
     # Construct Comparison Data (Filtering the injuries dataframe based on the player populations)
-    df_a = df[df['player_name'].isin(players_a)].copy()
+    df_a = df[df['player_id'].isin(players_a)].copy()
     if v_leagues: df_a = df_a[df_a['league'].isin(v_leagues)]
     if v_season: df_a = df_a[df_a['Season'].isin(v_season)]
     league_str_a = f" ({', '.join(v_leagues)})" if v_leagues and len(v_leagues) < len(league_options_all) else ""
     df_a['Label'] = f"A: {v_tournament.split(' (')[0]}{league_str_a}"
     
-    df_b = df[df['player_name'].isin(players_b)].copy()
+    df_b = df[df['player_id'].isin(players_b)].copy()
     if k_leagues: df_b = df_b[df_b['league'].isin(k_leagues)]
     if k_season: df_b = df_b[df_b['Season'].isin(k_season)]
     
@@ -924,16 +952,16 @@ def render_local_filters(tab_prefix):
     if "Alle Spieler" not in t_filter:
         e20, w22, e24 = load_tournament_players()
         if "EURO 2020" in t_filter:
-            local_df = local_df[local_df['player_name'].isin(e20)]
+            local_df = local_df[local_df['player_id'].isin(e20)]
         elif "WM 2022" in t_filter:
-            local_df = local_df[local_df['player_name'].isin(w22)]
+            local_df = local_df[local_df['player_id'].isin(w22)]
         elif "EURO 2024" in t_filter:
-            local_df = local_df[local_df['player_name'].isin(e24)]
+            local_df = local_df[local_df['player_id'].isin(e24)]
         elif "WM und EM" in t_filter:
-            local_df = local_df[local_df['player_name'].isin(e20.union(w22).union(e24))]
+            local_df = local_df[local_df['player_id'].isin(e20.union(w22).union(e24))]
         elif "Keine Turnierteilnahme" in t_filter:
             all_t = e20.union(w22).union(e24)
-            local_df = local_df[~local_df['player_name'].isin(all_t)]
+            local_df = local_df[~local_df['player_id'].isin(all_t)]
             
     return local_df
 
@@ -1851,7 +1879,10 @@ with tab_dddm:
     st.markdown("### 🔍 Suche & Analyse")
     sc1, sc2 = st.columns(2)
     with sc1:
-        player_options_local = sorted(dddm_filtered_df_bg['player_name'].dropna().unique().tolist())
+        p_ids_in_bg = set(dddm_filtered_df_bg['player_id'].dropna().unique())
+        player_options_local = sorted([
+            lbl for lbl, pid in player_options_map.items() if pid in p_ids_in_bg
+        ])
         sel_p = st.multiselect(
             "👤 Spieler suchen",
             options=player_options_local,
@@ -1863,12 +1894,14 @@ with tab_dddm:
     
     if st.session_state['dddm_selected_player'] and not dddm_filtered_df_bg.empty:
         dddm_player_search = st.session_state['dddm_selected_player']
+        selected_pid = player_options_map.get(dddm_player_search)
     else:
         dddm_player_search = ""
+        selected_pid = None
     
-    if dddm_player_search and not dddm_filtered_df_bg.empty:
+    if selected_pid is not None and not dddm_filtered_df_bg.empty:
         checkSeason(st.session_state.get('dddm_filter_seasons', [DEFAULT_SEASON]))
-        player_data = dddm_filtered_df_bg[dddm_filtered_df_bg['player_name'].str.contains(dddm_player_search, case=False, na=False)]
+        player_data = dddm_filtered_df_bg[dddm_filtered_df_bg['player_id'] == selected_pid]
 
         if not player_data.empty:
             total_days_missed = player_data['Days'].sum()
@@ -2247,11 +2280,11 @@ with tab_market_risk:
     st.markdown("### 🔍 Suche & Analyse")
     sc1, sc2 = st.columns(2)
     with sc1:
-        player_options_local = sorted(df['player_name'].dropna().unique().tolist())
+        player_options_local = sorted(player_options_map.keys())
         sel_p = st.multiselect(
             "👤 Spieler suchen",
             options=player_options_local,
-            default=[st.session_state['risk_selected_player']] if st.session_state['risk_selected_player'] else [],
+            default=[st.session_state['risk_selected_player']] if st.session_state['risk_selected_player'] and st.session_state['risk_selected_player'] in player_options_local else [],
             max_selections=1,
             help="Wähle einen Spieler aus, um seinen detaillierten Steckbrief zu sehen."
         )
@@ -2260,7 +2293,8 @@ with tab_market_risk:
     with sc2:
         current_p = st.session_state['risk_selected_player']
         if current_p:
-            p_injuries = df[df['player_name'].str.contains(current_p, case=False, na=False)]
+            selected_pid = player_options_map.get(current_p)
+            p_injuries = df[df['player_id'] == selected_pid]
             available_injuries = sorted(p_injuries['Injury'].dropna().unique().tolist())
             help_text = "Filtere die Ansicht im Chart auf eine bestimmte Verletzung dieses Spielers."
         else:
@@ -2279,6 +2313,7 @@ with tab_market_risk:
 
     if st.session_state['risk_selected_player']:
         p_name = st.session_state['risk_selected_player']
+        selected_pid = player_options_map.get(p_name)
         
         # Back Button
         if st.button("⬅️ Zurück zum Katalog"):
@@ -2286,7 +2321,7 @@ with tab_market_risk:
             st.rerun()
 
         # 1. Fetch player details for the "Steckbrief"
-        p_info = players_info_df[players_info_df['name'].str.contains(p_name, case=False, na=False)]
+        p_info = players_info_df[players_info_df['player_id'] == selected_pid]
         
         if not p_info.empty:
             p_data = p_info.iloc[0]
@@ -2337,8 +2372,8 @@ with tab_market_risk:
             st.divider()
 
         # 1. Filter data for the selected player
-        p_injuries = filtered_df[filtered_df['player_name'].str.contains(p_name, case=False, na=False)].copy()
-        p_valuations = val_df[val_df['name'].str.contains(p_name, case=False, na=False)].sort_values('date').copy()
+        p_injuries = filtered_df[filtered_df['player_id'] == selected_pid].copy()
+        p_valuations = val_df[val_df['player_id'] == selected_pid].sort_values('date').copy()
 
         if not p_valuations.empty:
             st.subheader(f"Marktwert-Verlauf von {p_name}")
@@ -2524,17 +2559,16 @@ with tab_market_risk:
             # Join with players_info_df to get image_url
             injury_players = pd.merge(
                 injury_players, 
-                players_info_df[['name', 'image_url']], 
-                left_on='player_name', 
-                right_on='name', 
+                players_info_df[['player_id', 'image_url']], 
+                on='player_id', 
                 how='left'
             )
             
             # Sort Option
             sort_by = st.radio("Katalog sortieren nach:", ["Höchster Marktwert", "Meiste Ausfalltage"], horizontal=True)
             
-            # Group by player to get metadata
-            catalog_df = injury_players.groupby('player_name').agg({
+            # Group by player_id and player_name to get metadata and keep duplicates separate
+            catalog_df = injury_players.groupby(['player_id', 'player_name']).agg({
                 'market_value_in_eur': 'first',
                 'club': 'first',
                 'league': 'first',
@@ -2549,15 +2583,15 @@ with tab_market_risk:
             
             # --- Advanced Insight: Market Impact Trend ---
             # We take a sample of the top 20 players to estimate the impact trend
-            sample_players = catalog_df.head(20)['player_name'].tolist()
+            sample_players = catalog_df.head(20)[['player_id', 'player_name']].values.tolist()
             sample_deltas = []
             
             # This is a bit simplified to avoid heavy computation
-            for sp in sample_players:
-                p_inj = df[(df['player_name'] == sp) & (df['Injury'] == selected_injury_risk)].sort_values('Days', ascending=False)
+            for pid, sp in sample_players:
+                p_inj = df[(df['player_id'] == pid) & (df['Injury'] == selected_injury_risk)].sort_values('Days', ascending=False)
                 if not p_inj.empty:
                     row = p_inj.iloc[0]
-                    p_vals = val_df[val_df['name'] == sp].sort_values('date')
+                    p_vals = val_df[val_df['player_id'] == pid].sort_values('date')
                     if not p_vals.empty:
                         # Value before
                         v_pre_df = p_vals[p_vals['date'] <= row['injury_from_parsed']]
@@ -2602,15 +2636,16 @@ with tab_market_risk:
                     if i + j < len(display_df):
                         player = display_df.iloc[i + j]
                         p_name = player['player_name']
+                        p_id = player['player_id']
                         
                         # --- Calculate Individual Impact for this player and injury ---
                         # Find the longest instance of this injury for this player
-                        p_inj = df[(df['player_name'] == p_name) & (df['Injury'] == selected_injury_risk)].sort_values('Days', ascending=False)
+                        p_inj = df[(df['player_id'] == p_id) & (df['Injury'] == selected_injury_risk)].sort_values('Days', ascending=False)
                         
                         impact_data = None
                         if not p_inj.empty:
                             row = p_inj.iloc[0]
-                            p_vals = val_df[val_df['name'] == p_name].sort_values('date')
+                            p_vals = val_df[val_df['player_id'] == p_id].sort_values('date')
                             if not p_vals.empty:
                                 val_before_df = p_vals[p_vals['date'] <= row['injury_from_parsed']]
                                 val_after_df = p_vals[p_vals['date'] >= row['injury_until_parsed']]
@@ -2654,8 +2689,9 @@ with tab_market_risk:
                                         st.write(f"Marktwert: €{player['market_value_in_eur']:,.0f}".replace(",", "."))
                                     
                                     st.write("") # Spacer
-                                    if st.button(f"Profil: {p_name}", key=f"risk_{p_name}"):
-                                        st.session_state['risk_selected_player'] = p_name
+                                    p_label = next((k for k, v in player_options_map.items() if v == p_id), p_name)
+                                    if st.button(f"Profil: {p_label}", key=f"risk_btn_{p_id}"):
+                                        st.session_state['risk_selected_player'] = p_label
                                         st.rerun()
             
             if len(catalog_df) > display_limit:

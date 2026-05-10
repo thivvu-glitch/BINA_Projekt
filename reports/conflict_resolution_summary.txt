@@ -1,0 +1,1342 @@
+================================================================================
+             ZUSAMMENFASSUNG: NAMENSKONFLIKTE PRO SPIELER
+================================================================================
+Hier siehst du für jeden doppelt vorkommenden Namen, welcher Spieler
+tatsächlich mit den Verletzungen verknüpft wurde und welcher ignoriert wurde.
+
+
+=== SPIELER: Aaron Ramsey (Gesamte Verletzungen im Datensatz: 10) ===
+  * ID 50057 | Geboren: 1990 | Verein: Olympique Gymnaste Club Nice Côte d'Azur (2.5 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 9 Verletzung(en) (Saisons: 20/21, 21/22)
+  * ID 646658 | Geboren: 2003 | Verein: Burnley Football Club (15.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 23/24)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Abdoulaye Touré (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 181382 | Geboren: 1994 | Verein: Le Havre Athletic Club (3.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 20/21, 24/25)
+  * ID 530902 | Geboren: 2000 | Verein: Amiens SC (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Abner (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 646402 | Geboren: 2000 | Verein: Olympique Lyonnais (10.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 23/24)
+  * ID 1086632 | Geboren: 2004 | Verein: Esporte Clube Juventude (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Adam Smith (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 61841 | Geboren: 1991 | Verein: Association Football Club Bournemouth (0.5 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 24/25)
+  * ID 163532 | Geboren: 1992 | Verein: Leicester City (0.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Adama Traoré (Gesamte Verletzungen im Datensatz: 6) ===
+  * ID 70209 | Geboren: 1990 | Verein: Melbourne Victory FC (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 204103 | Geboren: 1996 | Verein: West Ham United Football Club (8.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 20/21, 24/25)
+  * ID 262608 | Geboren: 1995 | Verein: Hatayspor (3.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 4 Verletzung(en) (Saisons: 20/21, 22/23, 23/24)
+  * ID 364405 | Geboren: 1995 | Verein: Gençlerbirliği Spor Kulübü (2.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Adrián López (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 44966 | Geboren: 1987 | Verein: Aarhus Gymnastik Forening (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 45383 | Geboren: 1988 | Verein: Club Atlético Osasuna (0.2 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 20/21)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Ahmed Hassan (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 184816 | Geboren: 1993 | Verein: Al-Ettifaq Football Club (0.7 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 24/25)
+  * ID 333271 | Geboren: 1995 | Verein: Lierse SK (- 2018) (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Alberto Moreno (Gesamte Verletzungen im Datensatz: 5) ===
+  * ID 207917 | Geboren: 1992 | Verein: Calcio Como (1.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 5 Verletzung(en) (Saisons: 20/21, 21/22, 24/25)
+  * ID 568149 | Geboren: 2002 | Verein: Club Atlético de Madrid S.A.D. (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Alessandro Russo (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 481344 | Geboren: 2001 | Verein: Unione Sportiva Sassuolo Calcio (0.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 708084 | Geboren: 2003 | Verein: US Salernitana 1919 (0.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 21/22)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Alisson (Gesamte Verletzungen im Datensatz: 12) ===
+  * ID 105470 | Geboren: 1992 | Verein: Liverpool Football Club (17.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 8 Verletzung(en) (Saisons: 20/21, 23/24, 24/25)
+  * ID 229736 | Geboren: 1993 | Verein: Fluminense Football Club (1.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 4 Verletzung(en) (Saisons: 20/21, 21/22, 23/24)
+  * ID 1083070 | Geboren: 2005 | Verein: FC Shakhtar Donetsk (9.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1471677 | Geboren: 2008 | Verein: Sport Club Internacional (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Allan (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 126422 | Geboren: 1991 | Verein: S. A. F. Botafogo (1.2 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 20/21)
+  * ID 385271 | Geboren: 1997 | Verein: Sport Club Corinthians Paulista (3.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1082631 | Geboren: 2004 | Verein: Sociedade Esportiva Palmeiras (15.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: André Almeida (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 83466 | Geboren: 1990 | Verein: Sport Lisboa e Benfica (0.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 375382 | Geboren: 2000 | Verein: Valencia Club de Fútbol S. A. D. (7.5 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 23/24)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: André Gomes (Gesamte Verletzungen im Datensatz: 5) ===
+  * ID 221025 | Geboren: 1993 | Verein: Columbus Crew (4.5 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 5 Verletzung(en) (Saisons: 20/21, 21/22, 23/24, 24/25)
+  * ID 670710 | Geboren: 2004 | Verein: Futebol Clube de Alverca (3.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: André Silva (Gesamte Verletzungen im Datensatz: 7) ===
+  * ID 198008 | Geboren: 1995 | Verein: Elche Club de Fútbol S.A.D. (3.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 7 Verletzung(en) (Saisons: 20/21, 22/23, 23/24, 24/25)
+  * ID 565232 | Geboren: 1997 | Verein: São Paulo Futebol Clube (4.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 700646 | Geboren: 2003 | Verein: Parma Calcio 1913 (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Andrés Andrade (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 120093 | Geboren: 1989 | Verein: Atlético Bucaramanga (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 403808 | Geboren: 1998 | Verein: Linzer Athletik-Sport-Klub (2.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 21/22)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Antony (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 602105 | Geboren: 2000 | Verein: Real Betis Balompié S.A.D. (40.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 22/23)
+  * ID 798687 | Geboren: 2001 | Verein: Portland Timbers (5.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Arthur (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 517518 | Geboren: 1999 | Verein: Clube Desportivo Nacional (0.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 977464 | Geboren: 2003 | Verein: Bayer 04 Leverkusen Fußball (7.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 23/24)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Ben Davies (Gesamte Verletzungen im Datensatz: 11) ===
+  * ID 192765 | Geboren: 1993 | Verein: Tottenham Hotspur Football Club (5.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 10 Verletzung(en) (Saisons: 20/21, 21/22, 22/23, 23/24, 24/25)
+  * ID 257097 | Geboren: 1995 | Verein: Rangers Football Club (1.8 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 20/21)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Bernardo (Gesamte Verletzungen im Datensatz: 3) ===
+  * ID 364258 | Geboren: 1995 | Verein: Turn- und Sportgemeinschaft 1899 Hoffenheim Fußball-Spielbetriebs (5.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 3 Verletzung(en) (Saisons: 20/21, 24/25)
+  * ID 719646 | Geboren: 2002 | Verein: Clube Desportivo de Tondela (3.5 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 994029 | Geboren: 2005 | Verein: Esporte Clube Juventude (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Beto (Gesamte Verletzungen im Datensatz: 5) ===
+  * ID 35242 | Geboren: 1982 | Verein: SC Farense (0.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 595809 | Geboren: 1998 | Verein: Everton Football Club (20.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 5 Verletzung(en) (Saisons: 21/22, 22/23, 23/24)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Brenner (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 412366 | Geboren: 2000 | Verein: Club de Regatas Vasco da Gama (4.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 23/24)
+  * ID 973703 | Geboren: 2002 | Verein: Clube Desportivo Santa Clara (1.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Bruno Alves (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 13121 | Geboren: 1981 | Verein: Apollon Smyrnis (0.1 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 20/21)
+  * ID 235643 | Geboren: 1990 | Verein: Vitória Sport Clube (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1083247 | Geboren: 2005 | Verein: Cruzeiro Esporte Clube (0.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Callum Wilson (Gesamte Verletzungen im Datensatz: 15) ===
+  * ID 123682 | Geboren: 1992 | Verein: West Ham United Football Club (5.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 15 Verletzung(en) (Saisons: 20/21, 21/22, 22/23, 23/24, 24/25)
+  * ID 450826 | Geboren: 1999 | Verein: Partick Thistle FC (0.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Chiquinho (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 334557 | Geboren: 1995 | Verein: Olympiakos Syndesmos Filathlon Peiraios (5.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 695454 | Geboren: 2000 | Verein: Futebol Clube de Alverca (2.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 22/23)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Claudio Bravo (Gesamte Verletzungen im Datensatz: 6) ===
+  * ID 40423 | Geboren: 1983 | Verein: Real Betis Balompié S.A.D. (0.8 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 6 Verletzung(en) (Saisons: 20/21, 21/22, 23/24)
+  * ID 441408 | Geboren: 1997 | Verein: Asociación Atlética Argentinos Juniors (0.8 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Dani Rodríguez (Gesamte Verletzungen im Datensatz: 3) ===
+  * ID 139435 | Geboren: 1988 | Verein: Real Club Deportivo Mallorca S.A.D. (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 834470 | Geboren: 2005 | Verein: Futbol Club Barcelona (Unbekannt)
+    Status: [AKZEPTIERT] -> Zugewiesen: 3 Verletzung(en) (Saisons: 24/25)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Danilo (Gesamte Verletzungen im Datensatz: 13) ===
+  * ID 32816 | Geboren: 1984 | Verein: Bologna Football Club 1909 (0.3 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 20/21)
+  * ID 41037 | Geboren: 1986 | Verein: Kuban Krasnodar (-2018) (0.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 51232 | Geboren: 1990 | Verein: Antalyaspor (0.2 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 24/25)
+  * ID 145707 | Geboren: 1991 | Verein: Clube de Regatas do Flamengo (2.5 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 9 Verletzung(en) (Saisons: 21/22, 22/23, 23/24, 24/25)
+  * ID 187947 | Geboren: 1989 | Verein: Vitória Setúbal FC (0.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 519731 | Geboren: 1999 | Verein: Nijmegen Eendracht Combinatie (2.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 24/25)
+  * ID 808509 | Geboren: 2001 | Verein: S. A. F. Botafogo (24.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 24/25)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Danny Ward (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 124172 | Geboren: 1990 | Verein: Cardiff City (0.7 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 203026 | Geboren: 1993 | Verein: nan (0.8 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 21/22)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: David García (Gesamte Verletzungen im Datensatz: 5) ===
+  * ID 44012 | Geboren: 1982 | Verein: UD Las Palmas (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 298589 | Geboren: 1994 | Verein: Club Atlético Osasuna (10.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 5 Verletzung(en) (Saisons: 21/22, 22/23, 23/24)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: David López (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 129444 | Geboren: 1989 | Verein: Girona Fútbol Club S. A. D. (0.8 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 23/24)
+  * ID 947431 | Geboren: 2003 | Verein: Real Club Deportivo Mallorca S.A.D. (1.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1095342 | Geboren: 2004 | Verein: Deportivo Toluca Futbol Club, S. A. de C. V. (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: David Silva (Gesamte Verletzungen im Datensatz: 8) ===
+  * ID 35518 | Geboren: 1986 | Verein: Real Sociedad de Fútbol S.A.D. (4.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 8 Verletzung(en) (Saisons: 20/21, 21/22, 22/23)
+  * ID 86759 | Geboren: 1986 | Verein: Kilmarnock Football Club (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Diego Costa (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 44779 | Geboren: 1988 | Verein: Wolverhampton Wanderers Football Club (2.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 20/21)
+  * ID 546212 | Geboren: 1999 | Verein: FK Krasnodar (10.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Diego González (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 54578 | Geboren: 1988 | Verein: CA San Martín (San Juan) (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 349836 | Geboren: 1995 | Verein: Elche Club de Fútbol S.A.D. (1.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 873981 | Geboren: 2003 | Verein: Club de Futbol Rojinegros S.A. de C.V. (5.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 23/24)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Diego Llorente (Gesamte Verletzungen im Datensatz: 14) ===
+  * ID 246291 | Geboren: 1993 | Verein: Real Betis Balompié S.A.D. (3.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 14 Verletzung(en) (Saisons: 20/21, 22/23, 23/24, 24/25)
+  * ID 710131 | Geboren: 2001 | Verein: Boavista FC (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Diego López (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 34370 | Geboren: 1981 | Verein: Rayo Vallecano de Madrid S. A. D. (0.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 617081 | Geboren: 2002 | Verein: Valencia Club de Fútbol S. A. D. (12.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 23/24)
+  * ID 891091 | Geboren: 2001 | Verein: Getafe Club de Fútbol S. A. D. Team Dubai (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Dodô (Gesamte Verletzungen im Datensatz: 4) ===
+  * ID 101823 | Geboren: 1987 | Verein: Athlitiki Enosi Larisas (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 109038 | Geboren: 1992 | Verein: UC Sampdoria (0.8 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 401529 | Geboren: 1998 | Verein: Associazione Calcio Fiorentina (18.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 4 Verletzung(en) (Saisons: 22/23, 23/24, 24/25)
+  * ID 1224500 | Geboren: 2006 | Verein: Esporte Clube Bahia (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Dudu (Gesamte Verletzungen im Datensatz: 3) ===
+  * ID 114937 | Geboren: 1992 | Verein: Clube Atlético Mineiro (1.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 176893 | Geboren: 1991 | Verein: SC Beira-Mar (0.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 369258 | Geboren: 1999 | Verein: Club Football Estrela da Amadora (0.3 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 3 Verletzung(en) (Saisons: 22/23)
+  * ID 447999 | Geboren: 1990 | Verein: nan (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 476362 | Geboren: 1997 | Verein: Clube Atlético Paranaense (0.9 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 691811 | Geboren: 1999 | Verein: Esporte Clube Vitória (0.6 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1004728 | Geboren: 2006 | Verein: Clube Atlético Paranaense (2.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1083607 | Geboren: 2002 | Verein: Aris Thessalonikis (1.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Ederson (Gesamte Verletzungen im Datensatz: 6) ===
+  * ID 29035 | Geboren: 1986 | Verein: Società Sportiva Lazio S.p.A. (0.7 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 238223 | Geboren: 1993 | Verein: Fenerbahçe Spor Kulübü (13.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 6 Verletzung(en) (Saisons: 20/21, 23/24, 24/25)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Emiliano Martínez (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 111873 | Geboren: 1992 | Verein: Aston Villa Football Club (15.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 21/22)
+  * ID 707447 | Geboren: 1999 | Verein: Sociedade Esportiva Palmeiras (8.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Endrick (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 452164 | Geboren: 1995 | Verein: nan (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 971570 | Geboren: 2006 | Verein: Olympique Lyonnais (35.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 24/25)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Fabinho (Gesamte Verletzungen im Datensatz: 4) ===
+  * ID 163058 | Geboren: 1991 | Verein: Udinese Calcio (0.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 225693 | Geboren: 1993 | Verein: Al-Ittihad Football Club (13.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 20/21)
+  * ID 292749 | Geboren: 1994 | Verein: CD Feirense (0.6 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 3 Verletzung(en) (Saisons: 20/21, 21/22)
+  * ID 627230 | Geboren: 2002 | Verein: Red Bull Bragantino (5.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 661284 | Geboren: 1996 | Verein: TOV FK Metalist 1925 Kharkiv (0.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 697714 | Geboren: 2001 | Verein: Koninklijke Sint-Truidense Voetbalvereniging (0.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 704558 | Geboren: 1999 | Verein: Coritiba Foot Ball Club (1.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1116637 | Geboren: 2006 | Verein: Fluminense Football Club (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Felipe (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 17127 | Geboren: 1984 | Verein: SPAL (0.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 156501 | Geboren: 1989 | Verein: Nottingham Forest Football Club (1.5 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 21/22)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Fernandinho (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 26267 | Geboren: 1985 | Verein: Manchester City Football Club (0.6 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 20/21)
+  * ID 76902 | Geboren: 1985 | Verein: Verona Hellas Football Club (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 230937 | Geboren: 1993 | Verein: Grupo Desportivo Estoril Praia (0.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 389324 | Geboren: 1994 | Verein: Portimonense SC (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 442818 | Geboren: 1997 | Verein: Ceará Sporting Club (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Fernando (Gesamte Verletzungen im Datensatz: 7) ===
+  * ID 15338 | Geboren: 1981 | Verein: Club Brugge Koninklijke Voetbalvereniging (0.5 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 51174 | Geboren: 1987 | Verein: Sport Club Internacional (2.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 7 Verletzung(en) (Saisons: 21/22, 22/23, 23/24)
+  * ID 105456 | Geboren: 1992 | Verein: Antalyaspor (2.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 254761 | Geboren: 1986 | Verein: nan (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 550495 | Geboren: 1999 | Verein: Red Bull Bragantino (1.5 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1091608 | Geboren: 2005 | Verein: Clube Desportivo Santa Clara (0.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Fernando Pacheco (Gesamte Verletzungen im Datensatz: 4) ===
+  * ID 172015 | Geboren: 1992 | Verein: Al-Fateh Club (0.7 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 4 Verletzung(en) (Saisons: 21/22, 24/25)
+  * ID 451338 | Geboren: 1999 | Verein: FC Emmen (0.5 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Formose Mendy (Gesamte Verletzungen im Datensatz: 3) ===
+  * ID 127191 | Geboren: 1993 | Verein: Sportvereniging Zulte Waregem (0.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 649023 | Geboren: 2001 | Verein: Football Club Lorient-Bretagne Sud (4.5 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 3 Verletzung(en) (Saisons: 23/24)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Fábio (Gesamte Verletzungen im Datensatz: 3) ===
+  * ID 22415 | Geboren: 1980 | Verein: Fluminense Football Club (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 61891 | Geboren: 1990 | Verein: Football Club de Nantes (1.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 3 Verletzung(en) (Saisons: 21/22, 22/23)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Fábio Vieira (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 249664 | Geboren: 1991 | Verein: Vitória Sport Clube (0.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 537598 | Geboren: 2000 | Verein: Hamburger Sport Verein (18.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 23/24)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Georgios Kyriakopoulos (Gesamte Verletzungen im Datensatz: 3) ===
+  * ID 162577 | Geboren: 1990 | Verein: A.G.S Asteras Tripolis (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 311178 | Geboren: 1996 | Verein: Panathinaikos Athlitikos Omilos (2.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 3 Verletzung(en) (Saisons: 22/23, 24/25)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Henrique Silva (Gesamte Verletzungen im Datensatz: 3) ===
+  * ID 204072 | Geboren: 1994 | Verein: Real Valladolid CF (1.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 3 Verletzung(en) (Saisons: 21/22, 22/23, 23/24)
+  * ID 1083239 | Geboren: 2005 | Verein: Clube Desportivo Santa Clara (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Ibrahima Cissé (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 160380 | Geboren: 1994 | Verein: Ural Yekaterinburg (0.6 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 684340 | Geboren: 2001 | Verein: FC Schalke 04 (0.2 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 22/23)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Ibrahima Diallo (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 42506 | Geboren: 1985 | Verein: Angers Sporting Club de l'Ouest (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 400931 | Geboren: 1998 | Verein: Delfino Pescara 1936 (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 413032 | Geboren: 1999 | Verein: Southampton FC (6.5 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 20/21)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Idrissa Gueye (Gesamte Verletzungen im Datensatz: 4) ===
+  * ID 126665 | Geboren: 1989 | Verein: Everton Football Club (1.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 4 Verletzung(en) (Saisons: 20/21, 21/22)
+  * ID 1178488 | Geboren: 2006 | Verein: Udinese Calcio (4.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Javi López (Gesamte Verletzungen im Datensatz: 3) ===
+  * ID 72310 | Geboren: 1986 | Verein: Adelaide United Football Club (0.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 568158 | Geboren: 2002 | Verein: Real Oviedo S.A.D. (5.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 3 Verletzung(en) (Saisons: 20/21, 21/22, 23/24)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Javi Martínez (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 44017 | Geboren: 1988 | Verein: FC Bayern München (1.5 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 20/21)
+  * ID 471474 | Geboren: 1999 | Verein: Club Atlético Osasuna (0.8 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Jesús Corona (Gesamte Verletzungen im Datensatz: 5) ===
+  * ID 29574 | Geboren: 1981 | Verein: Club Tijuana Xoloitzcuintles de Caliente (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 125165 | Geboren: 1993 | Verein: Club de Fútbol Monterrey Rayados A.C. (1.8 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 5 Verletzung(en) (Saisons: 22/23, 23/24)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Jesús Vázquez (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 27683 | Geboren: 1980 | Verein: Deportivo de La Coruña (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 623024 | Geboren: 2003 | Verein: Valencia Club de Fútbol S. A. D. (4.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 23/24)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Jhon Córdoba (Gesamte Verletzungen im Datensatz: 6) ===
+  * ID 185245 | Geboren: 1993 | Verein: FK Krasnodar (10.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 6 Verletzung(en) (Saisons: 20/21)
+  * ID 628879 | Geboren: 2000 | Verein: Instituto Atlético Central Córdoba (0.9 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Jhon Solís (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 663187 | Geboren: 1999 | Verein: Fortaleza CEIF (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 742521 | Geboren: 2004 | Verein: Girona Fútbol Club S. A. D. (2.5 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 24/25)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Jonas Hofmann (Gesamte Verletzungen im Datensatz: 10) ===
+  * ID 7161 | Geboren: 1992 | Verein: Bayer 04 Leverkusen Fußball (2.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 10 Verletzung(en) (Saisons: 20/21, 21/22, 22/23, 24/25)
+  * ID 227085 | Geboren: 1997 | Verein: FC Schalke 04 (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Jordan (Gesamte Verletzungen im Datensatz: 8) ===
+  * ID 355369 | Geboren: 1996 | Verein: Clube Desportivo de Tondela (2.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 8 Verletzung(en) (Saisons: 23/24, 24/25)
+  * ID 546532 | Geboren: 1999 | Verein: FC Zorya Lugansk (1.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Jorginho (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 102017 | Geboren: 1991 | Verein: Clube de Regatas do Flamengo (5.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 24/25)
+  * ID 112985 | Geboren: 1988 | Verein: Vitória Setúbal FC (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 277111 | Geboren: 1995 | Verein: AS Saint-Étienne (0.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 462248 | Geboren: 1998 | Verein: FK Dukla Praha a.s. (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 512356 | Geboren: 1998 | Verein: Vitória Sport Clube (0.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Jota (Gesamte Verletzungen im Datensatz: 3) ===
+  * ID 213510 | Geboren: 1993 | Verein: Clube Desportivo Nacional (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 329812 | Geboren: 1999 | Verein: The Celtic Football Club (5.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 3 Verletzung(en) (Saisons: 20/21, 24/25)
+  * ID 724421 | Geboren: 2002 | Verein: Vitória Sport Clube (0.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 744099 | Geboren: 2002 | Verein: FC Oleksandriya (0.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1082637 | Geboren: 2004 | Verein: Esporte Clube Bahia (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: João Costa (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 198638 | Geboren: 1996 | Verein: Futebol Clube do Porto (0.8 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 856423 | Geboren: 2000 | Verein: Clube Desportivo Santa Clara (0.4 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 936536 | Geboren: 2005 | Verein: Al-Ettifaq Football Club (2.5 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 24/25)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: João Moutinho (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 29364 | Geboren: 1986 | Verein: Sporting Clube de Braga (0.5 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 22/23)
+  * ID 461906 | Geboren: 1998 | Verein: KKS Lech Poznań Spółka Akcyjna (0.8 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 22/23)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: João Pedro (Gesamte Verletzungen im Datensatz: 3) ===
+  * ID 22440 | Geboren: 1980 | Verein: Gil Vicente Futebol Clube (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 34576 | Geboren: 1987 | Verein: Clube Desportivo Santa Clara (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 44780 | Geboren: 1986 | Verein: Moreirense Futebol Clube (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 129129 | Geboren: 1992 | Verein: Club Atlético de San Luis (1.5 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 235568 | Geboren: 1993 | Verein: Asociația Fotbal Club UTA Arad (0.4 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 293471 | Geboren: 1993 | Verein: Al-Taawoun Football Club (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 298410 | Geboren: 1996 | Verein: Panetolikos Agrinio (0.8 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 342024 | Geboren: 1996 | Verein: Grêmio Foot-Ball Porto Alegrense (2.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 626724 | Geboren: 2001 | Verein: Chelsea Football Club (75.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 3 Verletzung(en) (Saisons: 23/24, 24/25)
+  * ID 862924 | Geboren: 1999 | Verein: Kyoto Purple Sanga (0.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 876440 | Geboren: 2003 | Verein: Radomiak S.A. (0.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1202380 | Geboren: 2006 | Verein: São Paulo Futebol Clube (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1264076 | Geboren: 2008 | Verein: Santos Futebol Clube (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: João Victor (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 54996 | Geboren: 1988 | Verein: Omilos Filathlon Irakliou FC (0.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 626110 | Geboren: 1997 | Verein: Mirasol Futebol Clube (1.5 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 671145 | Geboren: 1998 | Verein: PFK CSKA Moskva (4.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 22/23)
+  * ID 700168 | Geboren: 1998 | Verein: Casa Pia Atlético Clube (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 738504 | Geboren: 2000 | Verein: Portimonense SC (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 743769 | Geboren: 1999 | Verein: Foundation Coorperation Hana Financial Group Inc. Football Club (0.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 842370 | Geboren: 2004 | Verein: Ceará Sporting Club (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1362460 | Geboren: 2007 | Verein: Sport Club Internacional (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Juan Cruz (Gesamte Verletzungen im Datensatz: 3) ===
+  * ID 169497 | Geboren: 1992 | Verein: Club Atlético Osasuna (1.2 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 23/24)
+  * ID 585700 | Geboren: 2000 | Verein: CD Leganés (3.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 22/23)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Juan Pérez (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 298613 | Geboren: 1996 | Verein: Club Atlético Osasuna (0.6 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 21/22)
+  * ID 1087316 | Geboren: 2004 | Verein: Club de Gimnasia y Esgrima La Plata (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Kevin Vázquez (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 221315 | Geboren: 1993 | Verein: Real Club Celta de Vigo S. A. D. (0.8 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 20/21)
+  * ID 1064181 | Geboren: 2001 | Verein: Club Sportivo Independiente Rivadavia (0.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Konstantinos Manolas (Gesamte Verletzungen im Datensatz: 9) ===
+  * ID 104752 | Geboren: 1991 | Verein: US Salernitana 1919 (1.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 9 Verletzung(en) (Saisons: 20/21, 21/22)
+  * ID 214860 | Geboren: 1993 | Verein: APO Levadiakos Football Club (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Luis Díaz (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 480692 | Geboren: 1997 | Verein: FC Bayern München (70.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 22/23)
+  * ID 538984 | Geboren: 1998 | Verein: New England Revolution (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 926365 | Geboren: 2004 | Verein: Envigado FC (0.7 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Luis Henrique (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 379877 | Geboren: 1998 | Verein: Vejle Boldklub (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 691316 | Geboren: 2001 | Verein: Football Club Internazionale Milano S.p.A. (23.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 20/21)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Luis López (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 314941 | Geboren: 1993 | Verein: nan (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 623525 | Geboren: 2001 | Verein: Real Madrid Club de Fútbol (0.3 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 21/22)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Luis Pérez (Gesamte Verletzungen im Datensatz: 3) ===
+  * ID 358115 | Geboren: 1995 | Verein: Gaziantep Futbol Kulübü A.Ş. (1.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 3 Verletzung(en) (Saisons: 20/21, 22/23)
+  * ID 656911 | Geboren: 1996 | Verein: Alianza FC (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Luis Suárez (Gesamte Verletzungen im Datensatz: 7) ===
+  * ID 44352 | Geboren: 1987 | Verein: Club Internacional de Fútbol Miami (1.5 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 4 Verletzung(en) (Saisons: 20/21, 21/22)
+  * ID 424784 | Geboren: 1997 | Verein: Sporting Clube de Portugal (28.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 3 Verletzung(en) (Saisons: 20/21, 23/24)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Luiz Felipe (Gesamte Verletzungen im Datensatz: 11) ===
+  * ID 457931 | Geboren: 1997 | Verein: Rayo Vallecano de Madrid S. A. D. (3.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 11 Verletzung(en) (Saisons: 20/21, 21/22, 23/24, 24/25)
+  * ID 573907 | Geboren: 1997 | Verein: SC Farense (0.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1376049 | Geboren: 2008 | Verein: Clube de Regatas do Flamengo (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Luiz Henrique (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 530289 | Geboren: 1997 | Verein: Moreirense Futebol Clube (0.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 800175 | Geboren: 2001 | Verein: AO FK Zenit Sankt-Peterburg (24.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 23/24)
+  * ID 1017824 | Geboren: 2004 | Verein: Esporte Clube Juventude (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1130056 | Geboren: 2005 | Verein: Sport Club do Recife (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Mads Pedersen (Gesamte Verletzungen im Datensatz: 7) ===
+  * ID 148369 | Geboren: 1993 | Verein: Fodbold Club Midtjylland (0.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 288429 | Geboren: 1996 | Verein: Fußball-Club Augsburg 1907 (1.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 7 Verletzung(en) (Saisons: 20/21, 21/22, 24/25)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Malick Fofana (Gesamte Verletzungen im Datensatz: 3) ===
+  * ID 743386 | Geboren: 2005 | Verein: Olympique Lyonnais (30.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 3 Verletzung(en) (Saisons: 24/25)
+  * ID 1104816 | Geboren: 2000 | Verein: Football Club Mito HollyHock (0.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Malick Mbaye (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 290754 | Geboren: 1995 | Verein: Chievo Verona (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 707063 | Geboren: 2004 | Verein: Sportvereniging Zulte Waregem (0.4 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 23/24)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Mamadou Camara (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 857148 | Geboren: 2001 | Verein: ESTAC Troyes (0.5 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 905408 | Geboren: 2002 | Verein: Racing Club de Lens (0.2 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 22/23)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Mamadou Coulibaly (Gesamte Verletzungen im Datensatz: 4) ===
+  * ID 472161 | Geboren: 1999 | Verein: US Salernitana 1919 (1.3 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 3 Verletzung(en) (Saisons: 21/22, 22/23)
+  * ID 745173 | Geboren: 2004 | Verein: Association sportive de Monaco Football Club (15.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 23/24)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Mamadou Sylla (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 166683 | Geboren: 1994 | Verein: Al-Riyadh Saudi Club (1.2 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 23/24)
+  * ID 654177 | Geboren: 2003 | Verein: Aston Villa Football Club (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Manu Sánchez (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 374142 | Geboren: 1996 | Verein: Klub Sportowy Górnik Zabrze Sportowa Spółka Akcyjna (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 618809 | Geboren: 2000 | Verein: Levante Unión Deportiva S.A.D. (6.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 20/21)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Marcelo (Gesamte Verletzungen im Datensatz: 8) ===
+  * ID 44501 | Geboren: 1988 | Verein: Olympiakos Syndesmos Filathlon Peiraios (1.8 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 5 Verletzung(en) (Saisons: 20/21, 21/22)
+  * ID 52920 | Geboren: 1987 | Verein: FC Girondins Bordeaux (0.8 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 3 Verletzung(en) (Saisons: 21/22)
+  * ID 190185 | Geboren: 1989 | Verein: Moreirense Futebol Clube (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1091605 | Geboren: 2006 | Verein: Cruzeiro Esporte Clube (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Marcos André (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 481084 | Geboren: 1996 | Verein: Real Valladolid CF (0.8 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 20/21)
+  * ID 1084075 | Geboren: 2003 | Verein: SC Dnipro-1 (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Marcos Paulo (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 77832 | Geboren: 1988 | Verein: FC Vizela (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 612496 | Geboren: 2001 | Verein: Club Atlético de Madrid S.A.D. (0.5 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 23/24)
+  * ID 978039 | Geboren: 2003 | Verein: Esporte Clube Juventude (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Marcus Pedersen (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 41609 | Geboren: 1990 | Verein: Vitesse Arnhem (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 583404 | Geboren: 2000 | Verein: Torino Calcio (3.5 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 24/25)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Marcão (Gesamte Verletzungen im Datensatz: 6) ===
+  * ID 89561 | Geboren: 1986 | Verein: Koninklijke Voetbal Club Westerlo (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 160188 | Geboren: 1992 | Verein: Esporte Clube Juventude (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 439022 | Geboren: 1996 | Verein: Sevilla Fútbol Club S.A.D. (2.5 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 22/23, 23/24)
+  * ID 476102 | Geboren: 1994 | Verein: Ulsan Hyundai Football Club (0.8 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 552581 | Geboren: 1995 | Verein: CS Marítimo (0.1 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 4 Verletzung(en) (Saisons: 22/23, 23/24)
+  * ID 1089612 | Geboren: 2005 | Verein: Fluminense Football Club (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Marlon (Gesamte Verletzungen im Datensatz: 3) ===
+  * ID 273236 | Geboren: 1995 | Verein: FC Shakhtar Donetsk (2.5 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 3 Verletzung(en) (Saisons: 20/21, 22/23)
+  * ID 406675 | Geboren: 1997 | Verein: Grêmio Foot-Ball Porto Alegrense (4.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 635807 | Geboren: 1997 | Verein: Gil Vicente Futebol Clube (0.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1124887 | Geboren: 2005 | Verein: Fluminense Football Club (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Marquinhos (Gesamte Verletzungen im Datensatz: 14) ===
+  * ID 181767 | Geboren: 1994 | Verein: Paris Saint-Germain Football Club (30.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 13 Verletzung(en) (Saisons: 20/21, 21/22, 22/23, 23/24, 24/25)
+  * ID 516722 | Geboren: 1999 | Verein: FK Spartak Moskva (6.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 668268 | Geboren: 2003 | Verein: Cruzeiro Esporte Clube (3.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 23/24)
+  * ID 1284052 | Geboren: 2007 | Verein: S. A. F. Botafogo (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Matheus Cunha (Gesamte Verletzungen im Datensatz: 10) ===
+  * ID 517894 | Geboren: 1999 | Verein: Manchester United Football Club (70.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 10 Verletzung(en) (Saisons: 20/21, 21/22, 22/23, 23/24)
+  * ID 876739 | Geboren: 2001 | Verein: Cruzeiro Esporte Clube (2.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Mathias Jensen (Gesamte Verletzungen im Datensatz: 5) ===
+  * ID 319859 | Geboren: 1996 | Verein: Brentford Football Club (12.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 5 Verletzung(en) (Saisons: 21/22, 24/25)
+  * ID 695210 | Geboren: 2005 | Verein: Brøndby Idrætsforening (0.8 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Miguel Rodríguez (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 634427 | Geboren: 2003 | Verein: Football Club Utrecht (4.5 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 23/24)
+  * ID 953634 | Geboren: 2003 | Verein: nan (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Milos Pantovic (Gesamte Verletzungen im Datensatz: 4) ===
+  * ID 232144 | Geboren: 1996 | Verein: Omladinski fudbalski klub Beograd (0.4 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 4 Verletzung(en) (Saisons: 21/22, 23/24)
+  * ID 615639 | Geboren: 2002 | Verein: Panathinaikos Athlitikos Omilos (3.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Mohamed Camara (Gesamte Verletzungen im Datensatz: 3) ===
+  * ID 99946 | Geboren: 1990 | Verein: ESTAC Troyes (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 426723 | Geboren: 1997 | Verein: Berner Sport Club Young Boys (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 543382 | Geboren: 2000 | Verein: Association sportive de Monaco Football Club (20.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 3 Verletzung(en) (Saisons: 22/23, 23/24)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Moussa Cissé (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 620312 | Geboren: 2003 | Verein: FC Basel 1893 AG (0.4 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 23/24)
+  * ID 1429608 | Geboren: 2009 | Verein: nan (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Nacho Fernández (Gesamte Verletzungen im Datensatz: 4) ===
+  * ID 50669 | Geboren: 1990 | Verein: Club de Gimnasia y Esgrima La Plata (0.2 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 4 Verletzung(en) (Saisons: 20/21, 21/22, 23/24)
+  * ID 58884 | Geboren: 1990 | Verein: Al-Qadsiah Saudi Football Club (1.8 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Neto (Gesamte Verletzungen im Datensatz: 5) ===
+  * ID 43630 | Geboren: 1981 | Verein: Veria NPS (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 111819 | Geboren: 1989 | Verein: S. A. F. Botafogo (1.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 5 Verletzung(en) (Saisons: 20/21, 21/22, 22/23, 23/24)
+  * ID 291968 | Geboren: 1991 | Verein: SC Farense (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Nico González (Gesamte Verletzungen im Datensatz: 16) ===
+  * ID 466805 | Geboren: 2002 | Verein: Manchester City Football Club (45.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 6 Verletzung(en) (Saisons: 21/22, 22/23, 24/25)
+  * ID 486031 | Geboren: 1998 | Verein: Club Atlético de Madrid S.A.D. (24.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 10 Verletzung(en) (Saisons: 20/21, 21/22, 22/23, 23/24, 24/25)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Nino (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 29178 | Geboren: 1980 | Verein: Elche Club de Fútbol S.A.D. (0.1 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 20/21)
+  * ID 520454 | Geboren: 1997 | Verein: AO FK Zenit Sankt-Peterburg (10.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Pablo Hernández (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 46220 | Geboren: 1985 | Verein: Leeds United Association Football Club (0.1 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 20/21)
+  * ID 91763 | Geboren: 1986 | Verein: Real Club Celta de Vigo S. A. D. (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Pablo Martínez (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 282900 | Geboren: 1989 | Verein: Nîmes Olympique (0.2 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 20/21)
+  * ID 568835 | Geboren: 1998 | Verein: Levante Unión Deportiva S.A.D. (2.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Pablo Pérez (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 55884 | Geboren: 1985 | Verein: Málaga CF (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 238717 | Geboren: 1993 | Verein: Sporting Gijón (0.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 711628 | Geboren: 2001 | Verein: Sevilla Fútbol Club S.A.D. (0.2 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 20/21)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Paulinho (Gesamte Verletzungen im Datensatz: 3) ===
+  * ID 29424 | Geboren: 1986 | Verein: US Livorno 1915 (0.5 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 57229 | Geboren: 1988 | Verein: Futbol Club Barcelona (0.8 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 85771 | Geboren: 1991 | Verein: CS Marítimo (0.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 211072 | Geboren: 1992 | Verein: Deportivo Toluca Futbol Club, S. A. de C. V. (6.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 212923 | Geboren: 1994 | Verein: Portimonense SC (1.8 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 259461 | Geboren: 1993 | Verein: FC Zorya Lugansk (0.6 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 346918 | Geboren: 1993 | Verein: Clube Desportivo Nacional (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 372670 | Geboren: 1997 | Verein: Liverpool Football Club (0.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 428791 | Geboren: 2000 | Verein: Sociedade Esportiva Palmeiras (11.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 3 Verletzung(en) (Saisons: 20/21, 21/22, 22/23)
+  * ID 520492 | Geboren: 1995 | Verein: Fodbold Club Midtjylland (0.5 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 842718 | Geboren: 1999 | Verein: Portimonense SC (0.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1083888 | Geboren: 2005 | Verein: Club de Regatas Vasco da Gama (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1219851 | Geboren: 2005 | Verein: São Paulo Futebol Clube (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Pedro (Gesamte Verletzungen im Datensatz: 12) ===
+  * ID 57840 | Geboren: 1984 | Verein: Royal Charleroi Sporting Club (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 65278 | Geboren: 1987 | Verein: Società Sportiva Lazio S.p.A. (1.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 12 Verletzung(en) (Saisons: 20/21, 21/22, 22/23, 23/24, 24/25)
+  * ID 432895 | Geboren: 1997 | Verein: Clube de Regatas do Flamengo (17.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1004741 | Geboren: 2006 | Verein: AO FK Zenit Sankt-Peterburg (17.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Pedro Lima (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 816135 | Geboren: 2003 | Verein: AVS Futebol SAD (0.4 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1193867 | Geboren: 2006 | Verein: Wolverhampton Wanderers Football Club (4.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 24/25)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Pedro Mendes (Gesamte Verletzungen im Datensatz: 4) ===
+  * ID 72857 | Geboren: 1990 | Verein: Club Football Estrela da Amadora (0.4 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 4 Verletzung(en) (Saisons: 20/21, 21/22, 22/23)
+  * ID 352851 | Geboren: 1993 | Verein: Vitória Setúbal FC (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 498235 | Geboren: 1999 | Verein: Clube Desportivo Nacional (0.9 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Rafael (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 61892 | Geboren: 1990 | Verein: İstanbul Başakşehir Futbol Kulübü (0.8 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 68097 | Geboren: 1989 | Verein: São Paulo Futebol Clube (0.4 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 84467 | Geboren: 1982 | Verein: Spezia Calcio (0.2 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 20/21)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Rafinha (Gesamte Verletzungen im Datensatz: 10) ===
+  * ID 33947 | Geboren: 1985 | Verein: Olympiakos Syndesmos Filathlon Peiraios (0.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 47931 | Geboren: 1982 | Verein: Koninklijke Atletiek Associatie Gent (0.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 129473 | Geboren: 1993 | Verein: Real Sociedad de Fútbol S.A.D. (4.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 6 Verletzung(en) (Saisons: 20/21)
+  * ID 205022 | Geboren: 1992 | Verein: Vitória Setúbal FC (0.1 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 4 Verletzung(en) (Saisons: 21/22)
+  * ID 566875 | Geboren: 1997 | Verein: Fotbal Club Petrolul Ploiești (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1053934 | Geboren: 2002 | Verein: Esporte Clube Juventude (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1189523 | Geboren: 2006 | Verein: SC Farense (0.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1365898 | Geboren: 2006 | Verein: Sport Club do Recife (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Raúl Asencio (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 340260 | Geboren: 1998 | Verein: Genoa Cricket and Football Club (0.3 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 20/21)
+  * ID 935245 | Geboren: 2003 | Verein: Real Madrid Club de Fútbol (25.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Raúl García (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 34601 | Geboren: 1986 | Verein: Athletic Club Bilbao (1.5 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 21/22, 23/24)
+  * ID 631002 | Geboren: 2000 | Verein: Club Atlético Osasuna (3.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Raúl Jiménez (Gesamte Verletzungen im Datensatz: 5) ===
+  * ID 206040 | Geboren: 1991 | Verein: Fulham Football Club (4.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 5 Verletzung(en) (Saisons: 20/21, 22/23, 23/24)
+  * ID 982848 | Geboren: 2006 | Verein: Valencia Club de Fútbol S. A. D. (0.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Reece James (Gesamte Verletzungen im Datensatz: 14) ===
+  * ID 245585 | Geboren: 1993 | Verein: Manchester United Football Club (0.4 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 472423 | Geboren: 1999 | Verein: Chelsea Football Club (60.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 14 Verletzung(en) (Saisons: 21/22, 22/23, 23/24, 24/25)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Ricardo Rodríguez (Gesamte Verletzungen im Datensatz: 6) ===
+  * ID 86784 | Geboren: 1992 | Verein: Real Betis Balompié S.A.D. (1.5 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 6 Verletzung(en) (Saisons: 20/21, 21/22, 22/23, 23/24)
+  * ID 820227 | Geboren: 2001 | Verein: Mazatlán Futbol Club (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Roberto (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 37403 | Geboren: 1986 | Verein: Real Valladolid CF (0.5 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 20/21)
+  * ID 194330 | Geboren: 1988 | Verein: Moreirense Futebol Clube (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Rodri (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 8163 | Geboren: 1984 | Verein: Rayo Vallecano de Madrid S. A. D. (0.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 357565 | Geboren: 1996 | Verein: Manchester City Football Club (65.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 24/25)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Rodrigo Gomes (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 667121 | Geboren: 2003 | Verein: Wolverhampton Wanderers Football Club (15.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 24/25)
+  * ID 1364984 | Geboren: 2006 | Verein: Fluminense Football Club (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Rogério (Gesamte Verletzungen im Datensatz: 9) ===
+  * ID 401527 | Geboren: 1998 | Verein: Verein für Leibesübungen Wolfsburg (1.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 9 Verletzung(en) (Saisons: 20/21, 21/22, 23/24, 24/25)
+  * ID 889683 | Geboren: 2002 | Verein: Casa Pia Atlético Clube (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Ross Stewart (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 203405 | Geboren: 1995 | Verein: Heart of Midlothian Football Club (0.2 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 24/25)
+  * ID 447995 | Geboren: 1996 | Verein: Southampton FC (2.8 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 24/25)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Rubén García (Gesamte Verletzungen im Datensatz: 4) ===
+  * ID 213260 | Geboren: 1993 | Verein: Club Atlético Osasuna (1.8 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 4 Verletzung(en) (Saisons: 22/23, 23/24)
+  * ID 361238 | Geboren: 1998 | Verein: A.G.S Asteras Tripolis (0.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Rubén Martínez (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 8184 | Geboren: 1984 | Verein: Club Atlético Osasuna (0.2 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 20/21)
+  * ID 65262 | Geboren: 1989 | Verein: PAS Lamia 1964 (0.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Rui Silva (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 234811 | Geboren: 1994 | Verein: Sporting Clube de Portugal (7.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 20/21)
+  * ID 290290 | Geboren: 1996 | Verein: Clube Desportivo Santa Clara (0.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Sidnei (Gesamte Verletzungen im Datensatz: 1) ===
+  * ID 27374 | Geboren: 1989 | Verein: Real Betis Balompié S.A.D. (0.2 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 20/21)
+  * ID 1090818 | Geboren: 2003 | Verein: Mirasol Futebol Clube (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Silas (Gesamte Verletzungen im Datensatz: 10) ===
+  * ID 373302 | Geboren: 1996 | Verein: FC Zorya Lugansk (0.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 612826 | Geboren: 1998 | Verein: 1. Fußball- und Sportverein Mainz 05 (3.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 10 Verletzung(en) (Saisons: 20/21, 21/22, 22/23, 24/25)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Stefan Savic (Gesamte Verletzungen im Datensatz: 5) ===
+  * ID 107010 | Geboren: 1991 | Verein: Trabzonspor Kulübü (0.5 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 5 Verletzung(en) (Saisons: 21/22, 22/23)
+  * ID 120192 | Geboren: 1994 | Verein: Roda JC Kerkrade (0.5 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Thomas Kristensen (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 23492 | Geboren: 1983 | Verein: ADO Den Haag (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 698259 | Geboren: 2002 | Verein: Udinese Calcio (12.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 24/25)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Tom Davies (Gesamte Verletzungen im Datensatz: 3) ===
+  * ID 314210 | Geboren: 1998 | Verein: Sheffield United (5.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 3 Verletzung(en) (Saisons: 20/21, 21/22, 23/24)
+  * ID 854853 | Geboren: 2003 | Verein: Kilmarnock Football Club (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Vanderson (Gesamte Verletzungen im Datensatz: 4) ===
+  * ID 56761 | Geboren: 1984 | Verein: Panetolikos Agrinio (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 789082 | Geboren: 2001 | Verein: Association sportive de Monaco Football Club (20.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 4 Verletzung(en) (Saisons: 21/22, 22/23, 23/24)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Vitinha (Gesamte Verletzungen im Datensatz: 5) ===
+  * ID 487469 | Geboren: 2000 | Verein: Paris Saint-Germain Football Club (110.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 5 Verletzung(en) (Saisons: 23/24, 24/25)
+  * ID 586853 | Geboren: 2000 | Verein: Genoa Cricket and Football Club (8.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Vitinho (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 213605 | Geboren: 1993 | Verein: Sport Club Corinthians Paulista (1.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 22/23)
+  * ID 323944 | Geboren: 1998 | Verein: Red Bull Bragantino (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 467940 | Geboren: 2000 | Verein: Futebol Clube de Arouca (0.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 468249 | Geboren: 1999 | Verein: S. A. F. Botafogo (8.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 1 Verletzung(en) (Saisons: 23/24)
+  * ID 670965 | Geboren: 1999 | Verein: Sport Club Internacional (5.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 796742 | Geboren: 2003 | Verein: Clube Desportivo Santa Clara (0.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 834898 | Geboren: 2004 | Verein: Clube Atlético Mineiro (0.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 928096 | Geboren: 2001 | Verein: S. A. F. Botafogo (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1072630 | Geboren: 2004 | Verein: Cruzeiro Esporte Clube (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1083109 | Geboren: 2004 | Verein: Esporte Clube Bahia (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Vitolo (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 27667 | Geboren: 1983 | Verein: Elazigspor (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 67082 | Geboren: 1989 | Verein: Club Atlético de Madrid S.A.D. (0.1 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 20/21, 21/22)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Víctor Ruiz (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 62920 | Geboren: 1989 | Verein: Real Betis Balompié S.A.D. (1.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 20/21, 21/22)
+  * ID 336857 | Geboren: 1993 | Verein: FC St. Gallen 1879 (Unbekannt)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Wendell (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 228433 | Geboren: 1993 | Verein: São Paulo Futebol Clube (2.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 20/21, 21/22)
+  * ID 1074482 | Geboren: 2004 | Verein: FC Zorya Lugansk (0.1 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 1082633 | Geboren: 2004 | Verein: FK Polissya Zhytomyr (0.2 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: William (Gesamte Verletzungen im Datensatz: 3) ===
+  * ID 22720 | Geboren: 1985 | Verein: Royal Standard Club de Liège (0.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 49899 | Geboren: 1982 | Verein: FK Ufa (0.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 153207 | Geboren: 1991 | Verein: GD Chaves (0.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 341710 | Geboren: 1995 | Verein: Cruzeiro Esporte Clube (4.0 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 3 Verletzung(en) (Saisons: 20/21, 21/22)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Willian (Gesamte Verletzungen im Datensatz: 10) ===
+  * ID 52769 | Geboren: 1988 | Verein: Grêmio Foot-Ball Porto Alegrense (0.5 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 10 Verletzung(en) (Saisons: 20/21, 22/23, 23/24, 24/25)
+  * ID 55338 | Geboren: 1986 | Verein: Metalist Kharkiv (- 2016) (0.3 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Ximo Navarro (Gesamte Verletzungen im Datensatz: 2) ===
+  * ID 65343 | Geboren: 1988 | Verein: Athlitiki Enosi Larisas (0.3 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 2 Verletzung(en) (Saisons: 21/22)
+  * ID 184767 | Geboren: 1990 | Verein: Fortuna Sittardia Combinatie (0.6 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+
+--------------------------------------------------------------------------------
+
+=== SPIELER: Álvaro González (Gesamte Verletzungen im Datensatz: 3) ===
+  * ID 55957 | Geboren: 1984 | Verein: Società Sportiva Lazio S.p.A. (0.0 Mio. €)
+    Status: [ABGELEHNT]  -> Gelöscht / Ignoriert (0 Verletzungen zugeordnet)
+  * ID 183647 | Geboren: 1990 | Verein: Olympique de Marseille (2.2 Mio. €)
+    Status: [AKZEPTIERT] -> Zugewiesen: 3 Verletzung(en) (Saisons: 20/21, 21/22)
+
+--------------------------------------------------------------------------------

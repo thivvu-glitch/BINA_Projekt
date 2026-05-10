@@ -20,7 +20,7 @@ content = content.replace(
 # Replace in single bodymap
 content = content.replace(
     'if event and event.selection.get("points"):\n                    body_part = event.selection["points"][0]["customdata"][5]\n                    open_soccermap_dialog(league, body_part, body_df)',
-    'if event and event.selection.get("points") and not dialog_already_opened:\n                    dialog_already_opened = True\n                    body_part = event.selection["points"][0]["customdata"][5]\n                    open_soccermap_dialog(league, body_part, body_df)'
+    'if event and event.selection.get("points") and not dialog_alread_opened:\n                    dialog_already_opened = True\n                    body_part = event.selection["points"][0]["customdata"][5]\n                    open_soccermap_dialog(league, body_part, body_df)'
 )
 
 # Replace in multi bodymap
