@@ -526,7 +526,7 @@ with tab_trends:
     st.markdown("""
     ### 📈 Strategische Trend-Analyse & Belastungssteuerung
     **Für wen?** Sportdirektoren, Trainer und medizinische Abteilungen. 
-    **Warum?** Um zu verstehen, ob Großturniere (WM/EM) das Verletzungsrisiko erhöhen und wie sich die Ausfallzeiten über die Saisons entwickeln, um Kader-Ressourcen besser zu planen.
+    **Warum?** Um zu verstehen, ob Grossturniere (WM/EM) das Verletzungsrisiko erhöhen und wie sich die Ausfallzeiten über die Saisons entwickeln, um Kader-Ressourcen besser zu planen.
     """)
     st.divider()
     
