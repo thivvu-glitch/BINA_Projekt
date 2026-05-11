@@ -1543,7 +1543,7 @@ with tap_maps:
     st.info("""
     💡 **Kurzanleitung zur interaktiven Karte:**
     - **Details anzeigen:** Klicke auf eine beliebige Position (z. B. Centre-Back) auf dem Spielfeld. Es öffnet sich automatisch ein neues Fenster mit einer Körperkarte und Tabelle, die dir genau zeigt, welche Körperteile bei dieser Position am häufigsten verletzt wurden.
-    - **Fenster schließen:** Klicke einfach auf das 'X' oben rechts oder neben das Fenster, um zur Spielfeld-Übersicht zurückzukehren.
+    - **Fenster schliessen:** Klicke einfach auf das 'X' oben rechts oder neben das Fenster, um zur Spielfeld-Übersicht zurückzukehren.
     - **Auswahl aufheben:** Wenn du eine Position angeklickt hast, bleibt sie markiert. Mache einfach einen **Doppelklick** auf den leeren grünen Rasen, um die Auswahl aufzuheben und die Karte zurückzusetzen.
     """)
     
@@ -1674,7 +1674,7 @@ with tab_bodymap:
     st.info("""
     💡 **Kurzanleitung zur interaktiven Körperkarte:**
     - **Details anzeigen:** Klicke auf ein beliebiges Körperteil (z. B. Knie) am Strichmännchen oder auf einen Punkt in der Legende. Es öffnet sich automatisch ein neues Fenster mit einem Spielfeld und einer Tabelle, die dir exakt zeigt, auf welchen Spielerpositionen diese Verletzung am häufigsten auftritt.
-    - **Fenster schließen:** Klicke einfach auf das 'X' oben rechts oder neben das Fenster, um zur Bodymap-Übersicht zurückzukehren.
+    - **Fenster schliessen:** Klicke einfach auf das 'X' oben rechts oder neben das Fenster, um zur Bodymap-Übersicht zurückzukehren.
     - **Auswahl aufheben:** Wenn du ein Körperteil angeklickt hast, bleibt es markiert. Mache einfach einen **Doppelklick** auf einen leeren Bereich neben dem Strichmännchen, um die Auswahl aufzuheben und die Karte zurückzusetzen.
     """)
 
