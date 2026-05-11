@@ -225,7 +225,8 @@ st.markdown("## 3. Daten analysieren")  # engl. Analyzing data
 
 st.write('''
 Die Datenanalyse erfolgt mithilfe der Anwendung des Dashboards in der Applikation. Einige Forschungsfragen wurden im Schritt 2 bereits angeschnitten:
-         
+
+            
 * Verteilung und Verletzungen nach **Körperregionen**
 * Zusammenhang zwischen **Spielerposition und Verletzungsanfälligkeit**
 * Analyse von **Ausfallzeiten und deren Ursachen**
@@ -291,3 +292,11 @@ Es zeigt sich, dass sich die Verletzungsgefahr zwischen den Spielerpositionen st
 ''')
 
 st.markdown("## 4. Informationen präsentieren")  # engl. Presenting information
+
+st.markdown("## 5. Datengetriebene Entscheidungen treffen") 
+st.write(''' # engl. Presenting information
+ Machine learning modelle mit unsren Daten trainieren bzw Konzept von diesem Vorgang ohne unbedingte durchführung.        
+         
+         
+         
+         ''')
