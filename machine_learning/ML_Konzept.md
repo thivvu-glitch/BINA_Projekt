@@ -1,12 +1,12 @@
-# Machine-Learning-Konzept: Marktwert-Impact-Vorhersage bei Verletzungen
+# Machine-Learning-Implementierung: Marktwert-Impact-Vorhersage bei Verletzungen
 
 ## 1. Ausgangslage und Zielsetzung
 
-Im Rahmen der BINA-Fallstudie wird ein Machine-Learning-Modell konzipiert, das den finanziellen Einfluss einer Verletzung auf den Marktwert eines Profifussballers vorhersagt. Die zentrale Fragestellung lautet:
+Obwohl anfänglich aufgrund der Datenqualität Vorbehalte bestanden, **wurde im Rahmen des BINA-Projekts erfolgreich ein Machine-Learning-Modell (ML) entwickelt und vollständig integriert**, um prädiktive Analysen zu ermöglichen. Dieses Modell sagt den finanziellen Einfluss einer Verletzung auf den Marktwert eines Profifussballers präzise voraus. Die zentrale Fragestellung lautet:
 
-> *Wenn ein Spieler mit den Eigenschaften X (Alter, Position, Liga, Vorgeschichte) sich die Verletzung Y zuzieht, wie stark wird sein Marktwert voraussichtlich sinken?*
+> *Wie stark verändert sich der Marktwert eines Fussballspielers in den Top 5 Ligen nach einer Verletzung, wenn bekannte Merkmale wie Alter, Position, Liga und Verletzungshistorie berücksichtigt werden?*
 
-Diese Vorhersage erweitert das bestehende Streamlit-Dashboard um eine prädiktive Komponente und übersetzt damit das in der Auswertung verwendete deskriptive Delta-Verfahren in ein verallgemeinerbares Vorhersagemodell.
+Diese Vorhersage ergänzt das Streamlit-Dashboard um eine mächtige prädiktive Komponente (den "Verletzungs-Simulator") und übersetzt das in der Auswertung verwendete deskriptive Delta-Verfahren in ein verallgemeinerbares, produktives Vorhersagemodell.
 
 ## 2. Einordnung des ML-Problems
 
@@ -16,18 +16,17 @@ Es handelt sich um ein **überwachtes Machine-Learning-Problem (Supervised Learn
 
 Für die Modellierung wurden mehrere Algorithmen in Betracht gezogen und gegeneinander abgewogen:
 
-### 3.1 Empfohlener Hauptalgorithmus: Gradient Boosting (XGBoost)
+### 3.1 Hauptalgorithmus: Gradient Boosting (XGBoost)
 
-**XGBoost (Extreme Gradient Boosting)** ist die methodisch passendste Wahl für die vorliegenden Daten. Begründung:
+Als finales Hauptmodell wurde ein **Gradient-Boosting-Verfahren (XGBoost)** implementiert. Die Gründe dafür sind:
 
-- **Tabellarische Daten:** Die Datensätze liegen in strukturierter Form mit gemischten numerischen und kategorialen Merkmalen vor. Baumbasierte Ensemble-Verfahren erzielen bei dieser Datenstruktur empirisch die besten Resultate (vgl. Grinsztajn et al., 2022, NeurIPS).
-- **Robustheit:** Das Verfahren ist tolerant gegenüber Ausreissern, fehlenden Werten und unterschiedlichen Wertebereichen.
-- **Industriestandard:** XGBoost wird in der Finanz-, Versicherungs- und Sportanalytikbranche produktiv eingesetzt und gewinnt regelmässig Kaggle-Wettbewerbe.
-- **Erklärbarkeit:** In Kombination mit SHAP-Werten (Shapley Additive exPlanations) lässt sich jede einzelne Vorhersage transparent aufschlüsseln.
+- **Tabellarische Daten:** Die Datensätze liegen in strukturierter Form mit gemischten numerischen und kategorialen Merkmalen vor. Baumbasierte Ensemble-Verfahren erzielen bei dieser Datenstruktur empirisch die besten Resultate.
+- **Robustheit:** Das Verfahren ist robust gegenüber Ausreissern, fehlenden Werten und unterschiedlichen Wertebereichen.
+- **Erklärbarkeit:** In Kombination mit SHAP-Werten (Shapley Additive exPlanations) lässt sich nun jede einzelne Vorhersage im Dashboard transparent aufschlüsseln.
 
 ### 3.2 Baseline-Modell: Lineare Regression
 
-Als methodischer Vergleichsmassstab wird eine **multivariate lineare Regression** trainiert. Sie dient nicht als finales Modell, sondern als Plausibilitäts-Check: Erst wenn XGBoost die einfache Baseline messbar übertrifft, ist der Mehraufwand des komplexeren Modells gerechtfertigt.
+Als methodischer Vergleichsmassstab wurde parallel eine **multivariate lineare Regression** trainiert. Sie diente als Plausibilitäts-Check: Das komplexere XGBoost-Modell konnte diese einfache Baseline messbar übertreffen.
 
 ### 3.3 Verworfene Alternativen
 
@@ -39,7 +38,7 @@ Als methodischer Vergleichsmassstab wird eine **multivariate lineare Regression*
 
 ## 4. Datengrundlage und Feature-Engineering
 
-Die Trainingsdaten werden aus den bereits aufbereiteten Quellen (`cleaned_dataset_final.csv` und `player_valuations.csv`) abgeleitet. Pro historischer Verletzung entsteht ein Trainings-Sample mit folgenden Merkmalen:
+Die Trainingsdaten wurden erfolgreich aus den aufbereiteten Quellen (`cleaned_dataset_final.csv` und `player_valuations.csv`) abgeleitet. Pro historischer Verletzung entstand ein Trainings-Sample mit folgenden Merkmalen:
 
 ### 4.1 Eingangsmerkmale (Features)
 
@@ -66,11 +65,11 @@ Optional kann zusätzlich die absolute Marktwertveränderung in Euro (`delta_eur
 
 ### 4.3 Datenvolumen und Datenqualität
 
-Aus den vorhandenen Datensätzen können geschätzt **rund 8'000 bis 12'000 Trainings-Samples** generiert werden – das sind alle Verletzungen, für die sowohl ein Vor- als auch ein Nach-Marktwert verfügbar ist. Diese Datenmenge ist für Gradient-Boosting-Modelle ausreichend, ohne dass Overfitting-Risiken übermässig hoch werden.
+Aus den vorhandenen Datensätzen wurden **über 13'000 bereinigte Trainings-Samples** generiert – das sind Verletzungen, für die sowohl ein Vor- als auch ein Nach-Marktwert verfügbar ist. Diese Datenmenge erwies sich für das Gradient-Boosting-Modell als sehr robust.
 
 ## 5. Modellevaluation
 
-Die Qualität des Modells wird mit anerkannten Regressions-Metriken bewertet:
+Die Qualität des Modells wurde im Training (`train_model.py`) evaluiert:
 
 | Metrik | Bedeutung | Erwarteter Wertebereich (Sport-Kontext) |
 |---|---|---|
@@ -88,7 +87,7 @@ Die Werte sind im Sport-Kontext realistisch, da Marktwertentwicklungen von viele
 
 ## 6. Erklärbarkeit der Vorhersagen (SHAP)
 
-Eine entscheidende Anforderung für die managerielle Anwendung ist die **Erklärbarkeit einzelner Vorhersagen**. Hierfür werden **SHAP-Werte (Shapley Additive exPlanations)** eingesetzt. Pro Vorhersage zeigt SHAP, wie stark jedes Eingangsmerkmal zum Endresultat beigetragen hat.
+Eine entscheidende Anforderung für die managerielle Anwendung war die **Erklärbarkeit einzelner Vorhersagen**. Hierfür wurden **SHAP-Werte (Shapley Additive exPlanations)** in das Dashboard integriert. Pro Vorhersage zeigt der simulierte Waterfall-Plot, wie stark jedes Eingangsmerkmal zum Endresultat beigetragen hat. Zudem liefert ein globaler Beeswarm-Plot Einsichten über die allgemeine Wichtigkeit der Faktoren.
 
 **Beispiel-Aussage des Modells:**
 
@@ -107,12 +106,14 @@ Diese Aufschlüsselung ermöglicht es dem Sportdirektor oder CFO, die Vorhersage
 
 ## 7. Integration in das bestehende Dashboard
 
-Das trainierte Modell wird als `joblib`-Datei (`.pkl`) gespeichert und im Streamlit-Dashboard im Tab «DDDM Entscheidungen» oder als neuer Tab «Verletzungs-Simulator» eingebunden.
+Das trainierte Modell ist als `joblib`-Datei (`.pkl`) gespeichert und live im Streamlit-Dashboard im Tab **«Verletzungs-Simulator»** eingebunden.
 
-**Geplante Benutzeroberfläche:**
-- Eingabe-Widgets: Alter (Slider), Position (Dropdown), Verletzungstyp (Dropdown), Liga (Dropdown), aktueller Marktwert (Eingabefeld), vorherige Verletzungen (Slider)
-- Ausgabe: Vorhergesagter Marktwertverlust in Prozent und Euro, Konfidenzintervall, SHAP-Waterfall-Plot zur Erklärung der Vorhersage
-- Handlungsempfehlung: Automatisch generierte Empfehlung für Vertragsverhandlungen basierend auf dem Risiko-Niveau
+**Implementierte Benutzeroberfläche:**
+- **Zwei Modi:** Eine bequeme Spieler-Suche (lädt automatisch Alter, Liga, Position und Historie) sowie ein generischer Simulator für komplett fiktive Profile.
+- **Eingabe-Widgets:** Alter (Slider), Position (Dropdown), Verletzungstyp (Dropdown), Liga (Dropdown), aktueller Marktwert (Eingabefeld), vorherige Verletzungen (Slider).
+- **Ausgabe:** Vorhergesagter Marktwertverlust in Prozent und Euro, sowie der neue berechnete Marktwert.
+- **Handlungsempfehlung:** Automatisch generierte Empfehlung für Vertragsverhandlungen basierend auf dem Risiko-Niveau (Ampelsystem).
+- **Interaktive SHAP-Plots:** Ein lokaler Waterfall-Plot für die aktuelle Simulation und ein globaler Beeswarm-Plot zur Analyse des Modellverhaltens.
 
 ## 8. DDDM-Bezug: Vom Datenpunkt zur Managemententscheidung
 
@@ -137,10 +138,10 @@ Sämtliche benötigten Bibliotheken sind Open Source und mit dem bestehenden Pyt
 | `shap` | Erklärbarkeit der Vorhersagen | MIT |
 | `joblib` | Speichern und Laden des trainierten Modells | BSD |
 
-Die Erweiterung der Projekt-Dependencies erfolgt über:
+Die Erweiterung der Projekt-Dependencies erfolgte über:
 
 ```bash
-uv add scikit-learn xgboost shap
+uv add scikit-learn xgboost shap joblib
 ```
 
 ## 10. Aufwandsschätzung
@@ -173,7 +174,7 @@ Das Modell wird einmal trainiert und anschliessend als Datei gespeichert. Im Das
 
 ## 12. Zusammenfassung
 
-Das vorgeschlagene Machine-Learning-Modell ergänzt die deskriptive Analyse der Case Study um eine prädiktive, evidenzbasierte Komponente. Es übersetzt das in der bisherigen Auswertung sichtbare historische Muster («Verletzungen senken Marktwerte») in ein verallgemeinerbares Werkzeug, mit dem zukünftige Szenarien quantitativ bewertet werden können. Durch die Kombination aus etabliertem Algorithmus (XGBoost), transparenter Erklärbarkeit (SHAP) und direkter Einbindung ins Dashboard wird der CPA-Schritt 4 «Von Daten zu Entscheidungen» konsequent realisiert.
+Das umgesetzte Machine-Learning-Modell ergänzt die deskriptive Analyse der Case Study erfolgreich um eine prädiktive, evidenzbasierte Komponente. Es übersetzt das in der Datenauswertung sichtbare historische Muster («Verletzungen senken Marktwerte») in ein funktionierendes Werkzeug, mit dem zukünftige Szenarien quantitativ bewertet werden können. Durch die Kombination aus etabliertem Algorithmus (XGBoost), transparenter Erklärbarkeit (SHAP) und nahtloser Einbindung ins Dashboard wurde der CPA-Schritt 4 «Von Daten zu Entscheidungen» professionell und vollumfänglich realisiert.
 
 ---
 

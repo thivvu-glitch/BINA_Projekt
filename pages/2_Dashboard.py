@@ -2744,12 +2744,28 @@ with tab_simulator:
             else:
                 st.error("🔴 **Hohes Risiko:** Signifikanter Marktwertverlust! Es wird empfohlen, Leistungsklauseln in zukünftige Verträge aufzunehmen und einen Notfallplan für diese Position zu prüfen.")
                 
-            st.markdown("### 🧠 Erklärbarkeit (SHAP Waterfall Plot)")
-            st.write("Der folgende Plot zeigt transparent auf, wie jedes einzelne Merkmal (blau = Wertsteigernd/weniger Verlust, rot = Wertmindernd/mehr Verlust) die finale Vorhersage des XGBoost-Modells gebildet hat.")
+            st.markdown("### 🧠 Erklärbarkeit der Vorhersage (SHAP)")
             
-            fig, ax = plt.subplots(figsize=(10, 6))
-            shap.plots.waterfall(res['shap_values'][0], show=False)
-            st.pyplot(fig, clear_figure=True)
+            tab_local, tab_global = st.tabs(["Lokal (Waterfall Plot)", "Global (Beeswarm Plot)"])
+            
+            with tab_local:
+                st.write("**Individuelle Vorhersage:** Dieser Plot zeigt, wie jedes einzelne Merkmal (blau = Wertsteigernd/weniger Verlust, rot = Wertmindernd/mehr Verlust) die **aktuelle** Vorhersage des XGBoost-Modells gebildet hat.")
+                fig, ax = plt.subplots(figsize=(10, 6))
+                shap.plots.waterfall(res['shap_values'][0], show=False)
+                st.pyplot(fig, clear_figure=True)
+                
+            with tab_global:
+                st.write("**Allgemeines Modellverhalten:** Dieser Plot zeigt die globale Wichtigkeit und den Einfluss der Features über eine grosse Stichprobe des Modells hinweg. Jeder Punkt ist eine historische Verletzung. Rote Punkte stehen für hohe Feature-Werte (z.B. hohes Alter), blaue für niedrige.")
+                
+                from machine_learning.ml_predict import get_global_shap_data
+                global_shap_values = get_global_shap_data()
+                
+                if global_shap_values is not None:
+                    fig2, ax2 = plt.subplots(figsize=(10, 6))
+                    shap.plots.beeswarm(global_shap_values, show=False)
+                    st.pyplot(fig2, clear_figure=True)
+                else:
+                    st.info("Globale SHAP-Werte wurden nicht im Modell gespeichert. Bitte das Modell mit dem aktualisierten Skript neu trainieren.")
         
         # --- Zwei Sub-Tabs ---
         sim_tab_player, sim_tab_generic = st.tabs(["🔍 Spieler-Suche", "⚙️ Generischer Simulator"])

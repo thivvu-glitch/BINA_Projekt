@@ -13,6 +13,11 @@ def load_ml_model():
         raise FileNotFoundError(f"Modell-Datei nicht gefunden unter: {MODEL_PATH}")
     return joblib.load(MODEL_PATH)
 
+def get_global_shap_data():
+    """Gibt die vorab berechneten globalen SHAP-Werte für den Beeswarm-Plot zurück."""
+    model_data = load_ml_model()
+    return model_data.get('shap_values_global', None)
+
 def predict_market_change(age: int, position: str, injury_category: str, days_out: int, 
                           current_mv: float, league: str, prev_injuries: int, 
                           total_prev_days: int) -> dict:

@@ -161,6 +161,18 @@ def train_and_export_model():
     print("--------------------------------\n")
 
     # 5. Export
+    print("Berechne globale SHAP-Werte für Beeswarm-Plot...")
+    xgb_model = pipelines['XGBoost'].named_steps['model']
+    preprocessor = pipelines['XGBoost'].named_steps['preprocessor']
+    
+    X_sample = X_train.sample(min(500, len(X_train)), random_state=RANDOM_STATE)
+    X_sample_transformed = preprocessor.transform(X_sample)
+    cat_encoder = preprocessor.named_transformers_['cat']
+    feature_names = numeric_features + list(cat_encoder.get_feature_names_out(categorical_features))
+    
+    explainer = shap.TreeExplainer(xgb_model)
+    shap_values_global = explainer(pd.DataFrame(X_sample_transformed, columns=feature_names))
+
     print("Speichere Modell...")
     script_dir = os.path.dirname(os.path.abspath(__file__))
     models_dir = os.path.join(script_dir, 'models')
@@ -170,7 +182,8 @@ def train_and_export_model():
         'model_pipeline': pipelines['XGBoost'],
         'baseline_pipeline': pipelines['Linear Regression'],
         'numeric_features': numeric_features,
-        'categorical_features': categorical_features
+        'categorical_features': categorical_features,
+        'shap_values_global': shap_values_global
     }
 
     export_path = os.path.join(models_dir, 'mv_prediction_model.pkl')
