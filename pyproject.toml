@@ -11,6 +11,10 @@ dependencies = [
     "seaborn",
     "streamlit",
     "streamlit-plotly-events>=0.0.6",
+    "scikit-learn",
+    "xgboost",
+    "shap",
+    "joblib",
 ]
 
 [tool.uv]
