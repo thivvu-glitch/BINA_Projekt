@@ -235,17 +235,17 @@ Beschreibung einzelner Laschen des Dashboards:
 * Besonderheit: Stratified Matching: Vergleich von gleichwertigen Spielern für die Analysen von Verletzungsmustern
 * Wichtig für Kohortenvergleich: Bei den Filtern müssen unterschiedliche Saisons auisgewähölt werden, um sinnvolle Ergebnisse zu erhalten und vergleiche durchführen zu können.
 
-### Karten:
+#### Karten:
 * Zielgruppe: Trainer, Athletik-Trainer, Postionscoaches, Scouts
 * Nutzen: Virtuelles Fussballspielfeld, mit SPielerpositionen und Verletzungsereignissen. Leistet Hilfestellung für Aufstellung und Spielerroation
 * Besonderheit: Verknüpfung mit Bodymaps, wenn auf eine Spielerposition geklickt wird.
 
-### Bodymap:
+#### Bodymap:
 * Zielgruppe: Medizinisches Personal, Physotherapeuten, Sportmediziner, Forscher
 * Nutzen: Mapping von Verletzungen auf Körperregionen, Visualisierung von anatomischen SChwachpunkten bzw hochbeanspruchten Körperregionen
 * Verlinkung mit Karten inklusiver Rangliste von Ausfalltagen für eine bestimmte Verletzungregion, aufgeschlüsselt nach Spieler, Position innerhalb der Liga
 
-### DDDM:
+#### DDDM:
 * Zielgruppe: Führungsetage, Contract-Manager
 * Nutzen: Kader-Risikoexposition, Unterstützung von Vertrags- und Investitionsentscheidungen, Mögliche ROI von medizinischen investitionen und Spielertransfers
           
