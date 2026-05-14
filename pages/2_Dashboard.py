@@ -139,6 +139,79 @@ def build_player_options(source_df, players_info_subset):
     
     return options
 
+def calculate_contract_risk(player_data, market_value):
+    """
+    Berechnet Risiko-Metriken für Vertragsanalyse basierend auf durchschnittlichen Ausfalltagen
+    
+    Args:
+        player_data: DataFrame mit Verletzungsdaten des Spielers
+        market_value: Aktueller Marktwert in EUR
+    
+    Returns:
+        dict mit Risiko-Metriken und Empfehlungen
+    """
+    if player_data.empty or pd.isna(market_value) or market_value == 0:
+        return None
+    
+    total_days = player_data['Days'].sum()
+    total_injuries = len(player_data)
+    seasons_active = player_data['Season'].nunique()
+    
+    # Berechne durchschnittliche Ausfalltage pro Verletzung (Basis für Risikoklassifizierung)
+    avg_days_per_injury = total_days / total_injuries if total_injuries > 0 else 0
+    
+    # Finanzielle Berechnungen
+    career_years = 5
+    daily_opportunity_cost = market_value / (career_years * 365)
+    financial_impact = daily_opportunity_cost * total_days
+    risk_percentage = (total_days / (career_years * 365)) * 100
+    annual_impact = (total_days / max(seasons_active, 1)) * daily_opportunity_cost
+    
+    # Risiko-Level bestimmen basierend auf durchschnittlichen Ausfalltagen pro Verletzung
+    if avg_days_per_injury > 60:
+        risk_level = "🔴 Hohes Risiko"
+        risk_color = "red"
+        contract_action = f"""
+        **Vertrag mit Vorsicht abschließen:**
+        - Pay-per-Play oder leistungsbezogene Bonusstruktur erwägen
+        - Kurze Bindungsfrist (max. 2 Jahre)
+        - Versicherung/Absicherungsklauseln prüfen
+        - Engere medizinische Betreuung kalkulieren
+        - **Grund:** Ø {avg_days_per_injury:.1f} Tage pro Verletzung (hohe Schweregrad)
+        """
+    elif avg_days_per_injury > 30:
+        risk_level = "🟡 Moderates Risiko"
+        risk_color = "orange"
+        contract_action = f"""
+        **Standardvertrag mit Abstimmung:**
+        - Normale Laufzeit (3-4 Jahre)
+        - Leichte Performance-Bonuskomponente
+        - Regelmäßige medizinische Checkups
+        - **Grund:** Ø {avg_days_per_injury:.1f} Tage pro Verletzung (mittlere Schweregrad)
+        """
+    else:
+        risk_level = "🟢 Geringes Risiko"
+        risk_color = "green"
+        contract_action = f"""
+        **Unbedenkliche Vertragsverlängerung:**
+        - Standard-Konditionen möglich
+        - Stabilerer Asset-Value
+        - Normale Belastungsplanung
+        - **Grund:** Ø {avg_days_per_injury:.1f} Tage pro Verletzung (geringe Schweregrad)
+        """
+    
+    return {
+        "risk_level": risk_level,
+        "risk_color": risk_color,
+        "total_days": total_days,
+        "total_injuries": total_injuries,
+        "financial_impact": financial_impact,
+        "risk_percentage": risk_percentage,
+        "avg_days_per_injury": avg_days_per_injury,
+        "annual_impact": annual_impact,
+        "contract_action": contract_action
+    }
+
 player_options_map = build_player_options(df, players_info_df[['player_id', 'date_of_birth']])
 
 
@@ -530,9 +603,11 @@ with tab_trends:
     * Trainer
     * medizinische Abteilungen
 
-    **Warum?**
-    
-    Um zu verstehen, ob Grossturniere (WM/EM) das Verletzungsrisiko erhöhen und wie sich die Ausfallzeiten über die Saisons entwickeln, um Kader-Ressourcen besser zu planen.
+    **Was sieht man?**
+    - **Verletzungsverlauf:** Entwicklung der Verletzungsfälle und Ausfalltage pro Saison
+    - **Turnier-Auswirkungen:** Vergleich Grossturniere (WM/EM) vs. reguläre Saisons
+    - **Trend-Analyse:** Identifikation von saisonalen Mustern und Belastungsspitzen
+    - **Ressourcenplanung:** Datenbasierte Prognosen für Kader-Management und medizinische Kapazitäten
     """)
     st.divider()
     
@@ -2290,30 +2365,41 @@ with tab_market_risk:
     - **Marktwertverlauf:** Verlauf des Marktwerts über die Zeit, mit Fokus auf Verletzungsphasen
     - **Fokus schwerste Verletzung:** Detaillierte Analyse der schwersten Verletzung und deren Einfluss auf den Marktwert
     - **Verletzungsübersicht:** Alle Verletzungen des Spielers und deren Impact auf den Marktwert
+    - **Vertragsrisikoanalyse:** Basierend auf durchschnittlicher Verletzungsdauer und Marktwert eine Einschätzung des finanziellen Risikos und konkrete Empfehlung
     """)
     st.divider()
     
     st.info("""
-    💡 **So nutzt du die Suche:**
+    **So nutzt du die Suche:**
     1. **Spieler analysieren:** Suche links nach einem Spieler (z.B. Neymar). Du siehst sofort seinen Marktwert-Verlauf.
     2. **Verletzung isolieren:** Wähle rechts im Dropdown eine seiner spezifischen Verletzungen aus. Das System blendet dann nur diese Verletzung im Chart ein, damit du exakt den Marktwert-Drop nach dieser Phase studieren kannst.
     3. **Katalog durchsuchen:** Wenn kein Spieler gewählt ist, kannst du rechts nach einer bestimmten Verletzung suchen, um alle betroffenen Spieler im Katalog anzuzeigen.
-    """)
+    """, icon="💡")
     st.divider()
     
     # --- New Unified Search Area ---
-    st.markdown("### 🔍 Suche & Analyse")
+    st.subheader("🔍 Suche & Analyse")
     sc1, sc2 = st.columns(2)
+    if 'risk_selected_player' not in st.session_state:
+        st.session_state['risk_selected_player'] = None
+
     with sc1:
         player_options_local = sorted(player_options_map.keys())
-        sel_p = st.multiselect(
+        
+        def on_player_select():
+            """Callback: Aktualisiert Session State nur wenn Widget sich ändert"""
+            selection = st.session_state.player_search_widget
+            st.session_state['risk_selected_player'] = selection[0] if selection else None
+        
+        st.multiselect(
             "👤 Spieler suchen",
             options=player_options_local,
-            default=[st.session_state['risk_selected_player']] if st.session_state['risk_selected_player'] and st.session_state['risk_selected_player'] in player_options_local else [],
+            default=[st.session_state['risk_selected_player']] if st.session_state['risk_selected_player'] in player_options_local else [],
             max_selections=1,
-            help="Wähle einen Spieler aus, um seinen detaillierten Steckbrief zu sehen."
+            help="Wähle einen Spieler aus, um seinen detaillierten Steckbrief zu sehen.",
+            key='player_search_widget',  # ← Widget-Key für Session State
+            on_change=on_player_select   # ← Callback nur bei echten Änderungen
         )
-        st.session_state['risk_selected_player'] = sel_p[0] if sel_p else None
         
     with sc2:
         current_p = st.session_state['risk_selected_player']
@@ -2352,7 +2438,7 @@ with tab_market_risk:
             p_data = p_info.iloc[0]
             
             # --- Spieler-Steckbrief Layout ---
-            st.markdown(f"## 👤 Spieler-Steckbrief: {p_data['name']}")
+            st.markdown(f"### 👤 Spieler-Steckbrief: {p_data['name']}")
             
             prof_col1, prof_col2 = st.columns([0.8, 3.2])
             
@@ -2572,6 +2658,58 @@ with tab_market_risk:
                     st.info("Keine ausreichenden Daten für eine detaillierte Delta-Analyse vorhanden.")
                 
                 st.divider()
+                st.subheader("💼 Vertragsrisikoanalyse")
+                st.markdown("""
+                Diese Analyse bewertet das **Verletzungsrisiko** anhand historischer Ausfallzeiten und 
+                quantifiziert die finanzielle Auswirkung auf den Marktwert über eine typische 5-Jahres-Karriereerwartung.
+                """)
+                
+                # Alle Verletzungsdaten des Spielers laden
+                player_all_data = df[df['player_id'] == selected_pid]
+                player_market_value = p_info['market_value_in_eur'].iloc[0] if not p_info.empty else 0
+                
+                risk_metrics = calculate_contract_risk(player_all_data, player_market_value)
+                
+                if risk_metrics:
+                    # Metriken-Display
+                    col1, col2, col3 = st.columns(3)
+                    with col1:
+                        st.metric(
+                            "💰 Kapitalverlust durch Ausfalltage",
+                            f"€{risk_metrics['financial_impact']:,.0f}".replace(",", "."),
+                            f"{-risk_metrics['risk_percentage']:.1f}% vom Marktwert"
+                        )
+                    
+                    with col2:
+                        st.metric(
+                            "⏱️ Ø Ausfalltage pro Verletzung",
+                            f"{risk_metrics['avg_days_per_injury']:.1f}",
+                            help=f"{risk_metrics['total_injuries']} Verletzungen total"
+                        )
+                    
+                    with col3:
+                        st.metric(
+                            "📊 Ø Geschätzter jährlicher Wertverlust",
+                            f"€{risk_metrics['annual_impact']:,.0f}".replace(",", "."),
+                            help="über eine 5-Jahres-Karriere hochgerechnet"
+                        )
+                    
+                    # Risiko-Level & Empfehlung
+                    col_risk1, col_risk2 = st.columns([1.5, 2.5])
+                    
+                    with col_risk1:
+                        # Farbige Box für Risiko-Level
+                        if risk_metrics['risk_color'] == 'red':
+                            st.error(f"**{risk_metrics['risk_level']}**")
+                        elif risk_metrics['risk_color'] == 'orange':
+                            st.warning(f"**{risk_metrics['risk_level']}**")
+                        else:
+                            st.success(f"**{risk_metrics['risk_level']}**")
+                    
+                    with col_risk2:
+                        st.info(risk_metrics['contract_action'])
+                else:
+                    st.warning("Marktwertdaten nicht verfügbar für Risikoanalyse.")
         else:
             st.warning(f"Keine Marktwert-Historie für '{p_name}' gefunden. Eventuell weicht der Name in der Transfermarkt-Datenbank leicht ab.")
     elif selected_injury_risk != "Alle Verletzungen":
@@ -2730,11 +2868,19 @@ with tab_market_risk:
         st.info("💡 Wähle eine Verletzung aus, um den Marktwert-Katalog zu sehen, oder suche direkt nach einem Spieler.")
 
 with tab_simulator:
+    st.header("🔮 Verletzungs-Simulator: Marktwert-Auswirkung")
     st.markdown("""
-    ### 🔮 Verletzungs-Simulator (Marktwert-Auswirkung)
-    **Für wen?** Sportdirektoren, CFOs und Manager.
-    
-    **Warum?** Um das finanzielle Risiko (Marktwertverlust) einer spezifischen Verletzung für einen Spieler-Archetypen quantitativ vorherzusagen und datenbasierte Entscheidungen (z.B. bei Transfers oder Verträgen) zu treffen.
+    **Für wen?**
+    - Sportdirektor
+    - Scouts
+    - CFO / Club-Manager
+                
+    **Was sieht man?**
+    - **Machine Learning-Prognose:** Vorhersage des Marktwertverlusta bei einer hypothetischen Verletzung
+    - **Spielerspezifische Simulation:** Basierend auf Spielerdaten (Alter, Position, Liga, Historie)
+    - **Generischer Simulator:** Manuelle Parametereingabe für theoretische Szenarien
+    - **SHAP-Explainability:** Verständnis, welche Faktoren die Vorhersage treiben
+    - **Vertragsverhandlung:** Finanzielle Risikobewertung für Vertragsverhandlungen
     """)
     st.divider()
 
@@ -2804,7 +2950,10 @@ with tab_simulator:
             > Suche einen konkreten Spieler aus dem Datensatz. Seine Daten werden automatisch übernommen. 
             > Du wählst nur noch die **hypothetische Verletzung** aus.
             """)
-            
+            def on_player_select():
+                """Callback: Aktualisiert Session State nur wenn Widget sich ändert"""
+                selection = st.session_state.player_search_widget
+                st.session_state['risk_selected_player'] = selection[0] if selection else None
             # Spieler-Suche – gleicher Stil wie im Marktwert-Tab (Multiselect)
             player_options_local_sim = sorted(player_options_map.keys())
             sel_sim_p = st.multiselect(
@@ -2813,8 +2962,10 @@ with tab_simulator:
                 default=[],
                 max_selections=1,
                 help="Wähle einen Spieler aus, um seinen Steckbrief und eine Verletzungs-Simulation zu sehen.",
-                key="sim_player_multiselect"
-            )
+                key="sim_player_multiselect",
+                on_change=on_player_select
+                )   
+
             
             sim_selected_player_id = player_options_map.get(sel_sim_p[0]) if sel_sim_p else None
             
@@ -2845,7 +2996,7 @@ with tab_simulator:
                     p_prev_days = int(player_injuries['Days'].fillna(0).sum())
                     
                     # --- Spieler-Steckbrief (identisch zum Marktwert-Tab) ---
-                    st.markdown(f"## 👤 Spieler-Steckbrief: {p_name}")
+                    st.markdown(f"### 👤 Spieler-Steckbrief: {p_name}")
                     
                     if not player_info.empty:
                         p_data = player_info.iloc[0]
