@@ -1,79 +1,120 @@
-# Verletzunganalyse App
+# Europäische Fussballverletzungen (2020-2025)
 
-Dieses Projekt analysiert europäische Fussball-Verletzungen von 2020 bis 2025.
+Ein Business Intelligence Dashboard mit Machine Learning zur umfassenden Analyse von Verletzungsmustern im europäischen Profifussball. Das Projekt basiert auf der **CPA Management Accounting Guideline** für datengesteuerte Entscheidungen.
+
+Diese Fallstudie wurde im Rahmen des Moduls BINA im FS2026 des Masterstudiengangs Wirtschaftsinformatik realisiert.
+
+## Features
+
+- 📊 **Interaktives Dashboard** mit mehreren Analyse-Perspektiven
+- 🏥 **Verletzungsanalyse** nach Körperregion, Position und Saison
+- 📈 **Trend- und Zeitvergleich** (z.B. Impact von WM/EM)
+- 🔮 **Machine Learning Simulator** zur Vorhersage von Marktwertverlusten nach Verletzungen
+- 🧠 **SHAP-Erklärbarkeit** für transparente ML-Vorhersagen
+- 📚 **Umfassende Dokumentation** der BINA-Methodik
 
 ## Voraussetzungen
 
 - uv installiert: https://docs.astral.sh/uv/getting-started/installation/
 - Python 3.11 (wird automatisch durch uv bereitgestellt)
+- git lfs
 
-## Setup mit uv
+## Installation
 
-Es gibt zwei mögliche Wege für die Installation:
+### 1. Daten über git lfs herunterladen
 
-1. Direkter uv-Workflow (empfohlen):
+```bash
+git lfs install
+git lfs pull
+```
+
+### 2. Abhängigkeiten installieren
 
 ```bash
 uv sync
 ```
 
-Bei OneDrive-Pfaden kann `uv sync` mit Hardlink-Fehlern scheitern. Dann stattdessen:
+Falls `uv sync` mit Hardlink-Fehlern bei OneDrive-Pfaden scheitert:
 
 ```bash
 uv sync --link-mode=copy
 ```
 
-2. Setup-Skript:
+## Verwendung
 
-```bash
-uv run install.py
-```
-
-Beide Varianten erstellen/verwenden `.venv` und installieren alle benötigten Pakete.
-
-Abhängigkeiten werden ausschliesslich aus `pyproject.toml` gelesen.
-
-## Virtuelle Umgebung aktivieren
-
-PowerShell (Windows):
-
-```powershell
-.\.venv\Scripts\Activate.ps1
-```
-
-macOS/Linux:
-
-```bash
-source .venv/bin/activate
-```
-
-## Applikation starten
-
-Datensatz zuerst bereinigen:
+### Datensatz vorbereiten (einmalig)
 
 ```bash
 uv run python data_clean.py
 ```
 
-Dieser Schritt erstellt/aktualisiert `cleaned_dataset_final.csv`, das vom Dashboard geladen wird.
+Dieser Schritt bereinigt die Rohdaten und erstellt `Data/cleaned_dataset_final.csv`.
 
-Streamlit Seite:
+### Machine Learning Modell trainieren (optional, da trainiertes Modell schon dabei ist)
+
+```bash
+uv run python machine_learning/train_model.py
+```
+
+Trainiert das XGBoost-Modell für Marktwert-Vorhersagen und speichert es in `machine_learning/models/`.
+
+### Dashboard starten
 
 ```bash
 uv run streamlit run Home.py
 ```
 
-Analyse-Skript (optional):
+Das Dashboard öffnet sich im Browser und bietet folgende Seiten:
 
-```bash
-uv run python analyze_injuries.py
-```
+- **Home**: Übersicht und Navigation
+- **Dokumentation**: Detaillierte Beschreibung der Methodik
+- **Dashboard**: Interaktive Analysen
+  - Zeitvergleich & Trends
+  - Spielfeldanalyse
+  - Körperregionanalyse
+  - Verletzungs-Simulator (ML)
 
 ## Projektstruktur
 
-- `dashboard.py`: Interaktives Streamlit-Dashboard für Visualisierungen.
-- `analyze_injuries.py`: Statistische Analyse und Erstellung von Grafiken.
-- `install.py`: Setup-Skript für uv + Python 3.11 + Installation.
-- `pyproject.toml`: uv-Projektkonfiguration und Python-Version.
-- `output/`: Ausgabeordner für generierte Grafiken.
-- `Data/`: Input-Daten als csv.
+```
+├── Home.py                          # Streamlit Einstiegspunkt
+├── data_clean.py                    # Datenbereinigungs-Pipeline
+├── pages/
+│   ├── 1_Dokumentation.py           # BINA-Fallstudie Dokumentation
+│   └── 2_Dashboard.py               # Hauptanalyse-Dashboard
+├── machine_learning/
+│   ├── train_model.py               # ML-Modell Training
+│   ├── ml_predict.py                # Vorhersage-Modul
+│   ├── README_ML.md                 # ML-Dokumentation
+│   └── models/                      # Trainierte Modelle (pkl-Dateien)
+├── scripts/
+│   ├── analyze_injuries.py          # Detaillierte Analyse-Skripte
+│   └── ...                          # Weitere Utility-Skripte
+├── Data/
+│   ├── cleaned_dataset_final.csv    # Prozessierter Datensatz
+│   └── ...                          # Rohdaten (CSV)
+├── reports/                         # Generierte Reports und Duplikat-Analysen
+├── output/                          # Generierte Grafiken und Outputs
+├── tests/                           # Unit-Tests
+├── pyproject.toml                   # Projekt-Dependencies und uv-Konfiguration
+└── README.md                        # Diese Datei
+```
+
+## Technologie-Stack
+
+- **Streamlit**: Web-Framework für interaktive Dashboards
+- **Pandas**: Datenmanipulation und -analyse
+- **XGBoost**: Machine Learning für Vorhersagen
+- **SHAP**: Explainable AI für Modell-Interpretierbarkeit
+- **Plotly**: Interaktive Datenvisualisierung
+- **Scikit-learn**: ML-Utilities und Preprocessing
+
+## Datensätze
+
+Das Projekt nutzt folgende externe Quellen:
+
+> Sanan Muzaffarov. (2026). European Football Injuries (2020-2025) [Data set]. Kaggle.
+
+> David Cariboo. (2026). Football Data from Transfermarkt [Data set]. Kaggle.
+
+Weitere Informationen zur Datenstruktur und Klassifikation finden sich in der **Dokumentation** im Dashboard.
