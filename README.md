@@ -17,7 +17,8 @@ Diese Fallstudie wurde im Rahmen des Moduls BINA im FS2026 des Masterstudiengang
 
 - uv installiert: https://docs.astral.sh/uv/getting-started/installation/
 - Python 3.11 (wird automatisch durch uv bereitgestellt)
-- git lfs
+- git lfs: https://git-lfs.com/
+- (Nur MacOS) libomp: brew install libomp
 
 ## Installation
 
@@ -26,6 +27,7 @@ Diese Fallstudie wurde im Rahmen des Moduls BINA im FS2026 des Masterstudiengang
 ```bash
 git lfs install
 git lfs pull
+git lfs checkout
 ```
 
 ### 2. Abhängigkeiten installieren
