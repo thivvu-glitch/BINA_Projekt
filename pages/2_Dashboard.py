@@ -160,7 +160,7 @@ if 'filter_club' not in st.session_state:
 if 'filter_leagues' not in st.session_state:
     st.session_state['filter_leagues'] = sorted(df['league'].dropna().unique().tolist())
 if 'filter_seasons' not in st.session_state:
-    st.session_state['filter_seasons'] = [DEFAULT_SEASON] if DEFAULT_SEASON in season_options else season_options
+    st.session_state['filter_seasons'] = season_options
 if 'filter_players' not in st.session_state:
     st.session_state['filter_players'] = []
 if 'risk_display_count' not in st.session_state:
@@ -172,7 +172,7 @@ if 'dddm_selected_player' not in st.session_state:
 if 'dddm_filter_club' not in st.session_state:
     st.session_state['dddm_filter_club'] = "Alle Clubs"
 if 'dddm_filter_seasons' not in st.session_state:
-    st.session_state['dddm_filter_seasons'] = [DEFAULT_SEASON] if DEFAULT_SEASON in season_options else season_options
+    st.session_state['dddm_filter_seasons'] = season_options
 if 'dddm_filter_leagues' not in st.session_state:
     st.session_state['dddm_filter_leagues'] = sorted(df['league'].dropna().unique().tolist())
 
@@ -338,11 +338,11 @@ tab_labels = [
     # "Verletzungsvergleich",
     "Zeitvergleich & Trends",
     # "Tabellen",
-    "Karten",    
-    "Bodymap",
-    "DDDM Entscheidungen",
-    "Marktwert & Risiko-Analyse",
-    "Verletzungs-Simulator"
+    "Spielfeldanalyse",    
+    "Körperregionanalyse",
+    "Clubanalyse",
+    "Marktwert- & Risikoanalyse",
+    "Verletzungssimulator"
 ]
 
 # Ensure active_tab is in session state and handle redirection
@@ -359,7 +359,7 @@ def update_tab_url():
     """Updates the URL query parameters when a tab is clicked."""
     st.query_params["tab"] = st.session_state["active_dashboard_tab"]
 
-tab_trends, tap_maps, tab_bodymap, tab_dddm, tab_market_risk, tab_simulator = st.tabs(
+tab_trends, tab_maps, tab_bodymap, tab_dddm, tab_market_risk, tab_simulator = st.tabs(
     tab_labels, 
     key="active_dashboard_tab",
     on_change=update_tab_url
@@ -522,10 +522,17 @@ if False:
             )
 
 with tab_trends:
+    st.header("📈 Zeitvergleich & Trends")
     st.markdown("""
-    ### 📈 Strategische Trend-Analyse & Belastungssteuerung
-    **Für wen?** Sportdirektoren, Trainer und medizinische Abteilungen. 
-    **Warum?** Um zu verstehen, ob Grossturniere (WM/EM) das Verletzungsrisiko erhöhen und wie sich die Ausfallzeiten über die Saisons entwickeln, um Kader-Ressourcen besser zu planen.
+    **Für wen?**
+                
+    * Sportdirektoren
+    * Trainer
+    * medizinische Abteilungen
+
+    **Warum?**
+    
+    Um zu verstehen, ob Grossturniere (WM/EM) das Verletzungsrisiko erhöhen und wie sich die Ausfallzeiten über die Saisons entwickeln, um Kader-Ressourcen besser zu planen.
     """)
     st.divider()
     
@@ -534,12 +541,12 @@ with tab_trends:
     st.markdown("Erstelle zwei individuelle Spielergruppen (Kohorten), um deren Verletzungsmuster direkt miteinander zu vergleichen. Dies ermöglicht die Analyse von Turnier-Belastungen als auch direkte Vergleiche zwischen Ligen oder Saisons.")
     
     st.info("""
-    💡 **Anleitung zur Konfiguration der Analyse-Gruppen:**
-    * **Turnier-Analyse:** Wähle in Kohorte A ein Turnier (z.B. WM 2022) und in Kohorte B 'Keine Turnierteilnahme'. Aktiviere das 'Stratified Matching', um eine statistisch faire Vergleichsgruppe (gleiche Ligen & Positionen) zu generieren.
+    **Anleitung zur Konfiguration der Analyse-Gruppen:**
+    * **Turnier-Analyse:** Wähle in Kohorte A ein Turnier (z. B. WM 2022) und in Kohorte B 'Keine Turnierteilnahme'. Aktiviere das 'Stratified Matching', um eine statistisch faire Vergleichsgruppe (gleiche Ligen & Positionen) zu generieren.
     * **Ligen- oder Saison-Vergleich:** Wähle bei beiden Kohorten im Turnierfilter **'Alle Spieler'**. Konfiguriere dann die Ligen und Saisons nach Belieben (z.B. Kohorte A: Premier League, Kohorte B: Bundesliga). *Wichtig: Deaktiviere in diesem Fall das 'Stratified Matching', da du alle Spieler der gewählten Liga sehen willst.*
-    """)
+    """, icon="💡")
     
-    st.markdown("### ⚙️ Setup für Kohorten-Vergleich")
+    st.markdown("#### ⚙️ Setup für Kohorten-Vergleich")
     with st.container():
         c1, c2 = st.columns(2)
         
@@ -690,7 +697,7 @@ with tab_trends:
             if total_b > 0 and use_randomizer:
                 exact_pct = int((exact_match_count / total_b) * 100)
                 f1_pct = int((fallback_1_count / total_b) * 100)
-                st.info(f"ℹ️ **Matching-Qualität:** {exact_pct}% Exakter Ersatz (Gleiche Liga, Position & Marktwert-Klasse), {f1_pct}% Fallback (Nur gleiche Liga & Position).")
+                st.info(f"**Matching-Qualität:** {exact_pct}% Exakter Ersatz (Gleiche Liga, Position & Marktwert-Klasse), {f1_pct}% Fallback (Nur gleiche Liga & Position).", icon="ℹ️")
 
             df_a_show = players_info_df[players_info_df['player_id'].isin(players_a)][['player_id', 'name', 'market_value_in_eur']].drop_duplicates('player_id')
             df_b_show = players_info_df[players_info_df['player_id'].isin(players_b)][['player_id', 'name', 'market_value_in_eur']].drop_duplicates('player_id')
@@ -801,7 +808,7 @@ with tab_trends:
     else:
         st.info("Keine Daten für diesen Vergleich verfügbar.")
 
-    st.subheader("Verletzungsentwicklung über die Saisons")
+    st.markdown("#### 📆 Verletzungsentwicklung über die Saisons")
     st.markdown("Diese Grafiken zeigen die zeitliche Entwicklung über die verfügbaren Saisons. Im ersten Diagramm ist die **absolute Anzahl der Verletzungen** pro Saison und Liga dargestellt. Im zweiten Diagramm sehen Sie die **gesamten Ausfalltage**, die durch diese Verletzungen verursacht wurden. So lässt sich nicht nur erkennen, ob Verletzungen häufiger geworden sind, sondern auch, ob deren Schweregrad (anhand der Ausfalltage) zu- oder abgenommen hat.")
     
     season_counts = compare_df.groupby(['Season', 'Label']).size().reset_index(name='Anzahl')
@@ -859,7 +866,7 @@ with tab_trends:
     else:
         st.info("Keine Daten für diesen Vergleich verfügbar.")
 
-    st.subheader("Automatisches Fazit zum Ligenvergleich")
+    st.subheader("🔎 Fazit zum Ligenvergleich")
     if len(selected_leagues) >= 2 and not filtered_df.empty:
         most_injuries_league = filtered_df['league'].value_counts().idxmax()
         most_severe_league = filtered_df.groupby('league')['Days'].mean().idxmax()
@@ -935,8 +942,8 @@ if False:
                         st.dataframe(display_df, use_container_width=True, hide_index=True)
 
 def render_local_filters(tab_prefix):
-    st.info("💡 **Kurzanleitung:** Nutze den Turnierfilter, um gezielt die Verletzungen einer WM/EM-Kohorte (z. B. WM 2022) zu analysieren oder wähle 'Alle Spieler' für eine allgemeine Liga-Übersicht. Über den Saison-Filter kannst du den Zeitraum anpassen, um z. B. die Belastung während einer Turniersaison im Vergleich zu anderen Jahren zu untersuchen. Alle Grafiken passen sich sofort deiner Auswahl an.")
-    st.markdown("### ⚙️ Filter (Turnier & Saison)")
+    st.info("**Kurzanleitung:** Nutze den Turnierfilter, um gezielt die Verletzungen einer WM/EM-Kohorte (z. B. WM 2022) zu analysieren oder wähle 'Alle Spieler' für eine allgemeine Liga-Übersicht. Über den Saison-Filter kannst du den Zeitraum anpassen, um z. B. die Belastung während einer Turniersaison im Vergleich zu anderen Jahren zu untersuchen. Alle Grafiken passen sich automatisch deiner Auswahl an.", icon="💡")
+    st.markdown("#### ⚙️ Filter (Turnier & Saison)")
     with st.container():
         col1, col2 = st.columns(2)
         with col1:
@@ -988,10 +995,10 @@ def open_bodymap_dialog(league, position, df):
         display_df = display_df.sort_values('Ausfalltage', ascending=False)
         st.dataframe(display_df, use_container_width=True, hide_index=True)
 
-@st.dialog("Spielfeld Details", width="large")
+@st.dialog("Spielfeld-Details", width="large")
 def open_soccermap_dialog(league, body_part, df):
     # To translate the body part back to readable text if needed
-    st.subheader(f"Positionen mit Verletzung: {body_part} ({league})")
+    st.subheader(f"Positionen mit Verletzung in der {league}: {body_part}")
     
     # Check if the clicked part was from the legend
     # if body_part in legend_category_mapping values ... wait, body_categories vs legend
@@ -1246,7 +1253,7 @@ def create_bodymap(data_df, global_min, global_max):
         text="<b>Kategorien</b>",
         showarrow=False,
         xanchor="left",
-        font=dict(size=14, color="#0F172A")
+        font=dict(size=14, color="#475569")
     )
     
     visible_index = 0
@@ -1283,11 +1290,11 @@ def create_bodymap(data_df, global_min, global_max):
             hovertemplate=(
                 "<b>%{customdata[0]}</b><br>"
                 "Anzahl: %{customdata[1]}<br>"
-                "Ausfalltage: %{customdata[4]}"
+                "Ausfalltage insgesamt: %{customdata[4]}"
                 "<extra></extra>"
             ),
             marker=dict(
-                size=22,
+                size=30,
                 color=[count],
                 colorscale=colorscale,
                 cmin=min_count,
@@ -1337,7 +1344,7 @@ def create_bodymap(data_df, global_min, global_max):
             "<extra></extra>"
         ),
         marker=dict(
-            size=22,                    
+            size=30,                    
             color=body_counts["injury_count"],
             colorscale=colorscale,
             cmin=min_count,
@@ -1374,9 +1381,9 @@ def create_soccer_map(data_df, global_min, global_max):
         "Centre-Back": (20, 40),
         "Right-Back": (20, 15),
 
-        "Defensive Midfield": (40, 40),
+        "Defensive Midfield": (37, 40),
         "Central Midfield": (55, 40),
-        "Attacking Midfield": (70, 40),
+        "Attacking Midfield": (73, 40),
         "Midfielder": (55, 52),
 
         "Left Midfield": (52, 65),
@@ -1442,27 +1449,27 @@ def create_soccer_map(data_df, global_min, global_max):
     )
 
     shapes = [
-        dict(type="rect", x0=0, y0=0, x1=120, y1=80, line=dict(color="white", width=3)),  # soccer field
-        dict(type="line", x0=60, y0=0, x1=60, y1=80, line=dict(color="white", width=3)),  # halfway line
-        dict(type="circle", x0=50, y0=30, x1=70, y1=50, line=dict(color="white", width=3)),  # center circle
-        dict(type="circle", x0=59, y0=39, x1=61, y1=41, line=dict(color="white", width=2), fillcolor="white"),  # center mark
+        dict(type="rect", x0=0, y0=0, x1=120, y1=80, line=dict(color="white", width=3), layer="below"),  # soccer field
+        dict(type="line", x0=60, y0=0, x1=60, y1=80, line=dict(color="white", width=3), layer="below"),  # halfway line
+        dict(type="circle", x0=50, y0=30, x1=70, y1=50, line=dict(color="white", width=3), layer="below"),  # center circle
+        dict(type="circle", x0=59, y0=39, x1=61, y1=41, line=dict(color="white", width=2), fillcolor="white", layer="below"),  # center mark
 
-        dict(type="rect", x0=0, y0=18, x1=18, y1=62, line=dict(color="white", width=3)),  # goal area left
-        dict(type="rect", x0=102, y0=18, x1=120, y1=62, line=dict(color="white", width=3)),  # goal area right
+        dict(type="rect", x0=0, y0=18, x1=18, y1=62, line=dict(color="white", width=3), layer="below"),  # goal area left
+        dict(type="rect", x0=102, y0=18, x1=120, y1=62, line=dict(color="white", width=3), layer="below"),  # goal area right
 
-        dict(type="rect", x0=0, y0=30, x1=6, y1=50, line=dict(color="white", width=3)),  # penalty area left
-        dict(type="rect", x0=114, y0=30, x1=120, y1=50, line=dict(color="white", width=3)),  # penalty area right
+        dict(type="rect", x0=0, y0=30, x1=6, y1=50, line=dict(color="white", width=3), layer="below"),  # penalty area left
+        dict(type="rect", x0=114, y0=30, x1=120, y1=50, line=dict(color="white", width=3), layer="below"),  # penalty area right
 
-        dict(type="circle", x0=10, y0=39, x1=12, y1=41, line=dict(color="white", width=2), fillcolor="white"),  # penalty mark left
-        dict(type="circle", x0=108, y0=39, x1=110, y1=41, line=dict(color="white", width=2), fillcolor="white"),  # penalty mark right
+        dict(type="circle", x0=10, y0=39, x1=12, y1=41, line=dict(color="white", width=2), fillcolor="white", layer="below"),  # penalty mark left
+        dict(type="circle", x0=108, y0=39, x1=110, y1=41, line=dict(color="white", width=2), fillcolor="white", layer="below"),  # penalty mark right
 
-        dict(type="path", path="M 18,32 Q 25,40 18,48", line_color="white",),  # penalty arc left
-        dict(type="path", path="M 102,32 Q 95,40 102,48", line_color="white",),  # penalty arc right
+        dict(type="path", path="M 18,32 Q 25,40 18,48", line_color="white", layer="below"),  # penalty arc left
+        dict(type="path", path="M 102,32 Q 95,40 102,48", line_color="white", layer="below"),  # penalty arc right
 
-        dict(type="path", path="M 0,76 Q 4,76 4,80", line_color="white",),  # corner arc top left
-        dict(type="path", path="M 0,4 Q 4,4 4,0", line_color="white",),  # corner arc down left
-        dict(type="path", path="M 120,76 Q 116,76 116,80", line_color="white",),  # corner arc top right
-        dict(type="path", path="M 120,4 Q 116,4 116,0", line_color="white",),  # corner arc bottom right
+        dict(type="path", path="M 0,76 Q 4,76 4,80", line_color="white", layer="below"),  # corner arc top left
+        dict(type="path", path="M 0,4 Q 4,4 4,0", line_color="white", layer="below"),  # corner arc down left
+        dict(type="path", path="M 120,76 Q 116,76 116,80", line_color="white", layer="below"),  # corner arc top right
+        dict(type="path", path="M 120,4 Q 116,4 116,0", line_color="white", layer="below"),  # corner arc bottom right
     ]
 
     fig.update_layout(shapes=shapes)
@@ -1478,8 +1485,9 @@ def create_soccer_map(data_df, global_min, global_max):
         text=injury_counts['injury_count'],
         textposition="middle center",
         textfont=dict(
-            color="white",
-            size=16
+            color="black",
+            size=16,
+            weight="bold"
         ),
         marker=dict(
             size=36,
@@ -1512,7 +1520,7 @@ def create_soccer_map(data_df, global_min, global_max):
             y=row['y'] - 6,
             text=row['player_position'],
             showarrow=False,
-            font=dict(size=11, color="white")
+            font=dict(size=11, color="black")
         )
 
     fig.update_xaxes(visible=False, range=[0, 120])
@@ -1523,10 +1531,14 @@ def create_soccer_map(data_df, global_min, global_max):
 if "previous_selections" not in st.session_state:
     st.session_state.previous_selections = {}
 dialog_already_opened = False
-with tap_maps:
+with tab_maps:
+    st.header("⚽ Spielfeldanalyse")
     st.markdown("""
-    ### ⚽ Für wen ist dieses Dashboard?
-    **Zielgruppe:** Trainer, Athletik-Trainer, Positionscoaches, Scouts
+    **Für wen?**
+    - Trainer
+    - Athletik-Trainer
+    - Positionscoaches
+    - Scouts
     
     **Was sieht man?**
     - Interaktive Feldpositionen-Visualisierung (virtueller Fussballplatz)
@@ -1534,14 +1546,15 @@ with tap_maps:
     - Positions-spezifische Verletzungsmuster
     - Betroffene Spieler pro Position
     - Strategische Insights für Aufstellung und Spielerrotation
+    - Vergleich der Verletzungsmuster während den Grossturnieren (z. B. WM/EM) und regulären Saisons
     """)
     st.divider()
     
-    st.subheader("Interaktive Karten")
+    st.subheader("🥅 Interaktives Spielfeld")
     st.markdown("Analysiere die Verletzungen der Spieler nach Position in den einzelnen Clubs.")
     st.info("""
     💡 **Kurzanleitung zur interaktiven Karte:**
-    - **Details anzeigen:** Klicke auf eine beliebige Position (z. B. Centre-Back) auf dem Spielfeld. Es öffnet sich automatisch ein neues Fenster mit einer Körperkarte und Tabelle, die dir genau zeigt, welche Körperteile bei dieser Position am häufigsten verletzt wurden.
+    - **Details anzeigen:** Klicke auf eine beliebige Position (z. B. Centre-Back) auf dem Spielfeld. Es öffnet sich ein neues Fenster mit einer Körperkarte und Tabelle, die dir genau zeigt, welche Körperteile bei der ausgewählten Position am häufigsten verletzt wurden.
     - **Fenster schliessen:** Klicke einfach auf das 'X' oben rechts oder neben das Fenster, um zur Spielfeld-Übersicht zurückzukehren.
     - **Auswahl aufheben:** Wenn du eine Position angeklickt hast, bleibt sie markiert. Mache einfach einen **Doppelklick** auf den leeren grünen Rasen, um die Auswahl aufzuheben und die Karte zurückzusetzen.
     """)
@@ -1655,24 +1668,27 @@ with tab_bodymap:
     import pandas as pd
     import plotly.graph_objects as go
 
+    st.header("🦵 Körperregionanalyse")
     st.markdown("""
-    ### 🦵 Für wen ist dieses Dashboard?
-    **Zielgruppe:** Medizinisches Personal, Physiotherapeuten, Sportmediziner, Forscher
+    **Für wen?**
+    - Medizinisches Personal
+    - Physiotherapeuten
+    - Sportmediziner
+    - Forscher
 
     **Was sieht man?**
     - Verletzungen nach Körperregion (Muskeln, Knie, Knöchel, etc.)
-    - Anatomische Schwachpunkte im Kader pro Club
+    - Anatomische Schwachpunkte pro Liga für gezielte Präventions- und Rehabilitationsmassnahmen
     - Häufigste Verletzungstypen nach Körperteil
-    - Ressourcenallokation für Sportverletzungsbehandlung
-    - Präventions- und Rehabilitations-Schwerpunkte
+    - Vergleich der Verletzungsmuster während den Grossturnieren (z. B. WM/EM) und regulären Saisons
     """)
     st.divider()
 
-    st.subheader("Interaktive Körperkarte")
-    st.markdown("Analysiere die Verletzungen der Spieler durch ihre körperliche Position.")
+    st.subheader("🧍‍♂️ Interaktive Körperkarte")
+    st.markdown("Analysiere die Verletzungen der Spieler anhand der Körperregionen.")
     st.info("""
     💡 **Kurzanleitung zur interaktiven Körperkarte:**
-    - **Details anzeigen:** Klicke auf ein beliebiges Körperteil (z. B. Knie) am Strichmännchen oder auf einen Punkt in der Legende. Es öffnet sich automatisch ein neues Fenster mit einem Spielfeld und einer Tabelle, die dir exakt zeigt, auf welchen Spielerpositionen diese Verletzung am häufigsten auftritt.
+    - **Details anzeigen:** Klicke auf ein beliebiges Körperteil (z. B. Knie) am Körper oder auf einen Punkt in der Legende. Es öffnet sich ein neues Fenster mit einem Spielfeld und einer Tabelle, die dir exakt zeigt, auf welchen Spielerpositionen diese Verletzung am häufigsten auftritt.
     - **Fenster schliessen:** Klicke einfach auf das 'X' oben rechts oder neben das Fenster, um zur Bodymap-Übersicht zurückzukehren.
     - **Auswahl aufheben:** Wenn du ein Körperteil angeklickt hast, bleibt es markiert. Mache einfach einen **Doppelklick** auf einen leeren Bereich neben dem Strichmännchen, um die Auswahl aufzuheben und die Karte zurückzusetzen.
     """)
@@ -1680,7 +1696,7 @@ with tab_bodymap:
     body_df = render_local_filters("bodymap")
 
     if body_df.empty:
-        st.info("Keine Daten für die aktuelle Club-/Liga-/Saison-Auswahl in der Körperkarte verfügbar.")
+        st.info("Keine Daten für die aktuelle Saison-Auswahl in der Körperkarte verfügbar.")
 
     if not body_df.empty:
         league_body_df = body_df[body_df["injury_category"].isin(body_categories)].copy()
@@ -1776,23 +1792,24 @@ with tab_dddm:
 
     def checkSeason(seasons_to_check=None):
         seasons_to_check = seasons_to_check if seasons_to_check is not None else selected_seasons
-        if any(season_start_year(season) < season_start_year(DEFAULT_SEASON) for season in seasons_to_check):
+        if any(season_start_year(season) < season_start_year(DEFAULT_SEASON[0]) for season in seasons_to_check):
             return st.warning(
                 "Du hast ältere Saisons als 24/25 ausgewählt. Die Kaderzusammensetzung kann dadurch vom aktuellen Kader abweichen, "
                 "weil Transfers, Abgänge und Neuzugänge nicht mehr exakt dem heutigen Team entsprechen."
             , icon="⚠️")
-        
+
+    st.header("💼 Clubanalyse")    
     st.markdown("""
-    ### 💼 Für wen ist dieses Dashboard?
-    **Zielgruppe:** Club-Führung, Geschäftsführer, Sportdirektor, CFO, Contract Manager
+    **Für wen?**
+    - Club-Manager
+    - CEO / CFO
+    - Sportdirektor
+    - Medizinisches Personal
     
     **Was sieht man?**
-    - **Finanzielle Risikobewertung:** Marktwert vs. Verletzungshäufigkeit pro Spieler
-    - **Squad-Wertanalyse:** Gesamte Kader-Risikoexposition in Echtgeld
-    - **Vertragsentscheidungen:** Investitionsrisiken für Verlängerungen
+    - **Verletzungsübersicht:** Häufigste Verletzungen mit den höchsten Ausfalltage anhand der gesetzten Filter
     - **Ressourcenplanung:** Budget-Allokation für Medizin und Prävention
     - **Capital Project Appraisal (CPA):** ROI von medizinischen Investitionen
-    - **Strategische Kader-Entscheidungen:** Spielertransfers und Vertragsstrukturen
     """)
     st.divider()
     if False: # Temporär deaktiviert
@@ -1859,109 +1876,109 @@ with tab_dddm:
             """)
         st.divider()
     
-    st.subheader("📊 DDDM: Risikoanalyse für Kadermanagement")
-    st.markdown("""
-    **Anwendungsfall:** Soll der Vertrag eines Spielers verlängert werden?
-    Diese prädiktive Metrik berechnet einen Risiko-Score basierend auf historischen Ausfalltagen, um finanzielle Fehlinvestitionen zu vermeiden.
-    """)
-    
-    # --- Background Filter Logic (Tab-spezifisch) ---
-    dddm_filtered_df_bg = df.copy()
-    if st.session_state.get('dddm_filter_club', 'Alle Clubs') != "Alle Clubs":
-        dddm_filtered_df_bg = dddm_filtered_df_bg[dddm_filtered_df_bg['club'] == st.session_state['dddm_filter_club']]
-    if st.session_state.get('dddm_filter_seasons', []):
-        dddm_filtered_df_bg = dddm_filtered_df_bg[dddm_filtered_df_bg['Season'].isin(st.session_state['dddm_filter_seasons'])]
-    if st.session_state.get('dddm_filter_leagues', []):
-        dddm_filtered_df_bg = dddm_filtered_df_bg[dddm_filtered_df_bg['league'].isin(st.session_state['dddm_filter_leagues'])]
+    if False: # Deaktiviert
+        st.subheader("📊 Risikoanalyse des ausgewählten Spielers")
+        st.markdown("""
+        **Anwendungsfall:** Diese prädiktive Metrik berechnet einen Risiko-Score basierend auf historischen Ausfalltagen, um finanzielle Fehlinvestitionen zu vermeiden.
+        """)
+        
+        # --- Background Filter Logic (Tab-spezifisch) ---
+        dddm_filtered_df_bg = df.copy()
+        if st.session_state.get('dddm_filter_club', 'Alle Clubs') != "Alle Clubs":
+            dddm_filtered_df_bg = dddm_filtered_df_bg[dddm_filtered_df_bg['club'] == st.session_state['dddm_filter_club']]
+        if st.session_state.get('dddm_filter_seasons', []):
+            dddm_filtered_df_bg = dddm_filtered_df_bg[dddm_filtered_df_bg['Season'].isin(st.session_state['dddm_filter_seasons'])]
+        if st.session_state.get('dddm_filter_leagues', []):
+            dddm_filtered_df_bg = dddm_filtered_df_bg[dddm_filtered_df_bg['league'].isin(st.session_state['dddm_filter_leagues'])]
 
-    # --- New Unified Search Area ---
-    st.markdown("### 🔍 Suche & Analyse")
-    sc1, sc2 = st.columns(2)
-    with sc1:
-        p_ids_in_bg = set(dddm_filtered_df_bg['player_id'].dropna().unique())
-        player_options_local = sorted([
-            lbl for lbl, pid in player_options_map.items() if pid in p_ids_in_bg
-        ])
-        sel_p = st.multiselect(
-            "👤 Spieler suchen",
-            options=player_options_local,
-            default=[st.session_state['dddm_selected_player']] if st.session_state['dddm_selected_player'] and st.session_state['dddm_selected_player'] in player_options_local else [],
-            max_selections=1,
-            help="Wähle einen Spieler aus, um die Risikoanalyse zu sehen."
-        )
-        st.session_state['dddm_selected_player'] = sel_p[0] if sel_p else None
-    
-    if st.session_state['dddm_selected_player'] and not dddm_filtered_df_bg.empty:
-        dddm_player_search = st.session_state['dddm_selected_player']
-        selected_pid = player_options_map.get(dddm_player_search)
-    else:
-        dddm_player_search = ""
-        selected_pid = None
-    
-    if selected_pid is not None and not dddm_filtered_df_bg.empty:
-        checkSeason(st.session_state.get('dddm_filter_seasons', [DEFAULT_SEASON]))
-        player_data = dddm_filtered_df_bg[dddm_filtered_df_bg['player_id'] == selected_pid]
+        # --- New Unified Search Area ---
+        st.markdown("### 🔍 Suche & Analyse")
+        sc1, sc2 = st.columns(2)
+        with sc1:
+            p_ids_in_bg = set(dddm_filtered_df_bg['player_id'].dropna().unique())
+            player_options_local = sorted([
+                lbl for lbl, pid in player_options_map.items() if pid in p_ids_in_bg
+            ])
+            sel_p = st.multiselect(
+                "👤 Spieler suchen",
+                options=player_options_local,
+                default=[st.session_state['dddm_selected_player']] if st.session_state['dddm_selected_player'] and st.session_state['dddm_selected_player'] in player_options_local else [],
+                max_selections=1,
+                help="Wähle einen Spieler aus, um die Risikoanalyse zu sehen."
+            )
+            st.session_state['dddm_selected_player'] = sel_p[0] if sel_p else None
+        
+        if st.session_state['dddm_selected_player'] and not dddm_filtered_df_bg.empty:
+            dddm_player_search = st.session_state['dddm_selected_player']
+            selected_pid = player_options_map.get(dddm_player_search)
+        else:
+            dddm_player_search = ""
+            selected_pid = None
+        
+        if selected_pid is not None and not dddm_filtered_df_bg.empty:
+            checkSeason(st.session_state.get('dddm_filter_seasons', season_options))
+            player_data = dddm_filtered_df_bg[dddm_filtered_df_bg['player_id'] == selected_pid]
 
-        if not player_data.empty:
-            total_days_missed = player_data['Days'].sum()
-            total_injuries = len(player_data)
-            market_value = player_data['market_value_in_eur'].iloc[0] if pd.notna(player_data['market_value_in_eur'].iloc[0]) else 0
+            if not player_data.empty:
+                total_days_missed = player_data['Days'].sum()
+                total_injuries = len(player_data)
+                market_value = player_data['market_value_in_eur'].iloc[0] if pd.notna(player_data['market_value_in_eur'].iloc[0]) else 0
 
-            if total_days_missed > 150:
-                risk_level = "Hohes Risiko 🔴"
-                action_recommendation = "Empfehlung: Vertragsverlängerung kritisch prüfen. Ggf. leistungsbezogene Verträge anbieten (Pay-per-Play)."
-            elif total_days_missed > 50:
-                risk_level = "Mittleres Risiko 🟡"
-                action_recommendation = "Empfehlung: Standardvertrag, aber enge Abstimmung mit dem medizinischen Personal für Belastungssteuerung."
-            else:
-                risk_level = "Geringes Risiko 🟢"
-                action_recommendation = "Empfehlung: Unbedenkliche Verlängerung aus medizinischer Sicht. Stabiler Asset-Value."
+                if total_days_missed > 150:
+                    risk_level = "Hohes Risiko 🔴"
+                    action_recommendation = "Empfehlung: Vertragsverlängerung kritisch prüfen. Ggf. leistungsbezogene Verträge anbieten (Pay-per-Play)."
+                elif total_days_missed > 50:
+                    risk_level = "Mittleres Risiko 🟡"
+                    action_recommendation = "Empfehlung: Standardvertrag, aber enge Abstimmung mit dem medizinischen Personal für Belastungssteuerung."
+                else:
+                    risk_level = "Geringes Risiko 🟢"
+                    action_recommendation = "Empfehlung: Unbedenkliche Verlängerung aus medizinischer Sicht. Stabiler Asset-Value."
 
-            colA, colB = st.columns(2)
-            with colA:
-                st.metric("Spieler", player_data['player_name'].iloc[0])
-                st.metric("Verletzungshistorie (Anzahl)", total_injuries)
-                st.metric("Gesamte Ausfalltage", total_days_missed)
+                colA, colB = st.columns(2)
+                with colA:
+                    st.metric("Spieler", player_data['player_name'].iloc[0])
+                    st.metric("Verletzungshistorie (Anzahl)", total_injuries)
+                    st.metric("Gesamte Ausfalltage", total_days_missed)
 
-            with colB:
-                st.metric("Marktwert", f"€{market_value:,.0f}".replace(",", "."))
-                st.info(f"**Kalkuliertes Investment-Risiko:** {risk_level}")
-                st.warning(action_recommendation)
+                with colB:
+                    st.metric("Marktwert", f"€{market_value:,.0f}".replace(",", "."))
+                    st.info(f"**Kalkuliertes Investment-Risiko:** {risk_level}")
+                    st.warning(action_recommendation)
 
-            # Financial Risk Impact
-            st.divider()
-            st.subheader("💰 Finanzielle Risikoauswirkung")
-            
-            # Calculate daily opportunity cost based on market value
-            career_years = 5  # typical remaining career value assumption
-            daily_opportunity_cost = market_value / (career_years * 365)
-            total_financial_impact = daily_opportunity_cost * total_days_missed
-            
-            risk_percentage = (total_days_missed / (career_years * 365)) * 100
-            
-            f_col1, f_col2, f_col3 = st.columns(3)
-            with f_col1:
-                st.metric(
-                    "Kapitalverlust (Ausfalltage)",
-                    f"€{total_financial_impact:,.0f}".replace(",", "."),
-                    f"{risk_percentage:.1f}% des Marktwerts"
-                )
-            
-            with f_col2:
-                avg_days_per_injury = total_days_missed / total_injuries if total_injuries > 0 else 0
-                st.metric("Ø Ausfalltage pro Verletzung", f"{avg_days_per_injury:.1f}")
-            
-            with f_col3:
-                annual_impact = (total_days_missed / ((player_data['Season'].nunique()) or 1)) * daily_opportunity_cost
-                st.metric(
-                    "Ø Jahresauswirkung",
-                    f"€{annual_impact:,.0f}".replace(",", ".")
-                )
+                # Financial Risk Impact
+                st.divider()
+                st.subheader("💰 Finanzielle Risikoauswirkung")
+                
+                # Calculate daily opportunity cost based on market value
+                career_years = 5  # typical remaining career value assumption
+                daily_opportunity_cost = market_value / (career_years * 365)
+                total_financial_impact = daily_opportunity_cost * total_days_missed
+                
+                risk_percentage = (total_days_missed / (career_years * 365)) * 100
+                
+                f_col1, f_col2, f_col3 = st.columns(3)
+                with f_col1:
+                    st.metric(
+                        "Kapitalverlust (Ausfalltage)",
+                        f"€{total_financial_impact:,.0f}".replace(",", "."),
+                        f"{risk_percentage:.1f}% des Marktwerts"
+                    )
+                
+                with f_col2:
+                    avg_days_per_injury = total_days_missed / total_injuries if total_injuries > 0 else 0
+                    st.metric("Ø Ausfalltage pro Verletzung", f"{avg_days_per_injury:.1f}")
+                
+                with f_col3:
+                    annual_impact = (total_days_missed / ((player_data['Season'].nunique()) or 1)) * daily_opportunity_cost
+                    st.metric(
+                        "Ø Jahresauswirkung",
+                        f"€{annual_impact:,.0f}".replace(",", ".")
+                    )
 
-            st.dataframe(player_data[['Season', 'Injury', 'Days', 'Games missed']], use_container_width=True, hide_index=True)
+                st.dataframe(player_data[['Season', 'Injury', 'Days', 'Games missed']], use_container_width=True, hide_index=True)
 
-    st.divider()
-    st.subheader("💡 DDDM: Präskriptive Ressourcenallokation (Medical Budget)")
+        st.divider()
+    st.subheader("🏥 Präskriptive Ressourcenallokation (Medical Budget)")
     st.markdown("""
     **Anwendungsfall:** Wo soll das Budget für medizinische Ausrüstung und Personal im nächsten Quartal investiert werden?
     Dieser Bereich aggregiert die Ausfalltage nach Verletzungsart, um die teuersten Schwachstellen im Kader zu identifizieren und Investitionsentscheidungen (Capital Project Appraisal) zu lenken.
@@ -1980,11 +1997,12 @@ with tab_dddm:
 
     with dddm_filter_col2:
         if 'dddm_filter_seasons' not in st.session_state or not st.session_state['dddm_filter_seasons']:
-            st.session_state['dddm_filter_seasons'] = [DEFAULT_SEASON] if DEFAULT_SEASON in season_options else season_options
+            st.session_state['dddm_filter_seasons'] = season_options
             
         st.multiselect(
             "Saisons auswählen",
             options=season_options,
+            default=season_options,  # Standardmäßig alle Saisons ausgewählt
             key='dddm_filter_seasons',
             help="Analysiert nur die gewählten Saisons."
         )
@@ -2260,10 +2278,18 @@ with tab_dddm:
         '''
 with tab_market_risk:
 
+    st.header("💸 Marktwert-Impact: Verletzungen & Finanzen")
     st.markdown("""
-    ### 📉 Marktwert-Impact: Verletzungen & Finanzen
-    **Für wen?** Sportliche Leitung, Scouts, Vertragsverhandler
-    **Warum?** Um herauszufinden, inwiefern eine spezifische Verletzung eines Spielers Einfluss auf seinen Marktwert oder seine Transfersumme hatte.
+    **Für wen?**
+    - Sportdirektor
+    - Scouts
+    - Vertragsverhandler
+                
+    **Was sieht man?**
+    - **Spieler Steckbrief:** Spielerprofil, aktueller Verein, Marktwert
+    - **Marktwertverlauf:** Verlauf des Marktwerts über die Zeit, mit Fokus auf Verletzungsphasen
+    - **Fokus schwerste Verletzung:** Detaillierte Analyse der schwersten Verletzung und deren Einfluss auf den Marktwert
+    - **Verletzungsübersicht:** Alle Verletzungen des Spielers und deren Impact auf den Marktwert
     """)
     st.divider()
     
