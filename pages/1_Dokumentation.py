@@ -229,7 +229,7 @@ und zum Beispiel deren Einfluss auf den Marktwert der Spieler zu analysieren.
 
 Beschreibung einzelner Laschen des Dashboards:
 
-### Zeitvergleich und Trends:
+#### Zeitvergleich und Trends:
 * Zielgruppe:  Sportdirektoren, Trainern und den medizinischen Abteilungen. 
 * Nutzen: Mit diesem Tool können die Anspruchsgruppen die Verlertzungswahrscheinlichkeit bei Grossturnieren  und Ausfallzeiten über Saisons analysieren zwecks Ressourcenplanung
 * Besonderheit: Stratified Matching: Vergleich von gleichwertigen Spielern für die Analysen von Verletzungsmustern
