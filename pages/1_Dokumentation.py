@@ -239,6 +239,7 @@ Karten:
 * Zielgruppe: Trainer, Athletik-Trainer, Postionscoaches, Scouts
 * Nutzen: Virtuelles Fussballspielfeld, mit SPielerpositionen und Verletzungsereignissen. Leistet Hilfestellung für Aufstellung und Spielerroation
 * Besonderheit: Verknüpfung mit Bodymaps, wenn auf eine Spielerposition geklickt wird.
+
 Bodymaps:
 * Zielgruppe: Medizinisches Personal, Physotherapeuten, Sportmediziner, Forscher
 * Nutzen: Mapping von Verletzungen auf Körperregionen, Visualisierung von anatomischen SChwachpunkten bzw hochbeanspruchten Körperregionen
