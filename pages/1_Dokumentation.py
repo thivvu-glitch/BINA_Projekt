@@ -240,7 +240,7 @@ Karten:
 * Nutzen: Virtuelles Fussballspielfeld, mit SPielerpositionen und Verletzungsereignissen. Leistet Hilfestellung für Aufstellung und Spielerroation
 * Besonderheit: Verknüpfung mit Bodymaps, wenn auf eine Spielerposition geklickt wird.
 
-Bodymaps:
+Bodymap:
 * Zielgruppe: Medizinisches Personal, Physotherapeuten, Sportmediziner, Forscher
 * Nutzen: Mapping von Verletzungen auf Körperregionen, Visualisierung von anatomischen SChwachpunkten bzw hochbeanspruchten Körperregionen
 * Verlinkung mit Karten inklusiver Rangliste von Ausfalltagen für eine bestimmte Verletzungregion, aufgeschlüsselt nach Spieler, Position innerhalb der Liga
