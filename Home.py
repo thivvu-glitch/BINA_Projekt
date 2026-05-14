@@ -33,27 +33,33 @@ col1, col2 = st.columns(2)
 with col1:
     st.markdown("#### Zeitvergleich & Trends")
     st.write("Strategische Analyse des Turnier-Impacts (WM/EM) und Belastungssteuerung über die Saisons.")
-    st.page_link("pages/2_Dashboard.py", label="Zu Zeitvergleich & Trends", query_params={"tab": "Zeitvergleich & Trends"})
+    st.page_link("pages/2_Dashboard.py", label="Zu Zeitvergleich & Trends", query_params={"tab": "Zeitvergleich & Trends"}, icon="📈")
     
     st.divider()
     
-    st.markdown("#### Karten")
+    st.markdown("#### Spielfeldanalyse")
     st.write("Visualisierung der Verletzungshäufigkeit basierend auf der Spielerposition auf dem Spielfeld.")
-    st.page_link("pages/2_Dashboard.py", label="Zu den Karten", query_params={"tab": "Karten"})
+    st.page_link("pages/2_Dashboard.py", label="Zu Spielfeldanalyse", query_params={"tab": "Spielfeldanalyse"}, icon="⚽")
     
     st.divider()
     
-    st.markdown("#### Bodymap")
+    st.markdown("#### Körperrgionanalyse")
     st.write("Anatomische Darstellung der am häufigsten betroffenen Körperregionen.")
-    st.page_link("pages/2_Dashboard.py", label="Zur Bodymap", query_params={"tab": "Bodymap"})
+    st.page_link("pages/2_Dashboard.py", label="Zur Körperregionanalyse", query_params={"tab": "Körperregionanalyse"}, icon="🦵")
 
 with col2:
-    st.markdown("#### DDDM Entscheidungen")
+    st.markdown("#### Club Analyse")
     st.write("Nutzt Daten für fundierte 'Data-Driven Decision Making' Prozesse im Vereinsmanagement.")
-    st.page_link("pages/2_Dashboard.py", label="Zu DDDM-Entscheidungen", query_params={"tab": "DDDM Entscheidungen"})
+    st.page_link("pages/2_Dashboard.py", label="Zu Clubanalyse", query_params={"tab": "Clubanalyse"}, icon="💼")
     
     st.divider()
     
     st.markdown("#### Marktwert & Risiko")
     st.write("Analyse des wirtschaftlichen Risikos und des Zusammenhangs zwischen Verletzungen und Marktwert.")
-    st.page_link("pages/2_Dashboard.py", label="Zur Marktwert-Analyse", query_params={"tab": "Marktwert & Risiko-Analyse"})
+    st.page_link("pages/2_Dashboard.py", label="Zur Marktwert-Analyse", query_params={"tab": "Marktwert- & Risiko-Analyse"}, icon="💸")
+    
+    st.divider()
+    
+    st.markdown("#### Verletzungssimulator")
+    st.write("Simuliere verschiedene Verletzungsszenarien und analysiere deren wirtschaftliche Auswirkungen.")
+    st.page_link("pages/2_Dashboard.py", label="Zur Verletzungssimulation", query_params={"tab": "Verletzungssimulator"}, icon="🔮")
