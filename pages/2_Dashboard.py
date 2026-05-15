@@ -597,8 +597,12 @@ if False:
 with tab_trends:
     st.header("📈 Zeitvergleich & Trends")
     st.markdown("""
-    **Für wen?**
+    **Welche Fragen werden dir in diesem Register beantwortet?**
+    - Wie entwickeln sich Verletzungen und Ausfalltage über mehrere Saisons hinweg?
+    - Welche Auswirkungen haben internationale Turniere wie WM oder EM auf das Verletzungsrisiko?
+    - Welche Ligen oder Saisons weisen die höchsten Verletzungszahlen und längsten Ausfallzeiten auf?
                 
+    **Für wen?**                
     * Sportdirektoren
     * Trainer
     * medizinische Abteilungen
@@ -1609,6 +1613,10 @@ dialog_already_opened = False
 with tab_maps:
     st.header("⚽ Spielfeldanalyse")
     st.markdown("""
+    **Welche Fragen werden dir in diesem Register beantwortet?**
+    - In welchen Spielpositionen verletzen sich Spieler pro Liga am meisten?
+    - Durch einen Klick auf eine beliebige Spielerposition: Welche Arten von Verletzungen ergeben sich pro Position?
+                
     **Für wen?**
     - Trainer
     - Athletik-Trainer
@@ -1745,6 +1753,12 @@ with tab_bodymap:
 
     st.header("🦵 Körperregionanalyse")
     st.markdown("""
+    **Welche Fragen werden dir in diesem Register beantwortet?**                
+    - Welche Körperregionen sind am häufigsten von Verletzungen betroffen?
+    - Welche anatomischen Schwachstellen zeigen sich je nach Liga oder Saison?
+    - Welche Verletzungsarten zeigen die einzelnen Top-Ligen im Vergleich?
+    - Durch einen Klick auf eine beliebige Körperregion: Welche Spielerpositionen sind am häufigsten von Verletzungen dieser Körperregion betroffen?
+             
     **Für wen?**
     - Medizinisches Personal
     - Physiotherapeuten
@@ -1875,6 +1889,12 @@ with tab_dddm:
 
     st.header("💼 Clubanalyse")    
     st.markdown("""
+    **Welche Fragen werden dir in diesem Register beantwortet?**                
+    - Welche Verletzungsarten verursachen die meisten Ausfalltage?
+    - Bei welchen Verletzungen besteht der höchste wirtschaftliche Schaden für den Club?
+    - Wo sollte das medizinische Budget investiert werden, um den grössten ROI zu erzielen?       
+    - Welche Präventions- oder Reha-Massnahmen haben die höchste Priorität?       
+                
     **Für wen?**
     - Club-Manager
     - CEO / CFO
@@ -2355,6 +2375,13 @@ with tab_market_risk:
 
     st.header("💸 Marktwert-Impact: Verletzungen & Finanzen")
     st.markdown("""
+    **Welche Fragen werden dir in diesem Register beantwortet?**                
+    - Wie haben sich Verletzungen auf den Marktwert eines Spielers ausgewirkt?
+    - Welche Verletzung hatte den grössten finanziellen Impact auf einen Spieler?
+    - Wie entwickelte sich der Marktwert vor, während und nach einer Verletzung?
+    - Wie hoch ist das finanzielle Risiko bei einer Vertragsverlängerung oder Neuverpflichtung?
+    - Wie lange fallen Spieler im Durchschnitt bei bestimmten Verletzungen aus?
+                    
     **Für wen?**
     - Sportdirektor
     - Scouts
@@ -2870,6 +2897,11 @@ with tab_market_risk:
 with tab_simulator:
     st.header("🔮 Verletzungs-Simulator: Marktwert-Auswirkung")
     st.markdown("""
+    **Welche Fragen werden dir in diesem Register beantwortet?**                
+    - Wie stark würde sich eine hypothetische Verletzung auf den Marktwert eines Spielers auswirken?
+    - Welche Verletzungsarten verursachen den grössten finanziellen Schaden?
+    - Wie verändert sich der Marktwert je nach Ausfallzeit?
+                    
     **Für wen?**
     - Sportdirektor
     - Scouts
