@@ -247,18 +247,18 @@ und deren Einfluss auf den Marktwert der Spieler zu analysieren.
 
 Beschreibung einzelner Laschen des Dashboards:
 
-#### Zeitvergleich und Trends:
+#### Zeitvergleich & Trends:
 * **Zielgruppe:**  Sportdirektoren, Trainern und medizinische Abteilungen. 
 * **Nutzen:** Mit diesem Tool können die Anspruchsgruppen die Verlertzungswahrscheinlichkeit bei Grossturnieren  und Ausfallzeiten über Saisons zwecks Ressourcenplanung analysieren.
 * **Besonderheit:** Stratified Matching: Vergleich von gleichwertigen Spielern für die Analyse von Verletzungsmustern.
 * **Wichtig für Kohortenvergleich:** Bei den Filtern müssen unterschiedliche Saisons ausgewählt werden, um sinnvolle Ergebnisse zu erhalten und Vergleiche durchführen zu können.
 
-#### Interaktives Spielfeld:
+#### Spielfeldanalyse:
 * **Zielgruppe:** Trainer, Athletik-Trainer, Postionscoaches und Scouts.
 * **Nutzen:** Virtuelles Fussballspielfeld mit Spielerpositionen und Verletzungsereignissen. Leistet Hilfestellung für Aufstellung und Spielerroation.
 * **Besonderheit:** Verknüpfung mit Körperregionen, wenn auf eine Spielerposition geklickt wird.
 
-#### Interaktive Körperregionen:
+#### Körperregionanalyse:
 * **Zielgruppe:** Medizinisches Personal, Physiotherapeuten, Sportmediziner und Forscher.
 * **Nutzen:** Mapping von Verletzungen auf Körperregionen, Visualisierung von anatomischen Schwachpunkten bzw. hochbeanspruchten Körperregionen.
 * **Verlinkung:** mit Karten inklusiver Rangliste von Ausfalltagen für eine bestimmte Verletzungregion, aufgeschlüsselt nach Spieler, Position innerhalb der Liga
@@ -267,7 +267,7 @@ Beschreibung einzelner Laschen des Dashboards:
 * **Zielgruppe:** Führungsetage und medizinisches Personal.
 * **Nutzen:** Kader-Risikoexposition, Unterstützung von Vertrags- und Investitionsentscheidungen, mögliche ROI von medizinischen investitionen und Spielertransfers
 
-#### Marktwert- und Risikoanalyse:
+#### Marktwert- & Risikoanalyse:
 * **Zielgruppe:** Führungsetage, Contract-Manager, Sportdirektoren und Scouts.
 * **Nutzen:** Analyse des wirtschaftlichen Risikos von Verletzungen, Zusammenhang zwischen Verletzungen und Marktwert, Identifikation von Spielern mit hohem Verletzungsrisiko und wirtschaftlichem Potenzial.
 * **Besonderheit:** Verknüpfung von Verletzungsdaten mit Marktwertdaten, um die wirtschaftlichen Auswirkungen von Verletzungen zu analysieren.
