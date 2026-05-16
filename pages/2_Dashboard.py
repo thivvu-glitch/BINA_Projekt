@@ -622,7 +622,7 @@ with tab_trends:
     st.info("""
     **Anleitung zur Konfiguration der Analyse-Gruppen:**
     * **Turnier-Analyse:** Wähle in Kohorte A ein Turnier (z. B. WM 2022) und in Kohorte B 'Keine Turnierteilnahme'. Aktiviere das 'Stratified Matching', um eine statistisch faire Vergleichsgruppe (gleiche Ligen & Positionen) zu generieren.
-    * **Ligen- oder Saison-Vergleich:** Wähle bei beiden Kohorten im Turnierfilter **'Alle Spieler'**. Konfiguriere dann die Ligen und Saisons nach Belieben (z.B. Kohorte A: Premier League, Kohorte B: Bundesliga). *Wichtig: Deaktiviere in diesem Fall das 'Stratified Matching', da du alle Spieler der gewählten Liga sehen willst.*
+    * **Ligen- oder Saison-Vergleich:** Wähle bei beiden Kohorten im Turnierfilter **'Alle Spieler'**. Konfiguriere dann die Ligen und Saisons nach Belieben (z. B. Kohorte A: Premier League, Kohorte B: Bundesliga). *Wichtig: Deaktiviere in diesem Fall das 'Stratified Matching', da du alle Spieler der gewählten Liga sehen willst.*
     """, icon="💡")
     
     st.markdown("#### ⚙️ Setup für Kohorten-Vergleich")
@@ -2398,7 +2398,7 @@ with tab_market_risk:
     
     st.info("""
     **So nutzt du die Suche:**
-    1. **Spieler analysieren:** Suche links nach einem Spieler (z.B. Neymar). Du siehst sofort seinen Marktwert-Verlauf.
+    1. **Spieler analysieren:** Suche links nach einem Spieler (z. B. Neymar). Du siehst sofort seinen Marktwertverlauf.
     2. **Verletzung isolieren:** Wähle rechts im Dropdown eine seiner spezifischen Verletzungen aus. Das System blendet dann nur diese Verletzung im Chart ein, damit du exakt den Marktwert-Drop nach dieser Phase studieren kannst.
     3. **Katalog durchsuchen:** Wenn kein Spieler gewählt ist, kannst du rechts nach einer bestimmten Verletzung suchen, um alle betroffenen Spieler im Katalog anzuzeigen.
     """, icon="💡")
@@ -2514,7 +2514,7 @@ with tab_market_risk:
         p_valuations = val_df[val_df['player_id'] == selected_pid].sort_values('date').copy()
 
         if not p_valuations.empty:
-            st.subheader(f"Marktwert-Verlauf von {p_name}")
+            st.subheader(f"Marktwertverlauf von {p_name}")
 
             # Filter for specific injuries to show in chart based on the top search
             if not p_injuries.empty:

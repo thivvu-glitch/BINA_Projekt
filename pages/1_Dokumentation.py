@@ -24,6 +24,8 @@ Die detaillierten Fragestellungen sind in den dazugehörigen Dashboards erwähnt
          """)
 st.page_link("pages/2_Dashboard.py", label="Zu den Dashboards", query_params={"tab": "Zeitvergleich & Trends"}, icon="📈")
 
+st.divider()
+
 st.markdown("## 2. Daten sammeln")  # engl. Collecting data
 st.write("""
 #### Datenbasis und Datenquellen
@@ -235,6 +237,8 @@ Am Beispiel des Datensatzes «full_dataset_thesis - 1.csv» wurden folgende Schr
 Diese Schritte stellen sicher, dass die Daten in einer einheitlichen Struktur vorliegen und für die anschliessende Analyse zuverlässig verwendet werden können.
 """)
 
+st.divider()
+
 st.markdown("## 3. Daten analysieren")  # engl. Analyzing data
 
 st.write('''
@@ -274,12 +278,16 @@ Beschreibung einzelner Laschen des Dashboards:
 * **Besonderheit:** Interaktive Simulation basierend auf einer Machine-Learning-Prognose von Verletzungsszenarien, Analyse der wirtschaftlichen Auswirkungen auf Spieler und Vereine.        
 ''')
 
+st.divider()
+
 st.markdown("## 4. Informationen präsentieren")  # engl. Presenting information
 
 st.write('''
 Die Informationen werden im Dashboard präsentiert.
 ''')
 st.page_link("pages/2_Dashboard.py", label="Zu den Dashboards", query_params={"tab": "Zeitvergleich & Trends"}, icon="📈")
+
+st.divider()
 
 st.markdown("## 5. Datengetriebene Entscheidungen treffen") 
 
