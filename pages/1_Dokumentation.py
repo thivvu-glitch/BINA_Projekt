@@ -10,9 +10,23 @@ Diese Seite dient der Dokumentation der BINA-Fallstudie. Die vier Schritte des C
 
 st.markdown("## 1. Ziele und Informationsbedarf definieren")  # engl. Defning objectives and information needs
 
+st.write("""
+Verletzungen im Fussball haben einen wesentlichen Einfluss auf die sportliche Leistungsfähigkeit, die Zusammenstellung von Teams sowie auf medizinische und organisatorische Ressourcen. Unser Dashboard sollen Informationen zu folgenden fünf **Hauptfragen** liefern:
+- Wie entwickeln sich Verletzungen im Profifussball über Zeit und Wettbewerbe hinweg?
+- Welche Muster zeigen sich bei Verletzungen nach Position, Körperregion und Liga?
+- Welche Verletzungsarten sind sportlich und wirtschaftlich am kritischsten?
+- Wie beeinflussen Verletzungen den Marktwert von Spielern?
+- Welche Massnahmen liefern den grössten Return im Umgang mit Verletzungen?
+         
+Daraus lässt sich das **strategische Ziel** der Arbeit ableiten: Auf Basis der Daten sollen fundierte Erkenntnisse für datenbasierte Entscheidungen im Profifussball gewonnen werden, um Verletzungsrisiken gezielt zu reduzieren, wirtschaftliche Auswirkungen zu minimieren und Investitionen in Prävention, Rehabilitation sowie Spielertransfers strategisch zu optimieren.
+
+Die detaillierten Fragestellungen sind in den dazugehörigen Dashboards erwähnt:
+         """)
+st.page_link("pages/2_Dashboard.py", label="Zu den Dashboards", query_params={"tab": "Zeitvergleich & Trends"}, icon="📈")
+
 st.markdown("## 2. Daten sammeln")  # engl. Collecting data
 st.write("""
-### Datenbasis und Datenquellen
+#### Datenbasis und Datenquellen
 Die vorliegende Analyse basiert auf mehreren öffentlich zugänglichen Datensätzen, welche über die Plattform Kaggle bereitgestellt werden. Ziel der Analyse ist es, Verletzungsereignisse im Profifussball umfassend zu untersuchen. Dabei stehen sowohl die Analyse von Verletzungsmustern (z. B. betroffene Körperteile, Ausfallzeiten und positionsspezifische Unterschiede) als auch der Einfluss von Verletzungen auf die Entwicklung des Marktwerts von Spielern im Fokus.
 
 Für die Analyse wurden folgende externe, sekundäre Datenquellen verwendet:
@@ -24,7 +38,7 @@ Für die Analyse wurden folgende externe, sekundäre Datenquellen verwendet:
 Diese Datensätze wurden miteinander kombiniert, um eine integrierte Analyse von sportlichen Ereignissen (Verletzungen) und ökonomischen Kennzahlen (Marktwertentwicklung) zu ermöglichen.
 
 
-### Struktur und Klassifikation der Daten
+#### Struktur und Klassifikation der Daten
 Die hier verwendeten Daten liegen in strukturierter Form (CSV-Format) vor. Sie sind tabellarisch angeordnet und somit für Analysezwecke gut geeignet. Teilweise wurden einzelne Datenbereinigungen vorgenommen, sodass die Werte atomar vorliegen (z. B. «10 days» → «10») oder unterschiedliche Schreibweisen vereinheitlicht (z. B. «Tottenham» vs. «Tottenham Hotspur»).
 
 Inhaltlich lassen sich die Daten in drei zentrale Kategorien einteilen:
@@ -36,7 +50,7 @@ Inhaltlich lassen sich die Daten in drei zentrale Kategorien einteilen:
 Mehrheitlich handelt es sich hier um quantitative Daten, ergänzt durch kategoriale Variablen (z. B. Liga, Position oder Verein). Dadurch sind sowohl deskriptive als auch erklärende Analysen möglich.
 
 
-### Beschreibung der Datensätze
+#### Beschreibung der Datensätze
 Im Folgenden werden die verwendeten Datensätze sowie deren Spalten beschrieben:
 
 **Datenset «full_dataset_thesis - 1.csv»**, Quelle: European Football Injuries (2020-2025)
@@ -185,7 +199,7 @@ Im Folgenden werden die verwendeten Datensätze sowie deren Spalten beschrieben:
 | competition_type          | Art des Wettbewerbs                                           |
 
 
-### Relevanz der Datensätze
+#### Relevanz der Datensätze
 Die ausgewählten Datensätze ermöglichen eine mehrdimensionale Analyse von Verletzungen im Profifussball. Dabei können insbesondere folgende Aspekte untersucht werden:
 
 * Verteilung und Verletzungen nach **Körperregionen**
@@ -197,10 +211,10 @@ Die ausgewählten Datensätze ermöglichen eine mehrdimensionale Analyse von Ver
 Durch die Verknüpfung der Datensätze können sowohl sportliche als auch ökonomische Einflussfaktoren berücksichtigt werden.
 
 
-### Datenbeschaffung und Datenzugang
+#### Datenbeschaffung und Datenzugang
 Die Datensätze wurden über die Plattform Kaggle bezogen und als CSV-Dateien heruntergeladen. Es handelt sich dabei um statische Daten, die nicht in Echtzeit aktualisiert werden und keine API-basierte Anbindung erfordern. Lediglich für die Anzeige von Spielerbildern ist eine Internetverbindung notwendig.
 
-### Zeitliche Struktur der Daten
+#### Zeitliche Struktur der Daten
 Die verwendeteten Datensätze weisen unterschiedliche zeitliche Dimensionen auf:
 
 * **Verletzungsdaten**: Zeitraum von 2020 bis 2025
@@ -208,7 +222,7 @@ Die verwendeteten Datensätze weisen unterschiedliche zeitliche Dimensionen auf:
 * **Stammdaten**: punktuelle Informationen zu Spielern und Vereinen
 
 
-### Datenaufbereitung und Datenstandardisierung
+#### Datenaufbereitung und Datenstandardisierung
 Im Rahmen der Datenaufbereitung wurden die Datensätze bereinigt und standardisiert, um eine konsistente und analysierbare Datenbasis zu gewährleisten.
 
 Am Beispiel des Datensatzes «full_dataset_thesis - 1.csv» wurden folgende Schritte durchgeführt:
@@ -224,40 +238,52 @@ Diese Schritte stellen sicher, dass die Daten in einer einheitlichen Struktur vo
 st.markdown("## 3. Daten analysieren")  # engl. Analyzing data
 
 st.write('''
-Mithilfe des Dahsboards können verschiedene Analysen durchgeführt werden, um zB Verletzungsereignisse im Profifussball zu untersuchen
-und zum Beispiel deren Einfluss auf den Marktwert der Spieler zu analysieren.
+Mithilfe der Dahsboards können verschiedene Analysen durchgeführt werden, um z. B. Verletzungsereignisse im Profifussball zu untersuchen
+und deren Einfluss auf den Marktwert der Spieler zu analysieren.
 
 Beschreibung einzelner Laschen des Dashboards:
 
 #### Zeitvergleich und Trends:
-* Zielgruppe:  Sportdirektoren, Trainern und den medizinischen Abteilungen. 
-* Nutzen: Mit diesem Tool können die Anspruchsgruppen die Verlertzungswahrscheinlichkeit bei Grossturnieren  und Ausfallzeiten über Saisons analysieren zwecks Ressourcenplanung
-* Besonderheit: Stratified Matching: Vergleich von gleichwertigen Spielern für die Analysen von Verletzungsmustern
-* Wichtig für Kohortenvergleich: Bei den Filtern müssen unterschiedliche Saisons auisgewähölt werden, um sinnvolle Ergebnisse zu erhalten und vergleiche durchführen zu können.
+* **Zielgruppe:**  Sportdirektoren, Trainern und medizinische Abteilungen. 
+* **Nutzen:** Mit diesem Tool können die Anspruchsgruppen die Verlertzungswahrscheinlichkeit bei Grossturnieren  und Ausfallzeiten über Saisons zwecks Ressourcenplanung analysieren.
+* **Besonderheit:** Stratified Matching: Vergleich von gleichwertigen Spielern für die Analyse von Verletzungsmustern.
+* **Wichtig für Kohortenvergleich:** Bei den Filtern müssen unterschiedliche Saisons ausgewählt werden, um sinnvolle Ergebnisse zu erhalten und Vergleiche durchführen zu können.
 
-#### Karten:
-* Zielgruppe: Trainer, Athletik-Trainer, Postionscoaches, Scouts
-* Nutzen: Virtuelles Fussballspielfeld, mit SPielerpositionen und Verletzungsereignissen. Leistet Hilfestellung für Aufstellung und Spielerroation
-* Besonderheit: Verknüpfung mit Bodymaps, wenn auf eine Spielerposition geklickt wird.
+#### Interaktives Spielfeld:
+* **Zielgruppe:** Trainer, Athletik-Trainer, Postionscoaches und Scouts.
+* **Nutzen:** Virtuelles Fussballspielfeld mit Spielerpositionen und Verletzungsereignissen. Leistet Hilfestellung für Aufstellung und Spielerroation.
+* **Besonderheit:** Verknüpfung mit Körperregionen, wenn auf eine Spielerposition geklickt wird.
 
-#### Bodymap:
-* Zielgruppe: Medizinisches Personal, Physotherapeuten, Sportmediziner, Forscher
-* Nutzen: Mapping von Verletzungen auf Körperregionen, Visualisierung von anatomischen SChwachpunkten bzw hochbeanspruchten Körperregionen
-* Verlinkung mit Karten inklusiver Rangliste von Ausfalltagen für eine bestimmte Verletzungregion, aufgeschlüsselt nach Spieler, Position innerhalb der Liga
+#### Interaktive Körperregionen:
+* **Zielgruppe:** Medizinisches Personal, Physiotherapeuten, Sportmediziner und Forscher.
+* **Nutzen:** Mapping von Verletzungen auf Körperregionen, Visualisierung von anatomischen Schwachpunkten bzw. hochbeanspruchten Körperregionen.
+* **Verlinkung:** mit Karten inklusiver Rangliste von Ausfalltagen für eine bestimmte Verletzungregion, aufgeschlüsselt nach Spieler, Position innerhalb der Liga
 
-#### DDDM:
-* Zielgruppe: Führungsetage, Contract-Manager
-* Nutzen: Kader-Risikoexposition, Unterstützung von Vertrags- und Investitionsentscheidungen, Mögliche ROI von medizinischen investitionen und Spielertransfers
-          
+#### Clubanalyse:
+* **Zielgruppe:** Führungsetage und medizinisches Personal.
+* **Nutzen:** Kader-Risikoexposition, Unterstützung von Vertrags- und Investitionsentscheidungen, mögliche ROI von medizinischen investitionen und Spielertransfers
+
+#### Marktwert- und Risikoanalyse:
+* **Zielgruppe:** Führungsetage, Contract-Manager, Sportdirektoren und Scouts.
+* **Nutzen:** Analyse des wirtschaftlichen Risikos von Verletzungen, Zusammenhang zwischen Verletzungen und Marktwert, Identifikation von Spielern mit hohem Verletzungsrisiko und wirtschaftlichem Potenzial.
+* **Besonderheit:** Verknüpfung von Verletzungsdaten mit Marktwertdaten, um die wirtschaftlichen Auswirkungen von Verletzungen zu analysieren.
+
+#### Verletzungssimulator:
+* **Zielgruppe:** Führungsetage, Contract-Manager, Sportdirektoren und Scouts.
+* **Nutzen:** Simuliert verschiedene Verletzungsszenarien und analysiert deren wirtschaftliche Auswirkungen, unterstützt bei der Entscheidungsfindung im Umgang mit Verletzungen.
+* **Besonderheit:** Interaktive Simulation basierend auf einer Machine-Learning-Prognose von Verletzungsszenarien, Analyse der wirtschaftlichen Auswirkungen auf Spieler und Vereine.        
 ''')
 
 st.markdown("## 4. Informationen präsentieren")  # engl. Presenting information
 
+st.write('''
+Die Informationen werden im Dashboard präsentiert.
+''')
+st.page_link("pages/2_Dashboard.py", label="Zu den Dashboards", query_params={"tab": "Zeitvergleich & Trends"}, icon="📈")
+
 st.markdown("## 5. Datengetriebene Entscheidungen treffen") 
 
 st.write('''
- Machine learning modelle mit unseren Daten trainieren bzw Konzept von diesem Vorgang ohne unbedingte durchführung.        
- Management Summary von ML-Dokument!        
-         
-         
+Mittels Machine-Learing-Modellen sollen Vorhersagen zur Entwicklung des Marktwerts nach Verletzungen möglich werden. Dafür wurde ein ML-Modell mit den vorhandenen Daten trainiert und das entsprechende Dashboard «Verletzungssimulator» erstellt:
          ''')
+st.page_link("pages/2_Dashboard.py", label="Zum Verletzungssimulator", query_params={"tab": "Verletzungssimulator"}, icon="🔮")
