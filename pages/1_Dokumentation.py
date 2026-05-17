@@ -28,7 +28,7 @@ st.divider()
 
 st.markdown("## 2. Daten sammeln")  # engl. Collecting data
 st.write("""
-#### Datenbasis und Datenquellen
+### Datenbasis und Datenquellen
 Die vorliegende Analyse basiert auf mehreren öffentlich zugänglichen Datensätzen, welche über die Plattform Kaggle bereitgestellt werden. Ziel der Analyse ist es, Verletzungsereignisse im Profifussball umfassend zu untersuchen. Dabei stehen sowohl die Analyse von Verletzungsmustern (z. B. betroffene Körperteile, Ausfallzeiten und positionsspezifische Unterschiede) als auch der Einfluss von Verletzungen auf die Entwicklung des Marktwerts von Spielern im Fokus.
 
 Für die Analyse wurden folgende externe, sekundäre Datenquellen verwendet:
@@ -40,7 +40,7 @@ Für die Analyse wurden folgende externe, sekundäre Datenquellen verwendet:
 Diese Datensätze wurden miteinander kombiniert, um eine integrierte Analyse von sportlichen Ereignissen (Verletzungen) und ökonomischen Kennzahlen (Marktwertentwicklung) zu ermöglichen.
 
 
-#### Struktur und Klassifikation der Daten
+### Struktur und Klassifikation der Daten
 Die hier verwendeten Daten liegen in strukturierter Form (CSV-Format) vor. Sie sind tabellarisch angeordnet und somit für Analysezwecke gut geeignet. Teilweise wurden einzelne Datenbereinigungen vorgenommen, sodass die Werte atomar vorliegen (z. B. «10 days» → «10») oder unterschiedliche Schreibweisen vereinheitlicht (z. B. «Tottenham» vs. «Tottenham Hotspur»).
 
 Inhaltlich lassen sich die Daten in drei zentrale Kategorien einteilen:
@@ -52,10 +52,10 @@ Inhaltlich lassen sich die Daten in drei zentrale Kategorien einteilen:
 Mehrheitlich handelt es sich hier um quantitative Daten, ergänzt durch kategoriale Variablen (z. B. Liga, Position oder Verein). Dadurch sind sowohl deskriptive als auch erklärende Analysen möglich.
 
 
-#### Beschreibung der Datensätze
+### Beschreibung der Datensätze
 Im Folgenden werden die verwendeten Datensätze sowie deren Spalten beschrieben:
 
-**Datenset «full_dataset_thesis - 1.csv»**, Quelle: European Football Injuries (2020-2025)
+**Datenset «full_dataset_thesis - 1.csv»** (Verletzungsdatenset), Quelle: European Football Injuries (2020-2025)
 
 | Variable              | Beschreibung                                      |
 |:--------------------- |:--------------------------------------------------|
@@ -194,14 +194,14 @@ Im Folgenden werden die verwendeten Datensätze sowie deren Spalten beschrieben:
 | referee                   | Name des Schiedsrichters                                      |
 | url                       | Link zum Spiel                                                |
 | home_club_formation       | Startformation der Heimmannschaft                             |
-| away_club_formation       | Startformat der Auswärtsmannschaft                            |
+| away_club_formation       | Startformation der Auswärtsmannschaft                         |
 | home_club_name            | Name der Heimmannschaft                                       |
 | away_club_name            | Name der Auswärtsmannschaft                                   |
 | aggregate                 | Gesamtergebnis über mehrere Spiele                            |
 | competition_type          | Art des Wettbewerbs                                           |
 
 
-#### Relevanz der Datensätze
+### Relevanz der Datensätze
 Die ausgewählten Datensätze ermöglichen eine mehrdimensionale Analyse von Verletzungen im Profifussball. Dabei können insbesondere folgende Aspekte untersucht werden:
 
 * Verteilung und Verletzungen nach **Körperregionen**
@@ -213,10 +213,10 @@ Die ausgewählten Datensätze ermöglichen eine mehrdimensionale Analyse von Ver
 Durch die Verknüpfung der Datensätze können sowohl sportliche als auch ökonomische Einflussfaktoren berücksichtigt werden.
 
 
-#### Datenbeschaffung und Datenzugang
+### Datenbeschaffung und Datenzugang
 Die Datensätze wurden über die Plattform Kaggle bezogen und als CSV-Dateien heruntergeladen. Es handelt sich dabei um statische Daten, die nicht in Echtzeit aktualisiert werden und keine API-basierte Anbindung erfordern. Lediglich für die Anzeige von Spielerbildern ist eine Internetverbindung notwendig.
 
-#### Zeitliche Struktur der Daten
+### Zeitliche Struktur der Daten
 Die verwendeteten Datensätze weisen unterschiedliche zeitliche Dimensionen auf:
 
 * **Verletzungsdaten**: Zeitraum von 2020 bis 2025
@@ -224,8 +224,8 @@ Die verwendeteten Datensätze weisen unterschiedliche zeitliche Dimensionen auf:
 * **Stammdaten**: punktuelle Informationen zu Spielern und Vereinen
 
 
-#### Datenaufbereitung und Datenstandardisierung
-Im Rahmen der Datenaufbereitung wurden die Datensätze bereinigt und standardisiert, um eine konsistente und analysierbare Datenbasis zu gewährleisten.
+### Datenaufbereitung und Datenstandardisierung
+Im Rahmen der Datenaufbereitung wurden die Datensätze bereinigt und standardisiert, um eine konsistente und analysierbare Datenbasis sicherzustellen.
 
 Am Beispiel des Datensatzes «full_dataset_thesis - 1.csv» wurden folgende Schritte durchgeführt:
 * Bereinigung alphanumerische Werte (z. B. «10 days» → «10»)
@@ -234,7 +234,11 @@ Am Beispiel des Datensatzes «full_dataset_thesis - 1.csv» wurden folgende Schr
 * Vereinheitlichung von Schreibweisen (z. B. «Tottenham» vs. «Tottenham Hotspur» oder «Bochum» vs. «Vfl Bochum»)
 * Standardisierung der Verletzungsbezeichnungen durch Kleinschreibung
 
-Diese Schritte stellen sicher, dass die Daten in einer einheitlichen Struktur vorliegen und für die anschliessende Analyse zuverlässig verwendet werden können.
+Diese Massnahmen stellen sicher, dass die Daten in einer einheitlichen Struktur vorliegen und für die anschliessende Analyse zuverlässig verwendet werden können.
+
+Das Verletzungsdatenset «full_dataset_thesis - 1.csv» weist zudem eine Besonderheit auf: Verletzungen einzelner Spieler sind teilweise mehrfach vorhanden, wobei sich lediglich der Vereinsname bzw. Liga unterschied. Dies hätte zu einer Verzerrung der Analyse geführt. Daher wurden Duplikate identifiziert und entfernt. Als Duplikat galt ein Eintrag, wenn Spielername, Verletzungsart und Beginn der Verletzung identisch waren.
+
+Ein weiteres Problem zeigte sich beim Zusammenführen des Verletzungsdatensets «full_dataset_thesis - 1.csv» mit dem Spielerdatenset «players.csv». Einige Spieler besitzen identische Namen, unterscheiden sich jedoch im Geburtsdatum. Im Verletzungsdatenset ist der Name des Spielers und das Alter zum Zeitpunkt der Verletzung enthalten. Das Spielerdatenset enthält das vollständige Geburtsdatum. Für das Matching wurde daher das Geburtsjahr approximiert. Dabei wurde eine Toleranz von ±1 Jahr berücksichtigt, um Fälle abzudecken, in denen der Spieler zum Zeitpunkt der Verletzung seinen Geburtstag im entsprechenden Jahr noch nicht erreicht hatte (z. B. Verletzung am 10.02., Geburtstag am 12.02.). Dadurch konnte das Geburtsjahr als zusätzliche Einschränkung für das Matching der Datensätze verwendet werden.
 """)
 
 st.divider()

@@ -1,6 +1,6 @@
 # Europäische Fussballverletzungen (2020-2025)
 
-Ein Business Intelligence Dashboard mit Machine Learning zur umfassenden Analyse von Verletzungsmustern im europäischen Profifussball. Das Projekt basiert auf der **CPA Management Accounting Guideline** für datengesteuerte Entscheidungen.
+Dieses Business Intelligence Dashboard ermöglicht die Analyse von Verletzungsmustern im europäischen Profifussball. Das Projekt basiert auf der **CPA Management Accounting Guideline** für datengesteuerte Entscheidungen.
 
 Diese Fallstudie wurde im Rahmen des Moduls BINA im FS2026 des Masterstudiengangs Wirtschaftsinformatik realisiert.
 
@@ -8,7 +8,7 @@ Diese Fallstudie wurde im Rahmen des Moduls BINA im FS2026 des Masterstudiengang
 
 - 📊 **Interaktives Dashboard** mit mehreren Analyse-Perspektiven
 - 🏥 **Verletzungsanalyse** nach Körperregion, Position und Saison
-- 📈 **Trend- und Zeitvergleich** (z.B. Impact von WM/EM)
+- 📈 **Trend- und Zeitvergleich** (z. B. Impact von WM/EM)
 - 🔮 **Machine Learning Simulator** zur Vorhersage von Marktwertverlusten nach Verletzungen
 - 🧠 **SHAP-Erklärbarkeit** für transparente ML-Vorhersagen
 - 📚 **Umfassende Dokumentation** der BINA-Methodik
@@ -115,8 +115,8 @@ Das Dashboard öffnet sich im Browser und bietet folgende Seiten:
 
 Das Projekt nutzt folgende externe Quellen:
 
-> Sanan Muzaffarov. (2026). European Football Injuries (2020-2025) [Data set]. Kaggle.
+> Sanan Muzaffarov. (2026). European Football Injuries (2020-2025) [Data set]. Kaggle. https://doi.org/10.34740/KAGGLE/DSV/14465228
 
-> David Cariboo. (2026). Football Data from Transfermarkt [Data set]. Kaggle.
+> David Cariboo. (2026). Football Data from Transfermarkt [Data set]. Kaggle. https://www.kaggle.com/datasets/davidcariboo/player-scores/data
 
-Weitere Informationen zur Datenstruktur und Klassifikation finden sich in der **Dokumentation** im Dashboard.
+Weitere Informationen zur Datenstruktur und Klassifikation befinden sich in der **Dokumentation** im Dashboard.
