@@ -144,19 +144,6 @@ Die Erweiterung der Projekt-Dependencies erfolgte über:
 uv add scikit-learn xgboost shap joblib
 ```
 
-## 10. Aufwandsschätzung
-
-| Arbeitsschritt | Geschätzte Stunden |
-|---|---|
-| Datenaufbereitung (Feature-Engineering, Trainingsset bauen) | 2 – 3 h |
-| Baseline-Modell (Lineare Regression) trainieren und evaluieren | 0.5 h |
-| XGBoost-Modell trainieren, Hyperparameter-Tuning | 1 – 2 h |
-| SHAP-Integration und Erklärbarkeit | 1 h |
-| Streamlit-Integration im Dashboard | 1.5 – 2 h |
-| Doku-Ergänzung und Vorbereitung Präsentation | 1 h |
-| **Gesamt** | **7 – 9.5 h** |
-
-Verteilt auf eine Gruppe von 5–6 Studierenden entspricht das einem individuellen Aufwand von **rund 1.5 Stunden pro Person**, sofern die Aufgaben sinnvoll aufgeteilt werden.
 
 ## 11. Erwartete Trainingsdauer (technisch)
 

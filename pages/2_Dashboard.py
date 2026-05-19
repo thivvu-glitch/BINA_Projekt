@@ -250,25 +250,6 @@ if 'dddm_filter_leagues' not in st.session_state:
     st.session_state['dddm_filter_leagues'] = sorted(df['league'].dropna().unique().tolist())
 
 # --- Global Filter UI ---
-# Globale Filter auskommentiert laut Anforderung
-# with st.expander("🌍 Globale Filter (Club & Saison)", expanded=False):
-#     col1, col2 = st.columns(2)
-#     with col1:
-#         selected_club_global = st.selectbox(
-#             "Club auswählen",
-#             club_options,
-#             key='filter_club',
-#             help="Dieser globale Filter gilt für alle Dashboards."
-#         )
-#     with col2:
-#         selected_seasons = st.multiselect(
-#             "Saisons auswählen", 
-#             season_options, 
-#             key='filter_seasons'
-#         )
-#         if not selected_seasons:
-#             selected_seasons = [DEFAULT_SEASON] if DEFAULT_SEASON in season_options else season_options
-#             st.session_state['filter_seasons'] = selected_seasons
 
 selected_club_global = "Alle Clubs"
 selected_seasons = season_options
@@ -291,23 +272,13 @@ selected_leagues = league_options # Default to all leagues since filter is disab
 min_date = df['injury_from_parsed'].min().date()
 max_date = df['injury_from_parsed'].max().date()
 
-# date_range = st.sidebar.date_input(
-#     "Zeitraum (Verletzungsbeginn)",
-#     value=(min_date, max_date),
-#     min_value=min_date,
-#     max_value=max_date,
-#     help="Filtert Verletzungen basierend auf dem Datum, an dem sie passiert sind."
-# )
+
 if 'date_range' not in st.session_state:
     st.session_state['date_range'] = (min_date, max_date)
 date_range = st.session_state['date_range']
 
 
-# tournament_filter = st.sidebar.radio(
-#     "Turnier-Teilnahme Filter",
-#     options=["Alle Spieler (Kein Filter)", "Europameisterschaft (EM)", "Weltmeisterschaft (WM)", "WM und EM", "Keine Turnierteilnahme"],
-#     help="Filtert die Spieler anhand ihrer dokumentierten WM/EM-Teilnahme."
-# )
+
 if 'tournament_filter' not in st.session_state:
     st.session_state['tournament_filter'] = "Alle Spieler (Kein Filter)"
 tournament_filter = st.session_state['tournament_filter']
@@ -347,14 +318,7 @@ if tournament_filter != "Alle Spieler (Kein Filter)":
 player_options = sorted(player_source_df['player_name'].dropna().unique().tolist())
 st.session_state['filter_players'] = [p for p in st.session_state['filter_players'] if p in player_options]
 
-# player_searchBox = st.sidebar.multiselect(
-#     "Spieler suchen",
-#     options=player_options,
-#     key='filter_players',
-#     max_selections=1,
-#     help="Suche ist auf die aktiven Filter begrenzt."
-# )
-# player_search = player_searchBox[0] if player_searchBox else ""
+
 if 'player_search' not in st.session_state:
     st.session_state['player_search'] = ""
 player_search = st.session_state['player_search']
@@ -407,10 +371,7 @@ if filtered_df.empty:
 
 # Tab Labels
 tab_labels = [
-    # "Übersicht",
-    # "Verletzungsvergleich",
     "Zeitvergleich & Trends",
-    # "Tabellen",
     "Spielfeldanalyse",    
     "Körperregionanalyse",
     "Clubanalyse",
@@ -439,160 +400,6 @@ tab_trends, tab_maps, tab_bodymap, tab_dddm, tab_market_risk, tab_simulator = st
 )
 
 
-# with tab_overview:
-if False:
-    st.markdown("""
-    ### 📊 Für wen ist dieses Dashboard?
-    **Zielgruppe:** Analytiker, Trainer, Sport-Manager, Klub-Führung
-    
-    **Was sieht man?**
-    - Vergleich der Verletzungshäufigkeit zwischen Ligen
-    - Durchschnittliche Schweregrad (Ausfalltage) nach Liga
-    - Die 15 "Pechvögel" mit den längsten kumulierten Ausfallzeiten
-    - Schnelle Identifikation von Risiko-Clubs und Risiko-Positionen
-    """)
-    st.divider()
-    
-    st.subheader("Kernvergleich der Ligen")
-    c1, c2 = st.columns(2)
-
-    with c1:
-        league_counts = filtered_df['league'].value_counts().reset_index()
-        league_counts.columns = ['Liga', 'Verletzungen']
-        fig_league = px.bar(
-            league_counts,
-            x='Verletzungen',
-            y='Liga',
-            orientation='h',
-            color='Verletzungen',
-            color_continuous_scale='Reds'
-        )
-        st.plotly_chart(fig_league, use_container_width=True)
-
-    with c2:
-        severity = filtered_df.groupby('league')['Days'].mean().sort_values(ascending=False).reset_index()
-        fig_sev = px.bar(
-            severity,
-            x='Days',
-            y='league',
-            orientation='h',
-            labels={'Days': 'Ø Ausfalltage', 'league': 'Liga'},
-            color='Days',
-            color_continuous_scale='Blues'
-        )
-        st.plotly_chart(fig_sev, use_container_width=True)
-
-    st.subheader("Top 'Pechvögel' (Längste Ausfallzeiten)")
-    top_p = filtered_df.groupby('player_name')['Days'].sum().sort_values(ascending=False).head(15).reset_index()
-    fig_top = px.bar(
-        top_p,
-        x='Days',
-        y='player_name',
-        orientation='h',
-        color='Days',
-        color_continuous_scale='Viridis',
-        labels={'Days': 'Ausfalltage', 'player_name': 'Spieler'}
-    )
-    st.plotly_chart(fig_top, use_container_width=True)
-
-# with tab_injuries:
-if False:
-    st.markdown("""
-    ### 🏥 Für wen ist dieses Dashboard?
-    **Zielgruppe:** Medizinisches Personal, Verletzungs-Spezialisten, Trainer, Ligen-Verbände
-    
-    **Was sieht man?**
-    - Detaillierte Analyse einer spezifischen Verletzungsart
-    - Verletzungshäufigkeit und Schweregrad nach Liga
-    - Zeitliche Verteilung und Muster der Verletzungen
-    - Betroffene Spieler und ihre Ausfallzeiten
-    - Identifikation von Hochrisiko-Verletzungstypen für Prävention
-    """)
-    st.divider()
-    
-    st.subheader("Verletzungsvergleich zwischen den Ligen")
-    st.markdown("Analysiere eine spezifische Verletzungsart über alle Ligen hinweg.")
-
-    # Injury Selection
-    all_injuries = sorted(filtered_df['Injury'].dropna().unique().tolist())
-    selected_injury = st.selectbox("Verletzung auswählen", all_injuries, help="Wähle eine Verletzung aus, um den Vergleich zu starten.")
-
-    if selected_injury:
-        inj_df = filtered_df[filtered_df['Injury'] == selected_injury].copy()
-        
-        # KPIs for this injury
-        i_col1, i_col2, i_col3 = st.columns(3)
-        i_col1.metric("Fälle Insgesamt", f"{len(inj_df)}")
-        i_col2.metric("Ausfalltage Insgesamt", f"{int(inj_df['Days'].sum()):,}".replace(",", "."))
-        i_col3.metric("Verpasste Spiele (Summe)", f"{int(inj_df['Games missed'].sum()):,}".replace(",", "."))
-
-        # League comparison charts
-        st.divider()
-        lc1, lc2 = st.columns(2)
-
-        with lc1:
-            st.write(f"**Häufigkeit von '{selected_injury}' nach Liga**")
-            inj_league_counts = inj_df['league'].value_counts().reset_index()
-            inj_league_counts.columns = ['Liga', 'Anzahl']
-            
-            fig_inj_l = px.bar(
-                inj_league_counts,
-                x='Anzahl',
-                y='Liga',
-                orientation='h',
-                color='Anzahl',
-                color_continuous_scale='Oranges'
-            )
-            st.plotly_chart(fig_inj_l, use_container_width=True)
-
-        with lc2:
-            st.write(f"**Schweregrad (Ø Tage/Spiele) nach Liga**")
-            inj_severity = inj_df.groupby('league')[['Days', 'Games missed']].mean().reset_index()
-            
-            fig_inj_s = go.Figure()
-            fig_inj_s.add_trace(go.Bar(
-                y=inj_severity['league'],
-                x=inj_severity['Days'],
-                name='Ø Ausfalltage',
-                orientation='h',
-                marker_color='royalblue'
-            ))
-            fig_inj_s.add_trace(go.Bar(
-                y=inj_severity['league'],
-                x=inj_severity['Games missed'],
-                name='Ø Verpasste Spiele',
-                orientation='h',
-                marker_color='lightskyblue'
-            ))
-            fig_inj_s.update_layout(barmode='group', height=400, margin=dict(l=0, r=0, t=30, b=0))
-            st.plotly_chart(fig_inj_s, use_container_width=True)
-
-        st.divider()
-        st.subheader("Grafische Verteilung der Fälle")
-        st.write("Jeder Punkt repräsentiert eine Verletzung eines Spielers. Die Farbe zeigt die Liga an.")
-        
-        if not inj_df.empty:
-            fig_scatter = px.scatter(
-                inj_df,
-                x='injury_from_parsed',
-                y='Days',
-                color='league',
-                size='Games missed',
-                hover_data=['player_name', 'club', 'Season'],
-                labels={'injury_from_parsed': 'Datum', 'Days': 'Ausfalltage', 'league': 'Liga'},
-                title=f"Zeitplan der '{selected_injury}' Fälle"
-            )
-            fig_scatter.update_layout(xaxis_title="Datum der Verletzung", yaxis_title="Ausfalltage")
-            st.plotly_chart(fig_scatter, use_container_width=True)
-            
-            st.info(f"Die **{inj_league_counts.iloc[0]['Liga']}** dominiert bei dieser Verletzungsart mit {inj_league_counts.iloc[0]['Anzahl']} Fällen.")
-        
-        with st.expander("Detaillierte Liste der Spieler"):
-            st.dataframe(
-                inj_df[['player_name', 'club', 'league', 'Season', 'Days', 'Games missed']].sort_values(by='Days', ascending=False), # type: ignore
-                use_container_width=True,
-                hide_index=True
-            )
 
 with tab_trends:
     st.header("📈 Zeitvergleich & Trends")
@@ -968,57 +775,6 @@ with tab_trends:
     else:
         st.info("Keine Daten für ein Fazit vorhanden.")
 
-# with tab_tables:
-if False:
-    st.markdown("""
-    ### 📋 Für wen ist dieses Dashboard?
-    **Zielgruppe:** Datenanalytiker, Forscher, Klub-Administrator, Medizinische Teams
-    
-    **Was sieht man?**
-    - Vollständige, sortierbare Verletzungsdatenbank
-    - Details pro Spieler, Verein und Saison
-    - Ausgefallene Spiele und Ausfallzeiten im Detail
-    - Export-freundliche Tabellenformate für weitere Analysen
-    - Drilldown-Möglichkeit für detaillierte Fallstudien
-    """)
-    st.divider()
-    
-    st.subheader("Detaillierte Tabellenansicht")
-    comparison_mode = st.radio(
-        "Tabellen gruppieren nach:",
-        options=["Liga", "Saison"],
-        horizontal=True
-    )
-
-    if comparison_mode == "Liga":
-        if not selected_leagues:
-            st.info("Bitte wähle mindestens eine Liga aus, um die Tabellen zu sehen.")
-        else:
-            for league in selected_leagues:
-                league_df = filtered_df[filtered_df['league'] == league]
-                with st.expander(f"{league} ({len(league_df)} Einträge)", expanded=False):
-                    if league_df.empty:
-                        st.write("Keine Daten für die aktuellen Filter in dieser Liga.")
-                    else:
-                        display_df = league_df[['Season', 'player_name', 'club', 'Injury', 'Days', 'Games missed']].copy()
-                        display_df.columns = ['Saison', 'Spieler', 'Verein', 'Verletzung', 'Ausfalltage', 'Verpasste Spiele']
-                        display_df = display_df.sort_values('Ausfalltage', ascending=False)
-                        st.dataframe(display_df, use_container_width=True, hide_index=True)
-
-    elif comparison_mode == "Saison":
-        if not selected_seasons:
-            st.info("Bitte wähle mindestens eine Saison aus, um die Tabellen zu sehen.")
-        else:
-            for season in selected_seasons:
-                season_df = filtered_df[filtered_df['Season'] == season]
-                with st.expander(f"Saison {season} ({len(season_df)} Einträge)", expanded=False):
-                    if season_df.empty:
-                        st.write("Keine Daten für die aktuellen Filter in dieser Saison.")
-                    else:
-                        display_df = season_df[['league', 'player_name', 'club', 'Injury', 'Days', 'Games missed']].copy()
-                        display_df.columns = ['Liga', 'Spieler', 'Verein', 'Verletzung', 'Ausfalltage', 'Verpasste Spiele']
-                        display_df = display_df.sort_values('Ausfalltage', ascending=False)
-                        st.dataframe(display_df, use_container_width=True, hide_index=True)
 
 def render_local_filters(tab_prefix):
     st.info("**Kurzanleitung:** Nutze den Turnierfilter, um gezielt die Verletzungen einer WM/EM-Kohorte (z. B. WM 2022) zu analysieren oder wähle 'Alle Spieler' für eine allgemeine Liga-Übersicht. Über den Saison-Filter kannst du den Zeitraum anpassen, um z. B. die Belastung während einer Turniersaison im Vergleich zu anderen Jahren zu untersuchen. Alle Grafiken passen sich automatisch deiner Auswahl an.", icon="💡")
@@ -1907,172 +1663,8 @@ with tab_dddm:
     - **Capital Project Appraisal (CPA):** ROI von medizinischen Investitionen
     """)
     st.divider()
-    if False: # Temporär deaktiviert
-        st.subheader("🧭 Methodik & Entscheidungsgrundsatz")
-        st.markdown("""
-        Dieser Tab folgt dem Grundsatz: **sportliches Risiko in finanzielle Auswirkungen übersetzen**, damit Verträge,
-        Budget und Kaderstruktur datenbasiert entschieden werden.
-
-        **Zentrale Logik:**
-        1. Historische Ausfalltage messen die Verfügbarkeit.
-        2. Marktwert quantifiziert die finanzielle Relevanz eines Spielers.
-        3. Aus beiden wird ein monetärer Risikoindikator berechnet.
-        """)
-
-        with st.expander("Wie wird gerechnet und warum ist das relevant?", expanded=False):
-            st.markdown("""
-            **A) Spielerbezogene Risikoanalyse (bei aktiver Spielersuche)**
-
-            - **Gesamtausfalltage** = Summe aller `Days` des Spielers in der gewählten Filterung.
-            - **Anzahl Verletzungen** = Anzahl der Verletzungsereignisse.
-            - **Marktwert** = `market_value_in_eur` als finanzielle Basisgrösse.
-
-            **Finanzielle Übersetzung:**
-            - Es wird ein 5-Jahres-Horizont angenommen (`career_years = 5`).
-            - **Daily Opportunity Cost** = Marktwert / (5 * 365)
-            - **Kapitalverlust durch Ausfalltage** = Daily Opportunity Cost * Gesamtausfalltage
-            - **Risiko in % des Marktwerts** = Gesamtausfalltage / (5 * 365) * 100
-
-            **Warum sinnvoll?**
-            - Verletzungstage werden in eine einheitliche Währung (EUR) überführt.
-            - Verträge können auf Basis von "Wert bei Verfügbarkeit" statt nur Bauchgefühl bewertet werden.
-
-            **B) Budget-/Präventionsanalyse (Medical Budget)**
-
-            - Verletzungstypen werden nach **Total_Days** aggregiert.
-            - Die höchsten Total_Days markieren die grössten produktiven und finanziellen Belastungstreiber.
-
-            **Warum sinnvoll?**
-            - Präventionsbudget fliesst zuerst in Verletzungstypen mit dem höchsten erwarteten ROI.
-
-            **C) Kader-Wertanalyse / Squad Vulnerability (ohne aktive Spielersuche)**
-
-            Pro Spieler werden berechnet:
-            - `Total_Days`, `Injury_Count`, `Market_Value`
-            - **Financial_Risk_EUR** = (Market_Value / (5 * 365)) * Total_Days
-            - **Risk_Percentage** = Total_Days / (5 * 365) * 100
-
-            Danach wird auf Kaderlevel aggregiert:
-            - Gesamtmarktwert
-            - Gesamtes Verletzungsrisiko (EUR)
-            - Ø Risiko pro Spieler
-            - Anteil Hochrisikospieler (>100 Ausfalltage)
-
-            **Warum sinnvoll?**
-            - Der Kader wird als Portfolio betrachtet: Konzentrationsrisiken werden sichtbar.
-            - Hohe Wertbindung bei hoher Ausfallanfälligkeit wird früh erkannt.
-
-            **D) Entscheidungsregel als Grundsatz**
-
-            - **Vertrag:** Je höher Financial_Risk_EUR und Risk_Percentage, desto defensiver Vertragsstruktur (Laufzeit, Bonuslogik, Absicherung).
-            - **Kaderplanung:** Bei hoher Hochrisikospieler-Quote Backups/Rotation gezielt ausbauen.
-            - **Budget:** Prävention dort priorisieren, wo der grösste Risikoabbau pro investiertem Euro erwartet wird.
-            - **Risikotragfähigkeit:** Gesamtrisikoquote des Kaders als Steuergrösse für Transfer- und Versicherungsstrategie nutzen.
-            """)
-        st.divider()
     
-    if False: # Deaktiviert
-        st.subheader("📊 Risikoanalyse des ausgewählten Spielers")
-        st.markdown("""
-        **Anwendungsfall:** Diese prädiktive Metrik berechnet einen Risiko-Score basierend auf historischen Ausfalltagen, um finanzielle Fehlinvestitionen zu vermeiden.
-        """)
-        
-        # --- Background Filter Logic (Tab-spezifisch) ---
-        dddm_filtered_df_bg = df.copy()
-        if st.session_state.get('dddm_filter_club', 'Alle Clubs') != "Alle Clubs":
-            dddm_filtered_df_bg = dddm_filtered_df_bg[dddm_filtered_df_bg['club'] == st.session_state['dddm_filter_club']]
-        if st.session_state.get('dddm_filter_seasons', []):
-            dddm_filtered_df_bg = dddm_filtered_df_bg[dddm_filtered_df_bg['Season'].isin(st.session_state['dddm_filter_seasons'])]
-        if st.session_state.get('dddm_filter_leagues', []):
-            dddm_filtered_df_bg = dddm_filtered_df_bg[dddm_filtered_df_bg['league'].isin(st.session_state['dddm_filter_leagues'])]
 
-        # --- New Unified Search Area ---
-        st.markdown("### 🔍 Suche & Analyse")
-        sc1, sc2 = st.columns(2)
-        with sc1:
-            p_ids_in_bg = set(dddm_filtered_df_bg['player_id'].dropna().unique())
-            player_options_local = sorted([
-                lbl for lbl, pid in player_options_map.items() if pid in p_ids_in_bg
-            ])
-            sel_p = st.multiselect(
-                "👤 Spieler suchen",
-                options=player_options_local,
-                default=[st.session_state['dddm_selected_player']] if st.session_state['dddm_selected_player'] and st.session_state['dddm_selected_player'] in player_options_local else [],
-                max_selections=1,
-                help="Wähle einen Spieler aus, um die Risikoanalyse zu sehen."
-            )
-            st.session_state['dddm_selected_player'] = sel_p[0] if sel_p else None
-        
-        if st.session_state['dddm_selected_player'] and not dddm_filtered_df_bg.empty:
-            dddm_player_search = st.session_state['dddm_selected_player']
-            selected_pid = player_options_map.get(dddm_player_search)
-        else:
-            dddm_player_search = ""
-            selected_pid = None
-        
-        if selected_pid is not None and not dddm_filtered_df_bg.empty:
-            checkSeason(st.session_state.get('dddm_filter_seasons', season_options))
-            player_data = dddm_filtered_df_bg[dddm_filtered_df_bg['player_id'] == selected_pid]
-
-            if not player_data.empty:
-                total_days_missed = player_data['Days'].sum()
-                total_injuries = len(player_data)
-                market_value = player_data['market_value_in_eur'].iloc[0] if pd.notna(player_data['market_value_in_eur'].iloc[0]) else 0
-
-                if total_days_missed > 150:
-                    risk_level = "Hohes Risiko 🔴"
-                    action_recommendation = "Empfehlung: Vertragsverlängerung kritisch prüfen. Ggf. leistungsbezogene Verträge anbieten (Pay-per-Play)."
-                elif total_days_missed > 50:
-                    risk_level = "Mittleres Risiko 🟡"
-                    action_recommendation = "Empfehlung: Standardvertrag, aber enge Abstimmung mit dem medizinischen Personal für Belastungssteuerung."
-                else:
-                    risk_level = "Geringes Risiko 🟢"
-                    action_recommendation = "Empfehlung: Unbedenkliche Verlängerung aus medizinischer Sicht. Stabiler Asset-Value."
-
-                colA, colB = st.columns(2)
-                with colA:
-                    st.metric("Spieler", player_data['player_name'].iloc[0])
-                    st.metric("Verletzungshistorie (Anzahl)", total_injuries)
-                    st.metric("Gesamte Ausfalltage", total_days_missed)
-
-                with colB:
-                    st.metric("Marktwert", f"€{market_value:,.0f}".replace(",", "."))
-                    st.info(f"**Kalkuliertes Investment-Risiko:** {risk_level}")
-                    st.warning(action_recommendation)
-
-                # Financial Risk Impact
-                st.divider()
-                st.subheader("💰 Finanzielle Risikoauswirkung")
-                
-                # Calculate daily opportunity cost based on market value
-                career_years = 5  # typical remaining career value assumption
-                daily_opportunity_cost = market_value / (career_years * 365)
-                total_financial_impact = daily_opportunity_cost * total_days_missed
-                
-                risk_percentage = (total_days_missed / (career_years * 365)) * 100
-                
-                f_col1, f_col2, f_col3 = st.columns(3)
-                with f_col1:
-                    st.metric(
-                        "Kapitalverlust (Ausfalltage)",
-                        f"€{total_financial_impact:,.0f}".replace(",", "."),
-                        f"{risk_percentage:.1f}% des Marktwerts"
-                    )
-                
-                with f_col2:
-                    avg_days_per_injury = total_days_missed / total_injuries if total_injuries > 0 else 0
-                    st.metric("Ø Ausfalltage pro Verletzung", f"{avg_days_per_injury:.1f}")
-                
-                with f_col3:
-                    annual_impact = (total_days_missed / ((player_data['Season'].nunique()) or 1)) * daily_opportunity_cost
-                    st.metric(
-                        "Ø Jahresauswirkung",
-                        f"€{annual_impact:,.0f}".replace(",", ".")
-                    )
-
-                st.dataframe(player_data[['Season', 'Injury', 'Days', 'Games missed']], use_container_width=True, hide_index=True)
-
-        st.divider()
     st.subheader("🏥 Präskriptive Ressourcenallokation (Medical Budget)")
     st.markdown("""
     **Anwendungsfall:** Wo soll das Budget für medizinische Ausrüstung und Personal im nächsten Quartal investiert werden?
@@ -2171,206 +1763,9 @@ with tab_dddm:
     else:
         st.info("Keine Daten für die Budgetanalyse verfügbar.")
 
-#     st.divider()
-#     st.subheader("📈 DDDM: Verletzungsverlauf 2020–2025")
-#     st.markdown(
-#         "Diese Ansicht zeigt die Anzahl der Verletzungsfälle pro Saison. Wähle eine Verletzungsart, um den Verlauf gezielt zu analysieren."
-#     )
-# 
-#     trend_df = filtered_df.copy()
-# 
-#     if trend_df.empty:
-#         st.info("Keine Daten für den Verletzungsverlauf mit der aktuellen Filterauswahl.")
-#     else:
-#         injury_options = sorted(trend_df['Injury'].dropna().unique().tolist())
-#         selected_injury = st.selectbox(
-#             "Verletzungsart auswählen",
-#             ["Alle Verletzungen"] + injury_options,
-#             index=0
-#         )
-# 
-#         if selected_injury != "Alle Verletzungen":
-#             trend_df = trend_df[trend_df['Injury'] == selected_injury]
-# 
-#         counts = trend_df.groupby('Season').size().reset_index(name='Anzahl')
-# 
-#         if counts.empty:
-#             st.info("Für die gewählte Verletzungsart sind keine Daten vorhanden.")
-#         else:
-#             fig_trend = px.line(
-#                 counts,
-#                 x='Season',
-#                 y='Anzahl',
-#                 markers=True,
-#                 title=(
-#                     "Verletzungsanzahl pro Saison"
-#                     if selected_injury == "Alle Verletzungen"
-#                     else f"Verlauf: {selected_injury.title()}"
-#                 ),
-#                 labels={'Season': 'Saison', 'Anzahl': 'Anzahl Verletzungen'}
-#             )
-#             fig_trend.update_layout(
-#                 yaxis_title="Anzahl Verletzungen",
-#                 xaxis_title="Saison",
-#                 template="plotly_white",
-#                 legend_title_text="Verletzungsart"
-#             )
-#             st.plotly_chart(fig_trend, use_container_width=True, config={"displayModeBar": False})
 
-    st.divider()
-    if False:  # Temporär deaktiviert, da die Berechnung aufwändig sein kann und ggf. optimiert werden muss
-        '''
-        st.subheader("🎯 DDDM: Kader-Wertanalyse & Squad Vulnerability Assessment")
-        st.markdown("""
-        **Anwendungsfall:** Welche Spieler im Kader stellen ein hohes finanzielles Risiko dar?
-        Diese Analyse kombiniert Marktwert mit Verletzungshistorie, um die finanzielle Anfälligkeit des Kaders zu bewerten.
-        """)
 
-    
-        # Only show squad analysis when no specific player is searched
-        if not dddm_player_search:
-            checkSeason(st.session_state.get('dddm_filter_seasons', [DEFAULT_SEASON]))
-            club_filtered_df = dddm_filtered_df.copy()
-            
-            if not club_filtered_df.empty:
-                # Group by player and calculate aggregate metrics
-                player_valuation = club_filtered_df.groupby('player_name').agg(
-                    Total_Days=('Days', 'sum'),
-                    Injury_Count=('player_name', 'count'),
-                    Market_Value=('market_value_in_eur', 'first'),
-                    League=('league', 'first'),
-                    Position=('player_position', 'first')
-                ).reset_index()
 
-                # Remove players without market value
-                player_valuation = player_valuation[player_valuation['Market_Value'].notna() & (player_valuation['Market_Value'] > 0)]
-                
-                
-                if not player_valuation.empty:
-                    # Calculate risk metrics
-                    career_years = 5
-                    player_valuation['Daily_Opportunity_Cost'] = player_valuation['Market_Value'] / (career_years * 365)
-                    player_valuation['Financial_Risk_EUR'] = player_valuation['Daily_Opportunity_Cost'] * player_valuation['Total_Days']
-                    player_valuation['Risk_Percentage'] = (player_valuation['Total_Days'] / (career_years * 365) * 100).round(2)
-                    
-                    # Sort by financial risk
-                    player_valuation_sorted = player_valuation.sort_values('Financial_Risk_EUR', ascending=False)
-                    
-                    # Top 10 highest financial risk players
-                    st.subheader("🚨 Die 10 finanziell riskantesten Spieler")
-                    
-                    top_risk = player_valuation_sorted.head(10)[['player_name', 'Market_Value', 'Total_Days', 'Injury_Count', 'Financial_Risk_EUR', 'Risk_Percentage']].copy()
-                    top_risk.columns = ['Spieler', 'Marktwert (€)', 'Ausfalltage', 'Verletzungen', 'Finanz. Risiko (€)', 'Risiko %']
-                    
-                    # Format columns for display
-                    top_risk['Marktwert (€)'] = top_risk['Marktwert (€)'].apply(lambda x: f"€{x:,.0f}".replace(",", "."))
-                    top_risk['Finanz. Risiko (€)'] = top_risk['Finanz. Risiko (€)'].apply(lambda x: f"€{x:,.0f}".replace(",", "."))
-                    
-                    st.dataframe(top_risk, use_container_width=True, hide_index=True)
-                    
-                    # Scatter plot: Market Value vs Injury Risk
-                    st.subheader("📈 Marktwert vs. Verletzungsrisiko (Squad-Portefeuilleansicht)")
-                    
-                    fig_scatter = px.scatter(
-                        player_valuation,
-                        x='Market_Value',
-                        y='Total_Days',
-                        size='Injury_Count',
-                        color='Financial_Risk_EUR',
-                        hover_data=['player_name', 'League', 'Position', 'Risk_Percentage'],
-                        labels={
-                            'Market_Value': 'Marktwert (€)',
-                            'Total_Days': 'Gesamtausfalltage',
-                            'Injury_Count': 'Anz. Verletzungen',
-                            'Financial_Risk_EUR': 'Finanzielles Risiko (€)'
-                        },
-                        title="Squad-Portfolio: Welche hochbewerteten Spieler gefährden den finanziellen Erfolg?",
-                        color_continuous_scale='Reds'
-                    )
-                    fig_scatter.add_hline(
-                        y=player_valuation['Total_Days'].median(),
-                        line_dash="dash",
-                        annotation_text=f"Median: {player_valuation['Total_Days'].median():.0f} Tage",
-                        annotation_position="right"
-                    )
-                    st.plotly_chart(fig_scatter, use_container_width=True)
-                    
-                    # Financial impact summary
-                    st.subheader("💼 Gesamte Kader-Risikoexposition")
-                    
-                    total_market_value = player_valuation['Market_Value'].sum()
-                    total_financial_risk = player_valuation['Financial_Risk_EUR'].sum()
-                    avg_risk_per_player = player_valuation['Financial_Risk_EUR'].mean()
-                    high_risk_count = len(player_valuation[player_valuation['Total_Days'] > 100])
-                    
-                    sum_col1, sum_col2, sum_col3, sum_col4 = st.columns(4)
-                    with sum_col1:
-                        st.metric(
-                            "Gesamter Kader-Marktwert",
-                            f"€{total_market_value:,.0f}".replace(",", ".")
-                        )
-                    with sum_col2:
-                        st.metric(
-                            "Gesamtes Verletzungsrisiko",
-                            f"€{total_financial_risk:,.0f}".replace(",", "."),
-                            f"{(total_financial_risk/total_market_value*100):.1f}% des Marktwerts"
-                        )
-                    with sum_col3:
-                        st.metric(
-                            "Ø Risiko pro Spieler",
-                            f"€{avg_risk_per_player:,.0f}".replace(",", ".")
-                        )
-                    with sum_col4:
-                        st.metric(
-                            "Hochrisikospieler (>100 Tage)",
-                            high_risk_count
-                        )
-                    
-                    # Strategic Insights
-                    st.divider()
-                    st.subheader("🎲 Strategische Einsichten für das Management")
-                    
-                    left_insight, right_insight = st.columns(2)
-                    
-                    with left_insight:
-                        st.markdown("**Squad-Diversifikation:**")
-                        if high_risk_count / len(player_valuation) > 0.3:
-                            st.warning(f"""
-                            ⚠️ **{(high_risk_count/len(player_valuation)*100):.0f}%** des Kaders sind Hochrisikoträger.
-                            
-                            **Handlung:** Wertvolle Backups für diese Positionen nachdenken über Verstärkung.
-                            """)
-                        else:
-                            st.success(f"""
-                            ✓ Gutes Risiko-Management ({(high_risk_count/len(player_valuation)*100):.0f}% Hochrisikoträger).
-                            """)
-                    
-                    with right_insight:
-                        st.markdown("**Finanzielle Resilienz:**")
-                        risk_ratio = (total_financial_risk / total_market_value * 100)
-                        if risk_ratio > 15:
-                            st.error(f"""
-                            🔴 **{risk_ratio:.1f}%** des Marktwerts ist durch Verletzungsrisiko gefährdet.
-                            
-                            **Handlung:** Versicherungen, Belastungsmanagement oder Vertragsbewertung überprüfen.
-                            """)
-                        elif risk_ratio > 8:
-                            st.warning(f"""
-                            🟡 **{risk_ratio:.1f}%** Risiko-Quote. Moderates Expositionsniveau.
-                            """)
-                        else:
-                            st.success(f"""
-                            🟢 **{risk_ratio:.1f}%** Risiko-Quote. Niedriges Expositionsniveau.
-                            """)
-                else:
-                    st.info("Keine Marktwertdaten für die Risikoanalyse verfügbar.")
-            else:
-                st.info("Keine Daten für den ausgewählten Club verfügbar.")
-        else:
-            st.info("Die Squad-Wertanalyse ist aufgrund einer aktiven Spielersuche nicht verfügbar. Bitte leere die Suchfeld, um die Club-Kader-Analyse zu sehen.")
-        
-        st.markdown("---")
-        '''
 with tab_market_risk:
 
     st.header("💸 Marktwert-Impact: Verletzungen & Finanzen")
