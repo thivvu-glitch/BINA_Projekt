@@ -296,6 +296,69 @@ st.divider()
 st.markdown("## 5. Datengetriebene Entscheidungen treffen") 
 
 st.write('''
-Mittels Machine-Learing-Modellen sollen Vorhersagen zur Entwicklung des Marktwerts nach Verletzungen möglich werden. Dafür wurde ein ML-Modell mit den vorhandenen Daten trainiert und das entsprechende Dashboard «Verletzungssimulator» erstellt:
-         ''')
+Mittels Machine-Learning-Modellen sollen Vorhersagen zur Entwicklung des Marktwerts nach Verletzungen möglich werden. Dafür wurde ein ML-Modell mit den vorhandenen Daten trainiert und das entsprechende Dashboard «Verletzungssimulator» erstellt:
+''')
 st.page_link("pages/2_Dashboard.py", label="Zum Verletzungssimulator", query_params={"tab": "Verletzungssimulator"}, icon="🔮")
+
+st.markdown("""
+### Machine-Learning-Konzept: Marktwert-Impact-Vorhersage bei Verletzungen
+
+#### 1. Ausgangslage und Zielsetzung
+Die Kernanalyse dieser Fallstudie basiert auf dem deskriptiven Delta-Verfahren: Es vergleicht den Marktwert eines Spielers unmittelbar vor und nach einer Verletzung, um den historisch beobachteten Rückgang zu quantifizieren und über Spieler, Ligen und Verletzungstypen hinweg zu aggregieren. Um diese rückwärtsgerichtete Analyse um eine zukunftsorientierte, prädiktive Komponente zu erweitern, wurde im Rahmen des BINA-Projekts ergänzend ein Machine-Learning-Modell konzipiert und prototypisch implementiert. 
+
+**Die zentrale Fragestellung lautet:**
+*Wie stark verändert sich der Marktwert eines Fussballspielers in den europäischen Top-5-Ligen nach einer Verletzung, wenn bekannte Merkmale wie Alter, Position, Liga und Verletzungshistorie berücksichtigt werden?*
+
+Diese Vorhersage ergänzt das bestehende Dashboard um einen interaktiven Verletzungs-Simulator und übersetzt damit das deskriptiv beobachtete Muster in ein verallgemeinerbares Werkzeug für evidenzbasierte Managemententscheidungen.
+
+#### 2. Einordnung des ML-Problems
+Die Lösung verwendet ein überwachtes maschinelles Lernverfahren (Supervised Learning) vom Typ Regression, da das Ziel eine kontinuierliche Zielvariable ist: der prozentuale Marktwertverlust nach einer Verletzung. Die Trainingsdaten enthalten sowohl die Eingangsmerkmale (Features) als auch das beobachtete Ergebnis (Marktwert-Delta), wodurch ein gelabeltes Lernverfahren möglich wird.
+
+#### 3. Auswahl des Algorithmus & Modellevaluation
+Für die Modellierung wurden verschiedene Algorithmen evaluiert und systematisch miteinander verglichen. Die Qualität der Modelle wurde mit anerkannten Regressions-Metriken (R², MAE, RMSE) bewertet. 
+
+Hier sind die realen Testergebnisse unserer Evaluation:
+
+**Modell: Linear Regression (Baseline)**
+- **R² Score:** Train = 0.1875 | Test = 0.1902
+- **MAE:** Train = 18.6855 | Test = 18.4115
+- **RMSE:** Train = 28.1105 | Test = 27.0880
+
+**Modell: Random Forest**
+- **R² Score:** Train = 0.8914 | Test = 0.2378 | Diff = 0.6536
+- **MAE:** Train = 6.7147 | Test = 17.6915
+- **RMSE:** Train = 10.2766 | Test = 26.2793
+
+**Modell: XGBoost**
+- **R² Score:** Train = 0.4325 | Test = 0.2139 | Diff = 0.2186
+- **MAE:** Train = 15.8661 | Test = 17.9942
+- **RMSE:** Train = 23.4932 | Test = 26.6886
+
+**Entscheidung für XGBoost:**
+Gemäss diesen Werten haben wir uns für **XGBoost (Extreme Gradient Boosting)** als Hauptmodell entschieden. Die Gründe für diese Wahl:
+- Die **Lineare Regression** (Baseline) schneidet zwar stabil ab, ist jedoch zu simpel, um komplexe nicht-lineare Muster zu erkennen.
+- Der **Random Forest** zeigt ein massives Overfitting (R² Train 89% vs. Test 23%), weshalb er für Generalisierungen weniger gut geeignet ist.
+- **XGBoost** bietet den besten Kompromiss: Es übertrifft die Baseline, verringert das extreme Overfitting des Random Forests durch integrierte Regularisierung und ist ausserdem in Kombination mit SHAP-Werten optimal erklärbar.
+
+#### 4. Datengrundlage und Feature-Engineering
+Die Trainingsdaten werden aus den aufbereiteten Quellen abgeleitet. Pro historischer Verletzung entsteht ein Trainingsbeispiel. 
+
+**Eingangsmerkmale (Features):**
+- **Verletzungs-Datensatz:** Alter, Spielposition, Verletzungskategorie, Spezifische Verletzung, Anzahl Ausfalltage, Liga, Saison.
+- **Marktwert-Datensatz:** Marktwert unmittelbar vor der Verletzung.
+- **Verletzungs-Historie (berechnet):** Anzahl vorheriger Verletzungen, kumulierte Ausfalltage vor dieser Verletzung.
+
+**Zielvariable (Target):**
+Prozentuale Marktwertveränderung (`delta_pct`).
+
+#### 5. Validierungsverfahren
+- **Train/Test-Split (80/20):** Aufteilung in Trainings- und Testdaten zur unverzerrten Evaluation.
+- **5-fache Kreuzvalidierung:** Stabilitätsprüfung des Modells über verschiedene Datenpartitionen.
+- **Random State fixiert:** Reproduzierbarkeit der Ergebnisse für die gesamte Projektgruppe.
+
+#### 6. Erklärbarkeit der Vorhersagen (SHAP)
+Eine entscheidende Anforderung für die managerielle Anwendung ist die Erklärbarkeit einzelner Vorhersagen. Hierfür werden SHAP-Werte (Shapley Additive exPlanations) eingesetzt. Pro Vorhersage zeigt das Dashboard aufgeschlüsselt, wie stark jedes Eingangsmerkmal (z.B. Verletzungstyp oder Alter) zum Endresultat beigetragen hat. 
+
+Diese transparente Aufschlüsselung ermöglicht es dem Sportdirektor oder CFO, die Vorhersage zu verstehen und in Vertragsverhandlungen oder Transferentscheidungen argumentativ zu nutzen.
+
+""")
