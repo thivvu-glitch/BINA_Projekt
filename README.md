@@ -95,9 +95,11 @@ Das Dashboard öffnet sich im Browser und bietet folgende Seiten:
 ├── Data/
 │   ├── cleaned_dataset_final.csv    # Prozessierter Datensatz
 │   └── ...                          # Rohdaten (CSV)
+├── assets/                          # Statische Medien-Ressourcen (Bodymap & Bilder)
 ├── reports/                         # Generierte Reports und Duplikat-Analysen
 ├── output/                          # Generierte Grafiken und Outputs
 ├── tests/                           # Unit-Tests
+├── Archiv/                          # Archivierte, ungenutzte Datensätze und Altlasten
 ├── pyproject.toml                   # Projekt-Dependencies und uv-Konfiguration
 └── README.md                        # Diese Datei
 ```
