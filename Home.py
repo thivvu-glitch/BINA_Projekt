@@ -7,10 +7,12 @@ st.title("Europäische Fussballverletzungen (2020-2025)")
 st.sidebar.success("Wähle eine Seite aus dem Menü")
 
 st.markdown("""
-Die Fallstudie wurde im Rahmen des Moduls BINA im FS2026 des Masterstudiengangs Wirtschaftsinformatik realisiert. Das Projektteam besteht aus folgenden Mitgliedern: Aron Halef, Michael Huwiler, Thivvirthan Krishnakumar, Kevin Kurinjirappalli, Sarankan Maheswaran und Alessandra Schneller. 
-            
+Die Fallstudie wurde im Rahmen des Moduls BINA im FS2026 des Masterstudiengangs Wirtschaftsinformatik realisiert. Das Projektteam besteht aus folgenden Mitgliedern: Aron Halef, Michael Huwiler, Thivvirthan Krishnakumar, Kevin Kurinjirappalli, Sarankan Maheswaran und Alessandra Schneller.
+
 Dieses Business Intelligence Dashboard ermöglicht die Analyse von Verletzungsmustern im europäischen Profifussball und 
 basiert auf der **CPA Management Accounting Guideline** für datengesteuerte Entscheidungen.
+
+Bei der Bearbeitung dieser Fallstudie wurden als Hilfsmittel KI-gestützte Werkzeuge eingesetzt.
 """)
 
 # Hero Image
