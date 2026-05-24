@@ -79,29 +79,32 @@ Das Dashboard öffnet sich im Browser und bietet folgende Seiten:
 ## Projektstruktur
 
 ```
-├── Home.py                          # Streamlit Einstiegspunkt
-├── data_clean.py                    # Datenbereinigungs-Pipeline
+├── Home.py                                       # Streamlit Einstiegspunkt
+├── data_clean.py                                 # Datenbereinigungs-Pipeline
 ├── pages/
-│   ├── 1_Dokumentation.py           # BINA-Fallstudie Dokumentation
-│   └── 2_Dashboard.py               # Hauptanalyse-Dashboard
+│   ├── 1_Dokumentation.py                        # BINA-Fallstudie Dokumentation
+│   └── 2_Dashboard.py                            # Hauptanalyse-Dashboard
 ├── machine_learning/
-│   ├── train_model.py               # ML-Modell Training
-│   ├── ml_predict.py                # Vorhersage-Modul
-│   ├── README_ML.md                 # ML-Dokumentation
-│   └── models/                      # Trainierte Modelle (pkl-Dateien)
+│   ├── train_model.py                            # ML-Modell Training
+│   ├── ml_predict.py                             # Vorhersage-Modul
+│   ├── README_ML.md                              # ML-Dokumentation
+│   └── models/                                   # Trainierte Modelle (pkl-Dateien)
 ├── scripts/
-│   ├── analyze_injuries.py          # Detaillierte Analyse-Skripte
-│   └── ...                          # Weitere Utility-Skripte
+│   ├── analyze_injuries.py                       # Detaillierte Analyse-Skripte
+│   └── ...                                       # Weitere Utility-Skripte
 ├── Data/
-│   ├── cleaned_dataset_final.csv    # Prozessierter Datensatz
-│   └── ...                          # Rohdaten (CSV)
-├── assets/                          # Statische Medien-Ressourcen (Bodymap & Bilder)
-├── reports/                         # Generierte Reports und Duplikat-Analysen
-├── output/                          # Generierte Grafiken und Outputs
-├── tests/                           # Unit-Tests
-├── Archiv/                          # Archivierte, ungenutzte Datensätze und Altlasten
-├── pyproject.toml                   # Projekt-Dependencies und uv-Konfiguration
-└── README.md                        # Diese Datei
+│   ├── cleaned_dataset_final.csv                 # Prozessierter Datensatz
+│   └── ...                                       # Rohdaten (CSV)
+├── presentation (pitch and powerpoint)/
+│   ├── BINA-Projekt Präsentation Gruppe 3.pptx   # Powerpoint Präsentation des Projekts
+│   └── BINA_Pitch.mp4                            # Pitch Video
+├── assets/                                       # Statische Medien-Ressourcen (Bodymap & Bilder)
+├── reports/                                      # Generierte Reports und Duplikat-Analysen
+├── output/                                       # Generierte Grafiken und Outputs
+├── tests/                                        # Unit-Tests
+├── Archiv/                                       # Archivierte, ungenutzte Datensätze und Altlasten
+├── pyproject.toml                                # Projekt-Dependencies und uv-Konfiguration
+└── README.md                                     # Diese Datei
 ```
 
 ## Technologie-Stack
